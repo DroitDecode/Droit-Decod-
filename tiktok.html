@@ -16,15 +16,25 @@
 
     <!-- Custom CSS for colors and mobile responsiveness -->
     <style>
+        /* Define color variables for consistency across pages */
         :root {
             --color-primary-red: #E84D3D;
             --color-primary-blue: #3E4B7A; /* Deep, professional blue */
             --color-secondary-bg: #F8F9FA; /* Subtle light gray for background */
         }
-        
-        /* 1. Amélioration de l'arrière-plan de la page */
+
+        /* 1. Page background and font */
         body {
             background-color: var(--color-secondary-bg); 
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            font-family: 'Inter', sans-serif;
+        }
+
+        /* Ensure main content takes remaining space */
+        main {
+            flex-grow: 1; 
         }
 
         /* Custom Tailwind Color Classes */
@@ -35,9 +45,16 @@
         .border-primary-red { border-color: var(--color-primary-red); }
         .border-primary-blue { border-color: var(--color-primary-blue); }
 
-        /* Ensure header text uses defined colors (if not handled by style.css) */
+        /* Header logo colors (consistent with style.css intent) */
         .logo-text strong { color: var(--color-primary-blue); }
         .logo-text span { color: var(--color-primary-red); }
+        
+        /* Active Link Styling */
+        header nav ul li a.active {
+            color: var(--color-primary-red);
+            font-weight: 700;
+            border-bottom: 2px solid var(--color-primary-red);
+        }
 
         /* Mobile Responsiveness: Limit card width and center on small screens */
         .tiktok-embed-card {
@@ -49,12 +66,13 @@
         .tiktok-embed-card:hover {
             transform: translateY(-4px); /* Slight lift on hover */
         }
-
-        /* Styling for the main content area */
-        /* Retained padding, removed the old padding/margin logic from container itself */
-        .main-content-wrapper {
-            padding-top: 2rem;
-            padding-bottom: 4rem;
+        
+        /* Main container styling for centering and visual depth */
+        .main-content-container {
+            max-width: 1400px;
+            padding-left: 1rem;
+            padding-right: 1rem;
+            margin: 2.5rem auto; /* my-10 equivalent */
         }
 
     </style>
@@ -65,24 +83,24 @@
     <!-- --- Header (En-tête) - Uniform on all pages --- -->
     <header role="banner">
         <div class="logo-container">
-            <!-- Ensure alt text is descriptive for the logo -->
-            <img src="logo1.jpeg" alt="Logo Droit Décodé">
-            <div class="logo-text"><strong>DROIT</strong> <span>DÉCODÉ</span></div>
+            <a href="index.html">
+                <img src="logo1.jpeg" alt="Logo Droit Décodé">
+                <div class="logo-text"><strong>DROIT</strong> <span>DÉCODÉ</span></div>
+            </a>
         </div>
 
-        <!-- Navigation structure improved for accessibility -->
+        <!-- Navigation structure -->
         <nav role="navigation" aria-label="Menu principal du site">
             <ul>
                 <li><a href="index.html">Accueil</a></li>
                 <li><a href="articles.html">Articles & Explications</a></li>
-                <!-- Re-adding the 'active' class -->
+                <!-- Active link for this page -->
                 <li><a href="tiktok.html" class="active" aria-current="page">TikTok Publications</a></li> 
                 <li><a href="about.html">À Propos</a></li>
                 <li><a href="contact.html" class="contact-btn">Contact</a></li>
             </ul>
         </nav>
 
-        <!-- Menu Toggle button for mobile (assuming script.js handles the ARIA attributes here) -->
         <button class="menu-toggle" aria-expanded="false" aria-controls="main-navigation">
             &#9776;
             <span class="sr-only">Ouvrir le menu</span>
@@ -90,88 +108,90 @@
     </header>
 
     <!-- --- Main Content: TikTok --- -->
-    <!-- Conteneur central, blanc, ombré et arrondi, flottant sur le fond gris clair du body -->
-    <main class="container bg-white p-8 md:p-12 rounded-xl shadow-2xl mx-auto my-10" role="main">
-        <!-- Enhanced title with brand colors -->
-        <h1 class="text-4xl md:text-5xl font-extrabold mb-4 text-center text-primary-blue border-b-4 border-primary-red inline-block pb-2 mx-auto">
-            Le Droit en Vidéo Courte
-        </h1>
-        <p class="text-center max-w-3xl mx-auto mb-12 text-xl text-gray-700 font-light">
-            Retrouvez ici toutes nos explications rapides et dynamiques sur les notions clés du droit.
-        </p>
+    <main class="main-content-container">
+        <!-- Conteneur central, blanc, ombré et arrondi, flottant sur le fond gris clair du body -->
+        <div class="bg-white p-8 md:p-12 rounded-xl shadow-2xl">
+            <!-- Enhanced title with brand colors -->
+            <h1 class="text-4xl md:text-5xl font-extrabold mb-4 text-center text-primary-blue border-b-4 border-primary-red inline-block pb-2 mx-auto">
+                Le Droit en Vidéo Courte
+            </h1>
+            <p class="text-center max-w-3xl mx-auto mb-12 text-xl text-gray-700 font-light">
+                Retrouvez ici toutes nos explications rapides et dynamiques sur les notions clés du droit.
+            </p>
 
-        <!-- TikTok Feed Grid -->
-        <section class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" aria-labelledby="section-tiktok-videos">
-            <h2 id="section-tiktok-videos" class="sr-only">Dernières Publications TikTok</h2>
-            
-            <!-- Vidéo #1: Pourquoi nous avons commencer ? -->
-            <div class="tiktok-embed-card bg-white p-4 rounded-xl shadow-lg border-t-4 border-primary-red flex flex-col items-center">
-                <h3 class="text-xl font-semibold mb-3 text-primary-red text-center">Pourquoi nous avons commencer ?</h3>
+            <!-- TikTok Feed Grid -->
+            <section class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" aria-labelledby="section-tiktok-videos">
+                <h2 id="section-tiktok-videos" class="sr-only">Dernières Publications TikTok</h2>
 
-                <!-- TikTok embed element is inherently accessible, but ensure role is defined -->
-                <blockquote 
-                    class="tiktok-embed w-full" 
-                    cite="https://www.tiktok.com/@droit_decode/video/7566752433695673611" 
-                    data-video-id="7566752433695673611" 
-                    style="max-width: 605px; min-width: 300px;" 
-                    role="region" 
-                    aria-label="Vidéo TikTok: Pourquoi nous avons commencé"
-                > 
-                    <section>
-                        <a target="_blank" title="@droit_decode" href="https://www.tiktok.com/@droit_decode">@droit_decode</a> 
-                    </section> 
-                </blockquote>
+                <!-- Vidéo #1: Pourquoi nous avons commencer ? -->
+                <div class="tiktok-embed-card bg-white p-4 rounded-xl shadow-lg border-t-4 border-primary-red flex flex-col items-center">
+                    <h3 class="text-xl font-semibold mb-3 text-primary-red text-center">Pourquoi nous avons commencer ?</h3>
 
-                <p class="mt-4 text-center text-sm text-gray-600">Thème: Notre objectif </p>
+                    <!-- TikTok embed element is inherently accessible, but ensure role is defined -->
+                    <blockquote 
+                        class="tiktok-embed w-full" 
+                        cite="https://www.tiktok.com/@droit_decode/video/7566752433695673611" 
+                        data-video-id="7566752433695673611" 
+                        style="max-width: 605px; min-width: 300px;" 
+                        role="region" 
+                        aria-label="Vidéo TikTok: Pourquoi nous avons commencé"
+                    > 
+                        <section>
+                            <a target="_blank" title="@droit_decode" href="https://www.tiktok.com/@droit_decode">@droit_decode</a> 
+                        </section> 
+                    </blockquote>
+
+                    <p class="mt-4 text-center text-sm text-gray-600">Thème: Notre objectif </p>
+                </div>
+
+                <!-- Vidéo #2: C'est quoi donc la famille en droit ? -->
+                <div class="tiktok-embed-card bg-white p-4 rounded-xl shadow-lg border-t-4 border-primary-blue flex flex-col items-center">
+                    <h3 class="text-xl font-semibold mb-3 text-primary-blue text-center">C'est quoi donc la fammille en droit ?</h3>
+
+                    <blockquote 
+                        class="tiktok-embed w-full" 
+                        cite="https://www.tiktok.com/@droit_decode/video/7574064832278777099" 
+                        data-video-id="7574064832278777099" 
+                        style="max-width: 605px; min-width: 300px;"
+                        role="region" 
+                        aria-label="Vidéo TikTok: Droit de la famille"
+                    > 
+                        <section>
+                            <a target="_blank" title="@droit_decode" href="https://www.tiktok.com/@droit_decode">@droit_decode</a> 
+                        </section> 
+                    </blockquote>
+
+                    <p class="mt-4 text-center text-sm text-gray-600">Thème: Droit de la famille</p>
+                </div>
+
+                <!-- Vidéo #3: C'est quoi un arret ? -->
+                <div class="tiktok-embed-card bg-white p-4 rounded-xl shadow-lg border-t-4 border-primary-red flex flex-col items-center">
+                    <h3 class="text-xl font-semibold mb-3 text-primary-red text-center">C'est quoi un arret ?</h3>
+
+                    <blockquote 
+                        class="tiktok-embed w-full" 
+                        cite="https://www.tiktok.com/@droit_decode/video/7576391459574746375" 
+                        data-video-id="7576391459574746375" 
+                        style="max-width: 605px; min-width: 300px;"
+                        role="region" 
+                        aria-label="Vidéo TikTok: Qu'est-ce qu'un arrêt juridique"
+                    > 
+                        <section>
+                            <a target="_blank" title="@droit_decode" href="https://www.tiktok.com/@droit_decode">@droit_decode</a> 
+                        </section> 
+                    </blockquote>
+
+                    <p class="mt-4 text-center text-sm text-gray-600">Thème: Arret juridique </p>
+                </div>
+
+            </section>
+
+            <!-- Call to Action Button with aria-label -->
+            <div class="text-center mt-12">
+                <a href="https://www.tiktok.com/@droitdecode" target="_blank" class="bg-primary-red hover:bg-primary-blue transition duration-300 ease-in-out text-white font-bold py-3 px-8 rounded-full shadow-xl transform hover:scale-105 text-lg" aria-label="Suivre Droit Décodé sur TikTok (ouvre un nouvel onglet)">
+                    Suivre notre chaîne TikTok
+                </a>
             </div>
-
-            <!-- Vidéo #2: C'est quoi donc la famille en droit ? -->
-            <div class="tiktok-embed-card bg-white p-4 rounded-xl shadow-lg border-t-4 border-primary-blue flex flex-col items-center">
-                <h3 class="text-xl font-semibold mb-3 text-primary-blue text-center">C'est quoi donc la fammille en droit ?</h3>
-
-                <blockquote 
-                    class="tiktok-embed w-full" 
-                    cite="https://www.tiktok.com/@droit_decode/video/7574064832278777099" 
-                    data-video-id="7574064832278777099" 
-                    style="max-width: 605px; min-width: 300px;"
-                    role="region" 
-                    aria-label="Vidéo TikTok: Droit de la famille"
-                > 
-                    <section>
-                        <a target="_blank" title="@droit_decode" href="https://www.tiktok.com/@droit_decode">@droit_decode</a> 
-                    </section> 
-                </blockquote>
-
-                <p class="mt-4 text-center text-sm text-gray-600">Thème: Droit de la famille</p>
-            </div>
-
-            <!-- Vidéo #3: C'est quoi un arret ? -->
-            <div class="tiktok-embed-card bg-white p-4 rounded-xl shadow-lg border-t-4 border-primary-red flex flex-col items-center">
-                <h3 class="text-xl font-semibold mb-3 text-primary-red text-center">C'est quoi un arret ?</h3>
-
-                <blockquote 
-                    class="tiktok-embed w-full" 
-                    cite="https://www.tiktok.com/@droit_decode/video/7576391459574746375" 
-                    data-video-id="7576391459574746375" 
-                    style="max-width: 605px; min-width: 300px;"
-                    role="region" 
-                    aria-label="Vidéo TikTok: Qu'est-ce qu'un arrêt juridique"
-                > 
-                    <section>
-                        <a target="_blank" title="@droit_decode" href="https://www.tiktok.com/@droit_decode">@droit_decode</a> 
-                    </section> 
-                </blockquote>
-
-                <p class="mt-4 text-center text-sm text-gray-600">Thème: Arret juridique </p>
-            </div>
-
-        </section>
-
-        <!-- Call to Action Button with aria-label -->
-        <div class="text-center mt-12">
-            <a href="https://www.tiktok.com/@droitdecode" target="_blank" class="bg-primary-red hover:bg-primary-blue transition duration-300 ease-in-out text-white font-bold py-3 px-8 rounded-full shadow-xl transform hover:scale-105 text-lg" aria-label="Suivre Droit Décodé sur TikTok (ouvre un nouvel onglet)">
-                Suivre notre chaîne TikTok
-            </a>
         </div>
 
     </main>
@@ -186,11 +206,11 @@
                 <a href="contact.html">Contact</a> | 
                 <a href="#">Mentions Légales</a>
             </div>
-            <p>Email: Contact à fournir plus tard</p>
+            <p>Email: droitdecode@gmail.com</p>
         </div>
     </footer>
 
-    <!-- CHEMIN MIS À JOUR: script.js -->
+    <!-- JavaScript Global (Gère la réactivité du menu) -->
     <script src="script.js"></script>
 </body>
 </html>
