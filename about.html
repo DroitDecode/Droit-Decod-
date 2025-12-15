@@ -9,64 +9,153 @@
     <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#E84D3D"> 
     <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Custom CSS for colors and layout adjustments -->
+    <style>
+        /* Define color variables for consistency across pages */
+        :root {
+            --color-primary-red: #E84D3D;
+            --color-primary-blue: #3E4B7A; /* Deep, professional blue */
+            --color-secondary-bg: #F8F9FA; /* Subtle light gray for background */
+        }
+
+        /* 1. Page background and font */
+        body {
+            background-color: var(--color-secondary-bg); 
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            font-family: 'Inter', sans-serif;
+        }
+
+        /* Ensure main content takes remaining space */
+        main {
+            flex-grow: 1; 
+            max-width: 1200px;
+            margin: 2rem auto; /* Vertical spacing */
+            padding-left: 1rem;
+            padding-right: 1rem;
+        }
+
+        /* Custom Tailwind Color Classes */
+        .text-primary-red { color: var(--color-primary-red); }
+        .bg-primary-red { background-color: var(--color-primary-red); }
+        .text-primary-blue { color: var(--color-primary-blue); }
+        .bg-primary-blue { background-color: var(--color-primary-blue); }
+        .border-primary-red { border-color: var(--color-primary-red); }
+        .border-primary-blue { border-color: var(--color-primary-blue); }
+
+        /* Header logo colors (consistent with style.css intent) */
+        .logo-text strong { color: var(--color-primary-blue); }
+        .logo-text span { color: var(--color-primary-red); }
+        
+        /* Active Link Styling (Manually added for about.html) */
+        header nav ul li a.active {
+            color: var(--color-primary-red);
+            font-weight: 700;
+            border-bottom: 2px solid var(--color-primary-red);
+        }
+    </style>
 </head>
 <body>
 
     <!-- --- Header (En-tête) - Uniform on all pages --- -->
-    <header>
+    <header role="banner">
         <div class="logo-container">
-            <img src="logo1.jpeg" alt="Droit Décodé Logo">
-            <div class="logo-text"><strong>DROIT</strong> <span>DÉCODÉ</span></div>
+            <a href="index.html">
+                <img src="logo1.jpeg" alt="Droit Décodé Logo">
+                <div class="logo-text"><strong>DROIT</strong> <span>DÉCODÉ</span></div>
+            </a>
         </div>
 
-        <nav>
+        <nav role="navigation" aria-label="Menu principal du site">
             <ul>
                 <li><a href="index.html">Accueil</a></li>
                 <li><a href="articles.html">Articles & Explications</a></li>
                 <li><a href="tiktok.html">TikTok Publications</a></li>
-                <li><a href="about.html">À Propos</a></li>
+                <li><a href="about.html" class="active" aria-current="page">À Propos</a></li>
                 <li><a href="contact.html" class="contact-btn">Contact</a></li>
             </ul>
         </nav>
-        
-        <div class="menu-toggle">
+
+        <button class="menu-toggle" aria-expanded="false" aria-controls="main-navigation">
             &#9776;
-        </div>
+            <span class="sr-only">Ouvrir le menu</span>
+        </button>
     </header>
 
     <!-- --- Main Content: À Propos --- -->
     <main class="container">
-        <h1 class="text-3xl font-bold mb-8 border-b pb-2 border-primary-blue">Notre Mission: Rendre le Droit Accessible</h1>
+        <h1 class="text-4xl md:text-5xl font-extrabold mb-10 text-center text-primary-blue border-b-4 pb-3 border-primary-red">
+            Droit Décodé : Transformer la Complexité en Clarté
+        </h1>
 
-        <section class="bg-primary-white p-8 rounded-xl shadow-lg mb-8">
-            <p class="text-lg mb-6">
-                **Droit Décodé** est né de la volonté de simplifier le monde juridique, souvent perçu comme complexe et intimidant. Nous croyons que la connaissance du droit ne devrait pas être réservée à une élite. Que vous soyez un étudiant en première année, un professionnel cherchant à se rafraîchir la mémoire, ou simplement un citoyen curieux, notre objectif est de vous fournir des explications claires, précises et engageantes.
+        <section class="bg-white p-8 rounded-xl shadow-2xl mb-12">
+            
+            <!-- Mission et Problématique (Plus percutant) -->
+            <h2 class="text-3xl font-bold mb-6 text-primary-red">Notre Mission Fondatrice</h2>
+            <p class="text-xl mb-8 leading-relaxed border-l-4 border-primary-blue pl-4 italic text-gray-700">
+                Le droit est le fondement de notre société, mais son accès et sa compréhension ne devraient pas être un privilège. Chez **Droit Décodé**, nous avons une mission claire : **briser les barrières de la complexité juridique**. Nous sommes déterminés à rendre le savoir juridique non seulement accessible, mais également engageant et immédiatement applicable pour tous.
             </p>
 
-            <h2 class="text-2xl font-semibold text-primary-red mt-6 mb-4">Ce Que Nous Offrons</h2>
-            <ul class="list-disc list-inside space-y-3 pl-5 text-gray-700">
-                <li class="p-2 bg-secondary-bg rounded-md">
-                    <span class="font-bold text-primary-blue">Articles et Explications Approfondies:</span> Des synthèses rédigées sur les notions fondamentales et les réformes législatives.
+            <h2 class="text-2xl font-semibold text-primary-blue mt-10 mb-4 border-b pb-2">Pour Qui ?</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 text-center mb-10">
+                <div class="p-4 bg-primary-red text-white rounded-lg shadow-md">
+                    <p class="text-3xl mb-2">🎓</p>
+                    <p class="font-bold">Étudiants en Droit</p>
+                    <p class="text-sm">Pour maîtriser les notions fondamentales et réussir vos examens.</p>
+                </div>
+                <div class="p-4 bg-primary-blue text-white rounded-lg shadow-md">
+                    <p class="text-3xl mb-2">💼</p>
+                    <p class="font-bold">Professionnels</p>
+                    <p class="text-sm">Pour une veille juridique rapide et fiable, et rafraîchir la mémoire.</p>
+                </div>
+                <div class="p-4 bg-primary-red text-white rounded-lg shadow-md">
+                    <p class="text-3xl mb-2">💡</p>
+                    <p class="font-bold">Citoyens Curieux</p>
+                    <p class="text-sm">Pour comprendre vos droits et obligations au quotidien.</p>
+                </div>
+            </div>
+
+
+            <h2 class="text-2xl font-semibold text-primary-blue mt-10 mb-4 border-b pb-2">Notre Valeur Ajoutée : Un Contenu Structuré</h2>
+            <ul class="list-none space-y-4 pl-0 text-gray-700">
+                <li class="flex items-start p-4 bg-secondary-bg rounded-lg shadow-sm border-l-4 border-primary-red">
+                    <span class="text-2xl mr-3">✍️</span>
+                    <div>
+                        <span class="font-bold text-primary-blue">Décryptage de Fond (Articles & Synthèses)</span>
+                        <p class="text-sm mt-1">Des analyses approfondies et des synthèses structurées sur les concepts clés et les nouvelles législations, rédigées pour l'excellence académique et professionnelle.</p>
+                    </div>
                 </li>
-                <li class="p-2 bg-secondary-bg rounded-md">
-                    <span class="font-bold text-primary-red">Commentaires d'Arrêt:</span> Des analyses complètes de jurisprudence, prêtes à être comprises et utilisées.
+                <li class="flex items-start p-4 bg-secondary-bg rounded-lg shadow-sm border-l-4 border-primary-blue">
+                    <span class="text-2xl mr-3">⚖️</span>
+                    <div>
+                        <span class="font-bold text-primary-red">Jurisprudence en Clair (Commentaires d'Arrêt)</span>
+                        <p class="text-sm mt-1">Des fiches d'arrêts et des commentaires de décisions judiciaires majeures, essentiels pour maîtriser la pratique du droit et la méthode juridique.</p>
+                    </div>
                 </li>
-                <li class="p-2 bg-secondary-bg rounded-md">
-                    <span class="font-bold text-primary-blue">Contenu Multimédia:</span> Nos publications TikTok pour un apprentissage rapide et visuel.
+                <li class="flex items-start p-4 bg-secondary-bg rounded-lg shadow-sm border-l-4 border-primary-red">
+                    <span class="text-2xl mr-3">🎥</span>
+                    <div>
+                        <span class="font-bold text-primary-blue">Le Droit 2.0 (Contenu Multimédia)</span>
+                        <p class="text-sm mt-1">Des capsules TikTok dynamiques pour un apprentissage rapide, visuel et parfaitement adapté aux réseaux sociaux.</p>
+                    </div>
                 </li>
             </ul>
-            
-            <h2 class="text-2xl font-semibold text-primary-red mt-10 mb-4">Notre Engagement</h2>
-            <p class="mb-4">
-                Nous nous engageons à maintenir une information exacte et à jour, rédigée par des professionnels du droit. Votre succès académique et votre compréhension de la loi sont notre priorité.
-            </p>
+
+            <div class="mt-12 p-6 bg-primary-blue text-white rounded-xl shadow-2xl">
+                <h3 class="text-2xl font-bold mb-3">Notre Engagement de Rigueur</h3>
+                <p class="text-lg">
+                    **L'Expertise est Notre Priorité.** Tous nos contenus sont élaborés, relus et validés par une équipe de **juristes qualifiés**, garantissant une rigueur irréprochable et une actualisation constante face aux évolutions législatives. Droit Décodé est la référence pour transformer la complexité en clarté.
+                </p>
+            </div>
         </section>
 
     </main>
     <!-- -------------------------------------------------------- -->
 
     <!-- --- Footer (Bas de page) - Uniform on all pages --- -->
-    <footer>
+    <footer role="contentinfo">
         <div class="footer-content">
             <p>&copy; 2025 Droit Décodé. Tous droits réservés.</p>
             <div class="footer-links">
@@ -74,7 +163,7 @@
                 <a href="contact.html">Contact</a> | 
                 <a href="#">Mentions Légales</a>
             </div>
-            <p>Email: Contact à fournir plus tard</p>
+            <p>Email: droitdecode@gmail.com</p>
         </div>
     </footer>
 
