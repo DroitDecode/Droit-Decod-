@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Droit Décodé - Mentions Légales</title>
+
+    <link rel="stylesheet" href="style.css">
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#E84D3D"> 
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Custom CSS for colors and layout adjustments -->
+    <style>
+        /* Define color variables for consistency across pages */
+        :root {
+            --color-primary-red: #E84D3D;
+            --color-primary-blue: #3E4B7A; /* Deep, professional blue */
+            --color-secondary-bg: #F8F9FA; /* Subtle light gray for background */
+        }
+
+        /* 1. Page background and font */
+        body {
+            background-color: var(--color-secondary-bg); 
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            font-family: 'Inter', sans-serif;
+        }
+
+        /* Ensure main content takes remaining space */
+        main {
+            flex-grow: 1; 
+            max-width: 1200px;
+            margin: 2rem auto; /* Vertical spacing */
+            padding-left: 1rem;
+            padding-right: 1rem;
+        }
+
+        /* Custom Tailwind Color Classes */
+        .text-primary-red { color: var(--color-primary-red); }
+        .bg-primary-red { background-color: var(--color-primary-red); }
+        .text-primary-blue { color: var(--color-primary-blue); }
+        .bg-primary-blue { background-color: var(--color-primary-blue); }
+        .border-primary-red { border-color: var(--color-primary-red); }
+        .border-primary-blue { border-color: var(--color-primary-blue); }
+
+        /* Header logo colors (consistent with style.css intent) */
+        .logo-text strong { color: var(--color-primary-blue); }
+        .logo-text span { color: var(--color-primary-red); }
+        
+        /* Active Link Styling (Manually added for mentions.html) */
+        header nav ul li a.active {
+            color: var(--color-primary-red);
+            font-weight: 700;
+            border-bottom: 2px solid var(--color-primary-red);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- --- Header (En-tête) - Uniform on all pages --- -->
+    <header role="banner">
+        <div class="logo-container">
+            <!-- Le lien href="index.html" englobe tout le logo -->
+            <a href="index.html">
+                <img src="logo1.jpeg" alt="Droit Décodé Logo">
+                <div class="logo-text"><strong>DROIT</strong> <span>DÉCODÉ</span></div>
+            </a>
+        </div>
+
+        <nav role="navigation" aria-label="Menu principal du site">
+            <ul>
+                <li><a href="index.html">Accueil</a></li>
+                <li><a href="articles.html">Articles & Explications</a></li>
+                <li><a href="tiktok.html">TikTok Publications</a></li>
+                <li><a href="about.html">À Propos</a></li>
+                <li><a href="contact.html" class="contact-btn">Contact</a></li>
+            </ul>
+        </nav>
+
+        <button class="menu-toggle" aria-expanded="false" aria-controls="main-navigation">
+            &#9776;
+            <span class="sr-only">Ouvrir le menu</span>
+        </button>
+    </header>
+
+    <!-- --- Main Content: Mentions Légales --- -->
+    <main class="container">
+        <h1 class="text-4xl md:text-5xl font-extrabold mb-10 text-center text-primary-blue border-b-4 pb-3 border-primary-red">
+            Mentions Légales
+        </h1>
+
+        <section class="bg-white p-8 rounded-xl shadow-2xl space-y-8 text-gray-700">
+            
+            <!-- 1. Informations Générales / Éditeur du Site -->
+            <div>
+                <h2 class="text-2xl font-semibold mb-4 text-primary-red border-b pb-2">1. Informations sur l'Éditeur du Site</h2>
+                <p><strong>Nom du site :</strong> Droit Décodé</p>
+                <p><strong>Forme juridique :</strong> Projet éducatif en ligne (ou à compléter)</p>
+                <p><strong>Représentant légal :</strong> [Nom du fondateur ou responsable, ex: David X.]</p>
+                <p><strong>Contact email :</strong> droitdecode@gmail.com</p>
+                <p><strong>Téléphone :</strong> +228 70 07 28 07 (David)</p>
+            </div>
+
+            <!-- 2. Hébergement -->
+            <div>
+                <h2 class="text-2xl font-semibold mb-4 text-primary-blue border-b pb-2">2. Hébergement du Site</h2>
+                <p><strong>Hébergeur :</strong> Google (plateforme d'hébergement Canvas)</p>
+                <p><strong>Adresse :</strong> Mountain View, CA 94043, USA</p>
+                <p><strong>Contact :</strong> Peut être contacté via les canaux de support Google Cloud.</p>
+            </div>
+
+            <!-- 3. Propriété Intellectuelle -->
+            <div>
+                <h2 class="text-2xl font-semibold mb-4 text-primary-red border-b pb-2">3. Propriété Intellectuelle et Droit d'Auteur</h2>
+                <p>
+                    L'ensemble du contenu du site Droit Décodé, incluant les textes, images, graphismes, vidéos, et publications TikTok, est la propriété exclusive de Droit Décodé (sauf mention contraire). 
+                    Toute reproduction, distribution, modification, adaptation, retransmission ou publication, même partielle, de ces différents éléments est strictement interdite sans l'accord exprès par écrit de l'équipe Droit Décodé.
+                </p>
+            </div>
+
+            <!-- 4. Limites de Responsabilité -->
+            <div>
+                <h2 class="text-2xl font-semibold mb-4 text-primary-blue border-b pb-2">4. Limitation de Responsabilité</h2>
+                <p>
+                    Les informations fournies sur le site Droit Décodé sont à titre purement informatif et ne sauraient se substituer à une consultation juridique professionnelle. 
+                    L'utilisateur reconnaît utiliser ces informations sous sa seule et unique responsabilité. Droit Décodé ne saurait être tenu responsable des erreurs, omissions, ou manque de mise à jour des informations diffusées.
+                </p>
+            </div>
+
+            <!-- 5. Données Personnelles (CNIL / GDPR) -->
+            <div>
+                <h2 class="text-2xl font-semibold mb-4 text-primary-red border-b pb-2">5. Gestion des Données Personnelles</h2>
+                <p>
+                    Le site Droit Décodé ne collecte aucune donnée personnelle sans le consentement de l'utilisateur (à l'exception des données transmises via le formulaire de contact, gérées par Formspree, qui ne sont utilisées que pour répondre à la demande).
+                </p>
+                <p class="mt-2 text-sm italic">
+                    Pour toute question relative à la gestion de vos données personnelles, veuillez nous contacter à droitdecode@gmail.com.
+                </p>
+            </div>
+            
+            <p class="text-sm pt-4 text-center text-gray-500">
+                Dernière mise à jour : Décembre 2025
+            </p>
+
+        </section>
+
+    </main>
+    <!-- -------------------------------------------------------- -->
+
+    <!-- --- Footer (Bas de page) - Uniform on all pages --- -->
+    <footer role="contentinfo">
+        <div class="footer-content">
+            <p>&copy; 2025 Droit Décodé. Tous droits réservés.</p>
+            <div class="footer-links">
+                <a href="about.html">À Propos</a> | 
+                <a href="contact.html">Contact</a> | 
+                <a href="mentions.html" class="active">Mentions Légales</a>
+            </div>
+            <p>Email: droitdecode@gmail.com</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
+
