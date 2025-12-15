@@ -8,21 +8,8 @@
     <!-- Open Graph Protocol (pour prévisualisation WhatsApp/Réseaux Sociaux) -->
     <meta property="og:title" content="Droit Décodé | Le Droit, Enfin Clair et Accessible">
     <meta property="og:description" content="Accédez à des explications claires et précises pour comprendre les lois qui régissent votre quotidien. Simplifions le droit ensemble.">
-    
-    <!-- 
-    *** ÉLÉMENT CRITIQUE 1 : L'IMAGE DE PRÉVISUALISATION ***
-    Remplacer cette URL par l'adresse PUBLIQUE de votre image de bannière (1200x630px recommandé).
-    Cette image est actuellement un PLACEHOLDER.
-    -->
     <meta property="og:image" content="logo1.jpeg">
-    
-    <!-- 
-    *** ÉLÉMENT CRITIQUE 2 : L'URL CANONIQUE (GitHub Pages) ***
-    Remplacer cette URL par l'adresse réelle de votre site GitHub Pages.
-    Exemple: https://moncompte.github.io/mondepot/
-    -->
     <meta property="og:url" content="https://droitdecode.github.io/Droit-Decod-/index.html">
-    
     <meta property="og:type" content="website">
     <meta name="twitter:card" content="summary_large_image">
     <!-- Fin des balises Open Graph -->
@@ -35,7 +22,7 @@
 
     <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#E84D3D">
-    
+
     <style>
         /* Définitions des variables de couleur pour la cohérence */
         :root {
@@ -58,6 +45,13 @@
 
         .logo-text strong { color: var(--color-primary-blue); }
         .logo-text span { color: var(--color-primary-red); }
+
+        /* Active Link Styling (Manually added for index.html) */
+        header nav ul li a.active {
+            color: var(--color-primary-red);
+            font-weight: 700;
+            border-bottom: 2px solid var(--color-primary-red);
+        }
 
         /* -------------------------------------------
         MODIFICATIONS DE LA SECTION HÉRO AVEC VIDÉO
@@ -118,9 +112,9 @@
             align-items: center;
             justify-content: center;
         }
-        
+
         /* -------------------------------------------
-        STYLE DU BOUTON FLOTTANT (FAB) - Visuel uniquement
+        STYLE DU BOUTON FLOTTANT (FAB) ET MODAL
         -------------------------------------------
         */
         #notification-fab {
@@ -137,13 +131,14 @@
             justify-content: center;
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
             transition: transform 0.3s ease, background-color 0.3s ease;
-            cursor: default; /* Changement important: curseur par défaut (non cliquable) */
-            z-index: 50;
+            cursor: pointer; /* Curseur cliquable */
+            z-index: 1000; /* Assurer qu'il est au-dessus de tout */
+            border: none;
         }
 
         #notification-fab:hover {
             background-color: #c73a30; /* Red darker on hover */
-            transform: none; /* Pas d'effet de scale */
+            transform: scale(1.05); 
         }
 
         #notification-fab .notification-dot {
@@ -158,6 +153,11 @@
             animation: pulse-dot 1.5s infinite;
         }
         
+        /* Cacher la cloche si le badge n'est pas là ou si la liste est vide */
+        #notification-fab[data-unread="0"] .notification-dot {
+            display: none;
+        }
+
         #notification-badge {
             position: absolute;
             top: -5px;
@@ -171,8 +171,12 @@
             font-weight: bold;
             text-align: center;
             line-height: 1;
-            pointer-events: none; /* Ne pas bloquer le clic sur le FAB */
+            pointer-events: none;
             border: 1px solid white;
+            display: none; /* Caché par défaut, affiché par JS */
+        }
+        #notification-fab[data-unread]:not([data-unread="0"]) #notification-badge {
+            display: block;
         }
 
 
@@ -180,6 +184,46 @@
             0% { transform: scale(1); opacity: 1; }
             50% { transform: scale(1.2); opacity: 0.7; }
             100% { transform: scale(1); opacity: 1; }
+        }
+
+        /* Style pour le panneau de notifications (Modal) */
+        #notification-panel {
+            position: fixed;
+            bottom: 80px; /* Au-dessus du FAB */
+            right: 2rem;
+            width: 90%;
+            max-width: 380px;
+            max-height: 450px;
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+            z-index: 999;
+            overflow: hidden;
+            display: none; /* Caché par défaut */
+            transform: translateY(20px);
+            opacity: 0;
+            transition: opacity 0.3s ease, transform 0.3s ease;
+        }
+
+        #notification-panel.open {
+            display: block;
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Mobile Adjustments for Panel */
+        @media (max-width: 640px) {
+            #notification-panel {
+                bottom: 1rem;
+                right: 1rem;
+                left: 1rem;
+                max-width: none;
+                max-height: 70vh;
+            }
+            #notification-fab {
+                bottom: 1rem;
+                right: 1rem;
+            }
         }
     </style>
 </head>
@@ -214,8 +258,6 @@
 
     <!-- --- Section Héro (Bannière d'accueil avec VRAI fond Vidéo) --- -->
     <section id="hero-banner" role="banner">
-
-        <!-- ELEMENT VIDÉO EN ARRIÈRE-PLAN -->
         <video id="hero-video" 
                autoplay 
                loop 
@@ -223,14 +265,11 @@
                playsinline 
                poster="assets/75651.png" 
                aria-hidden="true">
-            <!-- Source de la vidéo. -->
             <source src="2a9e64a54ea773182b0cd8309803c268.mp4" type="video/mp4">
             Votre navigateur ne supporte pas les vidéos HTML5.
         </video>
-        <!-- FIN DE L'ELEMENT VIDÉO -->
 
         <div id="hero-content" class="container mx-auto text-white">
-            <!-- Modification ici : Ajout de la classe 'text-white' au titre pour forcer le blanc -->
             <h1 class="text-4xl md:text-6xl font-extrabold mb-4 uppercase tracking-tight text-white">
                 Le Droit, Enfin Décodé.
             </h1>
@@ -239,13 +278,10 @@
             </p>
 
             <div class="flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-6">
-                <!-- Bouton 1 : Articles -->
                 <a href="articles.html" 
                    class="hero-button bg-primary-red hover:bg-red-700 text-white">
                     Explorer les Articles
                 </a>
-
-                <!-- Bouton 2 : Contact -->
                 <a href="contact.html" 
                    class="hero-button bg-white text-primary-blue hover:bg-gray-200">
                     Nous Contacter
@@ -261,7 +297,6 @@
                 Les Derniers Décryptages
             </h2>
 
-            <!-- Conteneur Grid pour afficher les articles sur différentes colonnes -->
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
 
                 <!-- Article 1 : Le Contrat (Original) -->
@@ -343,31 +378,187 @@
             <div class="footer-links">
                 <a href="about.html">À Propos</a> | 
                 <a href="contact.html">Contact</a> | 
-                <a href="mention">Mentions Légales</a>
+                <a href="mentions.html">Mentions Légales</a>
             </div>
-            <!-- Update Email in Footer -->
             <p>Email: droitdecode@gmail.com</p>
         </div>
     </footer>
-    
-    <!-- --- BOUTON FLOTTANT DE NOTIFICATION (FAB) - Ne fait rien au clic --- -->
-    <button id="notification-fab" aria-label="Notifications et annonces" disabled title="Les notifications sont désactivées temporairement">
-        <!-- Icône de cloche (SVG pour un meilleur style et contrôle de la couleur/taille) -->
+
+    <!-- --- BOUTON FLOTTANT DE NOTIFICATION (FAB) --- -->
+    <button id="notification-fab" aria-label="Notifications et annonces">
+        <!-- Icône de cloche -->
         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6">
-            <path d="M6 8a6 6 0 0 1 6-6 6 6 0 0 1 6 6v7.5L12 22 6 15.5V8z"></path>
-            <path d="M10.36 8.35a3.1 3.1 0 0 0-2.83 0"></path>
-            <path d="M13.64 8.35a3.1 3.1 0 0 1 2.83 0"></path>
+            <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+            <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
         </svg>
 
-        <!-- Point de notification (Visible et décoratif) -->
+        <!-- Point de notification/Badge (Contient le nombre de notifications non lues) -->
         <span class="notification-dot" title="Nouvelles annonces"></span>
-        <!-- Badge de comptage (Visible et décoratif) -->
-        <span id="notification-badge">2</span>
+        <span id="notification-badge" data-count="2">2</span>
     </button>
     <!-- -------------------------------------------------------- -->
 
+    <!-- --- MODAL DE NOTIFICATION --- -->
+    <div id="notification-panel" role="dialog" aria-modal="true" aria-labelledby="notification-title">
+        <div class="p-4 border-b border-gray-100 flex justify-between items-center bg-gray-50">
+            <h3 id="notification-title" class="text-xl font-bold text-primary-blue">Annonces Droit Décodé</h3>
+            <button id="close-panel" aria-label="Fermer le panneau de notifications" class="text-gray-500 hover:text-gray-800">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line>
+                </svg>
+            </button>
+        </div>
+        
+        <!-- Liste des notifications -->
+        <div id="notification-list" class="p-2 space-y-2 overflow-y-auto max-h-[380px]">
+            <!-- Les notifications seront générées ici par le script -->
+        </div>
+        
+        <div id="no-notifications" class="text-center p-6 text-gray-500 hidden">
+            Aucune nouvelle annonce pour le moment.
+        </div>
+    </div>
+
     <!-- Global JavaScript (Handles menu responsiveness and active link) -->
     <script src="script.js"></script>
+
+    <script>
+        // --- JAVASCRIPT POUR LA CLOCHE DE NOTIFICATION ---
+
+        // 1. Définition des notifications (MODIFIEZ CE TABLEAU POUR METTRE À JOUR LES ANNONCES)
+        const NOTIFICATIONS_DATA = [
+            {
+                id: 1,
+                title: "🚨 Nouvelle Section : Mentions Légales",
+                content: "La page 'Mentions Légales' est maintenant en ligne ! Consultez-la via le pied de page pour plus de transparence.",
+                date: "Aujourd'hui",
+                link: "mentions.html",
+                read: false // Laissez cette propriété pour la gestion future
+            },
+            {
+                id: 2,
+                title: "📚 Mise à jour des Articles Clés",
+                content: "Tous les articles de 'Droit Civil' ont été revus et mis à jour avec les dernières réformes législatives. Bonne lecture !",
+                date: "Hier",
+                link: "articles.html",
+                read: false
+            },
+            {
+                id: 3,
+                title: "🎉 Lancement du Site Officiel",
+                content: "Bienvenue sur le site officiel de Droit Décodé ! Plus de contenu, plus de clarté. N'hésitez pas à nous contacter.",
+              date: "Il y a 3 jours",
+                link: "contact.html",
+                read: true
+            }
+        ];
+
+        // 2. Éléments DOM
+        const fab = document.getElementById('notification-fab');
+        const panel = document.getElementById('notification-panel');
+        const badge = document.getElementById('notification-badge');
+        const dot = document.querySelector('#notification-fab .notification-dot');
+        const closeBtn = document.getElementById('close-panel');
+        const list = document.getElementById('notification-list');
+        const noNotifications = document.getElementById('no-notifications');
+
+
+        // 3. Fonction pour générer l'HTML des notifications
+        function renderNotifications() {
+            list.innerHTML = ''; // Vider la liste
+
+            if (NOTIFICATIONS_DATA.length === 0) {
+                noNotifications.classList.remove('hidden');
+                badge.style.display = 'none';
+                dot.style.display = 'none';
+                fab.setAttribute('data-unread', 0);
+                return;
+            } else {
+                noNotifications.classList.add('hidden');
+            }
+
+            let unreadCount = 0;
+
+            NOTIFICATIONS_DATA.forEach(notif => {
+                if (!notif.read) {
+                    unreadCount++;
+                }
+
+                const item = document.createElement('a');
+                item.href = notif.link || '#';
+                item.className = `block p-3 rounded-lg transition duration-200 ${notif.read ? 'bg-white hover:bg-gray-100 border-l-2 border-transparent' : 'bg-secondary-bg hover:bg-gray-200 border-l-2 border-primary-red'}`;
+                item.innerHTML = `
+                    <p class="text-sm font-semibold ${notif.read ? 'text-gray-800' : 'text-primary-blue'}">${notif.title}</p>
+                    <p class="text-xs text-gray-500 mt-1">${notif.content}</p>
+                    <p class="text-xs text-gray-400 mt-1">${notif.date}</p>
+                `;
+                list.appendChild(item);
+            });
+
+            // Mettre à jour le badge et le dot avec le compte réel
+            badge.textContent = unreadCount;
+            fab.setAttribute('data-unread', unreadCount);
+
+            // Gérer l'affichage du dot/badge
+            if (unreadCount > 0) {
+                dot.style.display = 'block';
+                badge.style.display = 'block';
+            } else {
+                dot.style.display = 'none';
+                badge.style.display = 'none';
+                // Désactiver l'animation de pulse si tout est lu
+                dot.style.animation = 'none';
+            }
+        }
+
+
+        // 4. Gestionnaire d'événement pour le clic sur le FAB
+        fab.addEventListener('click', (e) => {
+            e.preventDefault();
+            const isPanelOpen = panel.classList.contains('open');
+
+            if (!isPanelOpen) {
+                // 1. Ouvrir le panneau
+                panel.classList.add('open');
+                
+                // 2. Mettre à jour les notifications comme lues (Logique simplifiée)
+                let unreadExists = false;
+                NOTIFICATIONS_DATA.forEach(notif => {
+                    if (!notif.read) {
+                        notif.read = true; // Simule le marquage comme lu
+                        unreadExists = true;
+                    }
+                });
+
+                // 3. Re-rendre la liste pour appliquer les styles 'lu' et mettre à jour le badge
+                if (unreadExists) {
+                    renderNotifications();
+                }
+
+            } else {
+                // Fermer le panneau
+                panel.classList.remove('open');
+            }
+        });
+
+        // 5. Gestionnaire pour le bouton de fermeture
+        closeBtn.addEventListener('click', () => {
+            panel.classList.remove('open');
+        });
+
+        // 6. Fermer le panneau si l'utilisateur clique en dehors
+        document.addEventListener('click', (event) => {
+            if (panel.classList.contains('open') && 
+                !panel.contains(event.target) && 
+                !fab.contains(event.target)) {
+                
+                panel.classList.remove('open');
+            }
+        });
+        
+        // Initialiser au chargement de la page
+        document.addEventListener('DOMContentLoaded', renderNotifications);
+
+    </script>
 </body>
 </html>
-
