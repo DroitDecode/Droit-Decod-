@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Droit Décodé - Articles & Explications</title>
+
+    <link rel="stylesheet" href="styles/style.css">
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#E84D3D"> 
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body>
+
+    <!-- --- Header (En-tête) - Uniform on all pages --- -->
+    <header>
+        <div class="logo-container">
+            <img src="assets/logo1.jpeg" alt="Droit Décodé Logo">
+            <div class="logo-text"><strong>DROIT</strong> <span>DÉCODÉ</span></div>
+        </div>
+
+        <nav>
+            <ul>
+                <li><a href="index.html">Accueil</a></li>
+                <li><a href="articles.html">Articles & Explications</a></li>
+                <li><a href="tiktok.html">TikTok Publications</a></li>
+                <li><a href="about.html">À Propos</a></li>
+                <li><a href="contact.html" class="contact-btn">Contact</a></li>
+            </ul>
+        </nav>
+        
+        <div class="menu-toggle">
+            &#9776;
+        </div>
+    </header>
+
+    <!-- --- Main Content: Articles --- -->
+    <main class="container">
+        <h1 class="text-3xl font-bold mb-8 border-b pb-2 border-primary-red">Articles, Commentaires et Explications Complètes</h1>
+        
+        <!-- Filter/Search Bar (Professional Feature) -->
+        <div class="mb-8 p-4 bg-secondary-bg rounded-lg shadow-inner flex flex-wrap gap-4 items-center">
+            <input type="text" placeholder="Rechercher par mot-clé (Ex: Contrat, Succession, Pénal...)" class="flex-grow p-3 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-primary-blue">
+            <select class="p-3 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-primary-blue">
+                <option value="">Filtrer par Thème</option>
+                <option value="droit-civil">Droit Civil</option>
+                <option value="droit-penal">Droit Pénal</option>
+                <option value="droit-commercial">Droit Commercial</option>
+                <option value="procedure">Procédure</option>
+            </select>
+        </div>
+        
+        <!-- Article List -->
+        <section class="space-y-8">
+            
+            <!-- Article 1: Commentaire d'arrêt -->
+            <article class="bg-primary-white p-6 rounded-lg shadow-md hover:shadow-xl transition duration-300 border-l-4 border-primary-red">
+                <h2 class="text-2xl font-semibold text-primary-red">Commentaire d'Arrêt: L'évolution de la faute lourde (Cass. 2023)</h2>
+                <p class="text-sm text-gray-500 mb-3">Publié le 15 Octobre 2025 | Thème: Jurisprudence, Droit du Travail</p>
+                <p class="mb-4">Analyse complète et plan détaillé de l'arrêt majeur de la Cour de cassation redéfinissant les critères de la faute lourde de l'employé.</p>
+                <a href="#" class="text-primary-blue font-medium hover:text-primary-red">Lire le Commentaire &rarr;</a>
+            </article>
+
+            <!-- Article 2: Explication de Notion -->
+            <article class="bg-primary-white p-6 rounded-lg shadow-md hover:shadow-xl transition duration-300 border-l-4 border-primary-blue">
+                <h2 class="text-2xl font-semibold text-primary-blue">Explication: La Théorie de l'Apparence en Droit Commercial</h2>
+                <p class="text-sm text-gray-500 mb-3">Publié le 10 Octobre 2025 | Thème: Droit Commercial</p>
+                <p class="mb-4">Un décryptage facile à comprendre de la théorie de l'apparence, avec des exemples pratiques pour l'examen.</p>
+                <a href="#" class="text-primary-red font-medium hover:text-primary-blue">Voir l'Explication &rarr;</a>
+            </article>
+
+            <!-- Article 3: Article de fond -->
+            <article class="bg-primary-white p-6 rounded-lg shadow-md hover:shadow-xl transition duration-300 border-l-4 border-primary-red">
+                <h2 class="text-2xl font-semibold text-primary-red">Article: Le Principe de Légalité et ses Limites en Droit Pénal</h2>
+                <p class="text-sm text-gray-500 mb-3">Publié le 01 Octobre 2025 | Thème: Droit Pénal, Principes Fondamentaux</p>
+                <p class="mb-4">Un essai sur l'importance du principe de légalité criminelle et comment la jurisprudence l'interprète aujourd'hui.</p>
+                <a href="#" class="text-primary-blue font-medium hover:text-primary-red">Lire l'Article &rarr;</a>
+            </article>
+            
+        </section>
+
+    </main>
+    <!-- -------------------------------------------------------- -->
+
+    <!-- --- Footer (Bas de page) - Uniform on all pages --- -->
+    <footer>
+        <div class="footer-content">
+            <p>&copy; 2025 Droit Décodé. Tous droits réservés.</p>
+            <div class="footer-links">
+                <a href="about.html">À Propos</a> | 
+                <a href="contact.html">Contact</a> | 
+                <a href="#">Mentions Légales</a>
+            </div>
+            <p>Email: Contact à fournir plus tard</p>
+        </div>
+    </footer>
+
+    <script src="scripts/script.js"></script>
+</body>
+</html>
+
