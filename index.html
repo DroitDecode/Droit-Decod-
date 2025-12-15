@@ -5,14 +5,97 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Droit Décodé - Accueil</title>
 
+    <!-- Open Graph Protocol (pour prévisualisation WhatsApp/Réseaux Sociaux) -->
+    <!-- Ces balises garantissent une belle carte de prévisualisation lors du partage du lien. -->
+    <meta property="og:title" content="Droit Décodé | Le Droit, Enfin Clair et Accessible">
+    <meta property="og:description" content="Accédez à des explications claires et précises pour comprendre les lois qui régissent votre quotidien. Simplifions le droit ensemble.">
+    
+    <!-- 
+    *** ÉLÉMENT CRITIQUE 1 : L'IMAGE DE PRÉVISUALISATION ***
+    Remplacer cette URL par l'adresse PUBLIQUE de votre image de bannière (1200x630px recommandé).
+    Cette image est actuellement un PLACEHOLDER.
+    -->
+    <meta property="og:image" content="logo1.jpeg">
+    
+    <!-- 
+    *** ÉLÉMENT CRITIQUE 2 : L'URL CANONIQUE (GitHub Pages) ***
+    Remplacer cette URL par l'adresse réelle de votre site GitHub Pages.
+    Exemple: https://moncompte.github.io/mondepot/
+    -->
+    <meta property="og:url" content="[
+        https://droitdecode.github.io/Droit-Decod-/index.html">
+    
+    <meta property="og:type" content="website">
+    <!-- Twitter Card pour une compatibilité maximale -->
+    <meta name="twitter:card" content="summary_large_image">
+    <!-- Fin des balises Open Graph -->
+
     <!-- Utilisation de Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
 
-    <!-- Feuille de style globale (style.css est requis pour le logo et le menu) -->
-    <link rel="stylesheet" href="style.css">
+    <script>
+        // Ce script gère l'ouverture et la fermeture de la modale de notification (la cloche)
+        document.addEventListener('DOMContentLoaded', () => {
+            const fab = document.getElementById('notification-fab');
+            const dot = document.querySelector('#notification-fab .notification-dot');
+            const modal = document.getElementById('notification-modal');
+            const closeButton = document.getElementById('close-modal-btn');
+            const list = document.getElementById('notification-list');
+            const badge = document.getElementById('notification-badge');
 
-    <link rel="manifest" href="manifest.json">
-    <meta name="theme-color" content="#E84D3D">
+            function toggleModal() {
+                modal.classList.toggle('hidden');
+                
+                // Cacher le point et le badge lors de l'ouverture (simuler la lecture)
+                if (!modal.classList.contains('hidden')) {
+                    dot.classList.add('hidden');
+                    badge.classList.add('hidden');
+                    
+                    // Contenu simulé des annonces (pas de Firebase)
+                    if (list.children.length === 1 && list.children[0].tagName === 'P' && list.children[0].textContent.includes('Chargement')) {
+                         list.innerHTML = `
+                            <li class="bg-white p-4 rounded-lg shadow mb-3 border-l-4 border-primary-red transition duration-200 hover:bg-gray-50 cursor-pointer">
+                                <p class="text-xs text-gray-400 mb-1">15/12/2025</p>
+                                <h4 class="text-lg font-bold text-primary-blue mb-1">Bienvenue sur Droit Décodé !</h4>
+                                <p class="text-gray-700 text-sm">Découvrez nos premiers articles et suivez-nous sur TikTok pour plus de contenu juridique.</p>
+                            </li>
+                            <li class="bg-white p-4 rounded-lg shadow mb-3 border-l-4 border-primary-red transition duration-200 hover:bg-gray-50 cursor-pointer">
+                                <p class="text-xs text-gray-400 mb-1">05/12/2025</p>
+                                <h4 class="text-lg font-bold text-primary-blue mb-1">Nouveaux droits du consommateur</h4>
+                                <p class="text-gray-700 text-sm">Une mise à jour importante de la loi est effective ce mois-ci.</p>
+                            </li>
+                        `;
+                    }
+                } else {
+                    // Pour simuler, réafficher le badge si on ferme la modale
+                    if (list.children.length > 0 && !list.children[0].textContent.includes('Aucune')) {
+                         dot.classList.remove('hidden');
+                         badge.textContent = list.children.length;
+                         badge.classList.remove('hidden');
+                    }
+                }
+            }
+
+            // Afficher le badge par défaut au chargement (pour simuler la présence d'annonces non lues)
+            dot.classList.remove('hidden');
+            badge.textContent = 2; // Simule 2 annonces
+            badge.classList.remove('hidden');
+
+
+            // Événements
+            fab.addEventListener('click', toggleModal);
+            closeButton.addEventListener('click', toggleModal);
+
+            // Fermer la modale si l'utilisateur clique sur le fond sombre (backdrop click)
+            modal.addEventListener('click', (e) => {
+                // VÉRIFIE si l'élément cliqué est EXACTEMENT l'élément 'modal' (le fond)
+                if (e.target === modal) {
+                    toggleModal();
+                }
+            });
+        });
+
+    </script>
 
     <style>
         /* Définitions des variables de couleur pour la cohérence */
@@ -25,6 +108,7 @@
         body {
             background-color: var(--color-secondary-bg);
             min-height: 100vh;
+            font-family: 'Inter', sans-serif;
         }
 
         .text-primary-red { color: var(--color-primary-red); }
@@ -37,10 +121,7 @@
         .logo-text strong { color: var(--color-primary-blue); }
         .logo-text span { color: var(--color-primary-red); }
 
-        /* -------------------------------------------
-        MODIFICATIONS DE LA SECTION HÉRO AVEC VIDÉO
-        -------------------------------------------
-        */
+        /* Styles de la Section Héro (inchangés) */
         #hero-banner {
             min-height: 500px;
             display: flex;
@@ -51,19 +132,17 @@
             box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1);
         }
 
-        /* Style pour la vidéo en arrière-plan */
         #hero-video {
             position: absolute;
             top: 50%;
             left: 50%;
             width: 100%;
             height: 100%;
-            object-fit: cover; /* Assure que la vidéo couvre tout l'espace sans déformation */
+            object-fit: cover;
             transform: translate(-50%, -50%);
             z-index: 0;
         }
 
-        /* Overlay semi-transparent BLANC */
         #hero-banner::before {
             content: '';
             position: absolute;
@@ -71,22 +150,19 @@
             right: 0;
             bottom: 0;
             left: 0;
-            /* Dégradé BLANC comme demandé */
             background: linear-gradient(180deg, rgba(255, 255, 255, 0.5) 0%, rgba(255, 255, 255, 0.8) 100%);
             z-index: 1;
         }
 
         #hero-content {
-            z-index: 2; /* S'assurer que le contenu est au-dessus de l'overlay et de la vidéo */
+            z-index: 2;
             max-width: 900px;
             margin: 0 auto;
             text-align: center;
             padding: 2rem;
-            /* La couleur du texte est définie par les classes Tailwind (text-gray-900, text-gray-700) */
         }
 
         .hero-button {
-            /* Style générique pour les boutons CTA */
             font-size: 1.125rem;
             padding: 0.75rem 2rem;
             border-radius: 0.5rem;
@@ -98,6 +174,102 @@
             justify-content: center;
         }
 
+        /* -------------------------------------------
+        STYLE DU BOUTON FLOTTANT (FAB) ET DE LA MODALE
+        -------------------------------------------
+        */
+        #notification-fab {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            background-color: var(--color-primary-red);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
+            transition: transform 0.3s ease, background-color 0.3s ease;
+            cursor: pointer;
+            z-index: 50;
+        }
+
+        #notification-fab:hover {
+            background-color: #c73a30; /* Red darker on hover */
+            transform: scale(1.05);
+        }
+
+        #notification-fab .notification-dot {
+            position: absolute;
+            top: 4px;
+            right: 4px;
+            width: 12px;
+            height: 12px;
+            background-color: #FFD700; /* Yellow/Gold for visibility */
+            border: 2px solid white;
+            border-radius: 50%;
+            animation: pulse-dot 1.5s infinite;
+        }
+        
+        #notification-badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            min-width: 20px;
+            padding: 2px 4px;
+            background-color: var(--color-primary-blue);
+            color: white;
+            border-radius: 9999px; /* Fully rounded */
+            font-size: 0.75rem;
+            font-weight: bold;
+            text-align: center;
+            line-height: 1;
+            pointer-events: none; /* Ne pas bloquer le clic sur le FAB */
+            border: 1px solid white;
+        }
+
+
+        @keyframes pulse-dot {
+            0% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.2); opacity: 0.7; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        /* Style de la Modale */
+        #notification-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.6);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 60;
+            padding: 1rem;
+        }
+        
+        #notification-modal-content {
+            background-color: var(--color-secondary-bg);
+            border-radius: 1rem;
+            width: 100%;
+            max-width: 500px;
+            max-height: 90vh; /* Permet de scroller sur mobile */
+            overflow: hidden;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+            display: flex;
+            flex-direction: column;
+        }
+        
+        #notification-list {
+            padding: 1.5rem;
+            overflow-y: auto;
+            flex-grow: 1;
+        }
+
     </style>
 </head>
 <body>
@@ -105,9 +277,8 @@
     <!-- --- Header (En-tête) - Uniform on all pages --- -->
     <header role="banner">
         <div class="logo-container">
-            <!-- J'ai corrigé le lien du logo -->
-            <img src="logo1.jpeg" alt="Logo Droit Décodé">
             <a href="index.html">
+                <img src="logo1.jpeg" alt="Logo Droit Décodé">
                 <div class="logo-text"><strong>DROIT</strong> <span>DÉCODÉ</span></div>
             </a>
         </div>
@@ -129,9 +300,8 @@
         </button>
     </header>
 
-    <!-- --- Section Héro (Bannière d'accueil avec VRAI fond Vidéo et overlay blanc) --- -->
+    <!-- --- Section Héro (Bannière d'accueil) --- -->
     <section id="hero-banner" role="banner">
-
         <!-- ELEMENT VIDÉO EN ARRIÈRE-PLAN -->
         <video id="hero-video" 
                autoplay 
@@ -146,7 +316,7 @@
         </video>
         <!-- FIN DE L'ELEMENT VIDÉO -->
 
-        <!-- Contenu de la bannière (TEXTE FONCÉ pour contraster avec l'overlay BLANC) -->
+        <!-- Contenu de la bannière -->
         <div id="hero-content" class="container mx-auto">
             <h1 class="text-4xl md:text-6xl font-extrabold mb-4 uppercase tracking-tight text-gray-900">
                 Le Droit, Enfin Décodé.
@@ -156,13 +326,13 @@
             </p>
 
             <div class="flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-6">
-                <!-- Bouton 1 : Articles (Conserve la couleur primaire rouge) -->
+                <!-- Bouton 1 : Articles -->
                 <a href="articles.html" 
                    class="hero-button bg-primary-red hover:bg-red-700 text-white">
                     Explorer les Articles
                 </a>
 
-                <!-- Bouton 2 : Contact (Passe au bleu primaire pour le contraste optimal) -->
+                <!-- Bouton 2 : Contact -->
                 <a href="contact.html" 
                    class="hero-button bg-primary-blue text-white hover:bg-gray-700">
                     Nous Contacter
@@ -171,7 +341,7 @@
         </div>
     </section>
 
-    <!-- --- Section Articles Récents (Utilisation des blocs d'articles créés précédemment) --- -->
+    <!-- --- Section Articles Récents --- -->
     <section class="py-12 md:py-16 px-4 bg-secondary-bg" role="region" aria-labelledby="recent-articles-heading">
         <div class="max-w-7xl mx-auto">
             <h2 id="recent-articles-heading" class="text-3xl font-extrabold text-primary-blue mb-10 text-center border-b-2 border-primary-red pb-2 inline-block mx-auto">
@@ -267,8 +437,46 @@
         </div>
     </footer>
 
+    <!-- --- BOUTON FLOTTANT DE NOTIFICATION (FAB) --- -->
+    <button id="notification-fab" aria-label="Notifications et annonces">
+        <!-- Icône de cloche (SVG pour un meilleur style et contrôle de la couleur/taille) -->
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6">
+            <path d="M6 8a6 6 0 0 1 6-6 6 6 0 0 1 6 6v7.5L12 22 6 15.5V8z"></path>
+            <path d="M10.36 8.35a3.1 3.1 0 0 0-2.83 0"></path>
+            <path d="M13.64 8.35a3.1 3.1 0 0 1 2.83 0"></path>
+        </svg>
+
+        <!-- Point de notification (visible par défaut, caché au clic via le script) -->
+        <span class="notification-dot hidden" title="Nouvelles annonces"></span>
+        <!-- Badge de comptage (visible par défaut, caché au clic via le script) -->
+        <span id="notification-badge" class="hidden">0</span>
+    </button>
+    <!-- -------------------------------------------------------- -->
+    
+    <!-- --- MODALE DES NOTIFICATIONS (Cachée par défaut) --- -->
+    <div id="notification-modal" class="hidden" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+        <div id="notification-modal-content">
+            <!-- Entête de la modale -->
+            <div class="flex justify-between items-center p-4 md:p-6 border-b border-gray-300 bg-white rounded-t-xl">
+                <h3 id="modal-title" class="text-2xl font-bold text-primary-blue">
+                    Annonces et Notifications
+                </h3>
+                <button id="close-modal-btn" class="text-gray-500 hover:text-gray-800 transition duration-150" aria-label="Fermer">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="18" y1="6" x2="6" y2="18"></line>
+                        <line x1="6" y1="6" x2="18" y2="18"></line>
+                    </svg>
+                </button>
+            </div>
+            
+            <!-- Liste des notifications (sera remplie par le JavaScript) -->
+            <ul id="notification-list" class="list-none m-0 p-0 space-y-3">
+                <p class="text-center text-gray-500 py-4">Chargement des annonces...</p>
+            </ul>
+        </div>
+    </div>
+
     <!-- Global JavaScript (Handles menu responsiveness and active link) -->
     <script src="script.js"></script>
 </body>
 </html>
-
