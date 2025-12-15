@@ -1,0 +1,225 @@
+/* --- Global Styles for Droit Décodé --- */
+
+/* Color Variables based on the logo (Red: #E84D3D, Blue: #3498DB) */
+:root {
+    --primary-red: #E84D3D;
+    --primary-blue: #3498DB;
+    --primary-white: #FFFFFF;
+    --text-dark: #2c3e50; /* Darker navy for professional look */
+    --background-light: #F4F4F4;
+    --secondary-bg: #ecf0f1;
+}
+
+/* Base Setup */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', sans-serif; /* Modern, professional font */
+    line-height: 1.6;
+    color: var(--text-dark);
+    background-color: var(--background-light);
+}
+
+a {
+    text-decoration: none;
+    color: var(--primary-blue);
+    transition: color 0.3s ease, opacity 0.3s ease;
+}
+
+a:hover {
+    color: var(--primary-red);
+}
+
+.container {
+    max-width: 1200px;
+    margin: 30px auto;
+    padding: 0 5%;
+    min-height: 70vh; /* Ensures content pushes the footer down */
+}
+
+/* --- Header (En-tête) - Uniformity and Sophistication --- */
+header {
+    background-color: var(--primary-white);
+    padding: 15px 5%;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo-container {
+    display: flex;
+    align-items: center;
+}
+
+.logo-container img {
+    height: 50px;
+    border-radius: 8px; /* Soft edges for modern look */
+}
+
+.logo-text {
+    font-size: 1.8em;
+    font-weight: 800;
+    color: var(--text-dark);
+    margin-left: 10px;
+}
+
+.logo-text span {
+    color: var(--primary-blue);
+}
+
+.logo-text strong {
+    color: var(--primary-red);
+}
+
+/* Sophisticated Menu Styling */
+nav ul {
+    list-style: none;
+    display: flex;
+    align-items: center;
+}
+
+nav ul li {
+    margin-left: 25px;
+}
+
+nav ul li a {
+    color: var(--text-dark);
+    font-weight: 600;
+    font-size: 1.05em;
+    padding: 8px 0;
+    position: relative;
+    /* Sophisticated Underline Effect */
+}
+
+nav ul li a::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 3px;
+    background: var(--primary-red);
+    transition: width 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94); /* Smooth and distinct transition */
+    bottom: -5px;
+    left: 0;
+}
+
+nav ul li a:hover::after,
+nav ul li a.active::after {
+    width: 100%;
+}
+
+.contact-btn {
+    background-color: var(--primary-red);
+    color: var(--primary-white) !important;
+    padding: 10px 20px;
+    border-radius: 6px;
+    margin-left: 30px;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    box-shadow: 0 4px 6px rgba(232, 77, 61, 0.3);
+}
+
+.contact-btn:hover {
+    background-color: #d64536; /* Slightly darker red */
+    transform: translateY(-2px);
+}
+
+.menu-toggle {
+    display: none;
+    font-size: 2em;
+    cursor: pointer;
+    color: var(--primary-red);
+}
+
+/* --- Footer (Bas de page) - Uniformity --- */
+footer {
+    background-color: var(--text-dark);
+    color: var(--background-light);
+    padding: 30px 5%;
+    text-align: center;
+    border-top: 5px solid var(--primary-blue); /* Distinct border */
+}
+
+.footer-content {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.footer-content p {
+    margin: 5px 0;
+    font-size: 0.9em;
+}
+
+.footer-links a {
+    color: var(--secondary-bg);
+    margin: 0 10px;
+    font-weight: 300;
+}
+
+.footer-links a:hover {
+    color: var(--primary-red);
+}
+
+/* --- General Content Styles --- */
+h1, h2, h3 {
+    margin-bottom: 20px;
+    font-weight: 700;
+    line-height: 1.2;
+    color: var(--text-dark);
+}
+
+h1 {
+    font-size: 2.5em;
+}
+
+/* Responsive Design for Mobile */
+@media (max-width: 900px) {
+    header {
+        padding: 15px 4%;
+    }
+    nav {
+        display: none; /* Hidden by default on mobile */
+        position: absolute;
+        top: 80px;
+        left: 0;
+        width: 100%;
+        background-color: var(--primary-white);
+        box-shadow: 0 10px 10px rgba(0, 0, 0, 0.05);
+        z-index: 999;
+        flex-direction: column;
+    }
+
+    nav.active {
+        display: block; /* Shown when active */
+    }
+
+    nav ul {
+        flex-direction: column;
+        padding: 20px 0;
+    }
+
+    nav ul li {
+        margin: 10px 0;
+        text-align: center;
+    }
+    
+    .contact-btn {
+        margin-left: 0;
+        margin-top: 10px;
+    }
+
+    .menu-toggle {
+        display: block;
+    }
+
+    .container {
+        padding: 0 4%;
+    }
+}
+
