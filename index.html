@@ -5,30 +5,46 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Droit Décodé - Accueil</title>
 
+    <!-- CHEMIN DU STYLE RESTAURÉ -->
     <link rel="stylesheet" href="style.css">
     <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#E84D3D"> 
-    <script src="https://cdn.tailwindcss.com"></script> <!-- Included Tailwind for modern element styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Customizing Tailwind colors for consistent branding -->
+    <style>
+        :root {
+            --color-primary-red: #E84D3D;
+            --color-primary-blue: #3E4B7A; /* Deep, professional blue */
+            --color-secondary-bg: #F8F9FA;
+        }
+        .text-primary-red { color: var(--color-primary-red); }
+        .bg-primary-red { background-color: var(--color-primary-red); }
+        .text-primary-blue { color: var(--color-primary-blue); }
+        .bg-primary-blue { background-color: var(--color-primary-blue); }
+        .border-primary-red { border-color: var(--color-primary-red); }
+        .border-primary-blue { border-color: var(--color-primary-blue); }
+    </style>
 </head>
 <body>
 
     <!-- --- Header (En-tête) - Uniform on all pages --- -->
     <header>
         <div class="logo-container">
+            <!-- CHEMIN DE L'IMAGE RESTAURÉ -->
             <img src="logo1.jpeg" alt="Droit Décodé Logo">
             <div class="logo-text"><strong>DROIT</strong> <span>DÉCODÉ</span></div>
         </div>
 
         <nav>
             <ul>
-                <li><a href="index.html">Accueil</a></li>
+                <li><a href="index.html" class="active">Accueil</a></li>
                 <li><a href="articles.html">Articles & Explications</a></li>
                 <li><a href="tiktok.html">TikTok Publications</a></li>
                 <li><a href="about.html">À Propos</a></li>
                 <li><a href="contact.html" class="contact-btn">Contact</a></li>
             </ul>
         </nav>
-        
+
         <div class="menu-toggle">
             &#9776; <!-- Burger Icon -->
         </div>
@@ -36,48 +52,101 @@
 
     <!-- --- Main Content: Accueil --- -->
     <main class="container">
-        <!-- Hero Section: Dynamic and engaging -->
-        <section class="p-10 md:p-20 bg-primary-blue text-primary-white rounded-xl shadow-xl mb-12">
-            <h1 class="text-4xl md:text-5xl font-extrabold mb-4 border-b-4 border-primary-red inline-block pb-2">
-                Décoder la Loi. Simplifier le Droit.
-            </h1>
-            <p class="text-lg md:text-xl font-light mb-8">
-                Votre plateforme essentielle pour maîtriser les notions juridiques, du Code Civil aux dernières jurisprudences.
-            </p>
-            <a href="articles.html" class="bg-primary-red hover:bg-white hover:text-primary-red transition duration-300 ease-in-out text-white font-bold py-3 px-6 rounded-full shadow-lg transform hover:scale-105">
-                Explorer nos Ressources
-            </a>
+        
+        <!-- Hero Section: High Impact and Trustworthy -->
+        <section class="flex flex-col lg:flex-row items-center justify-between p-8 md:p-12 bg-primary-blue text-white rounded-xl shadow-2xl mb-16 transform transition duration-500 hover:scale-[1.005]">
+            <div class="lg:w-3/5 text-center lg:text-left mb-6 lg:mb-0">
+                <h1 class="text-4xl md:text-6xl font-extrabold mb-4 leading-tight">
+                    Le Droit <span class="text-primary-red">Simplifié</span>. La Connaissance <span class="text-primary-red">Accessible</span>.
+                </h1>
+                <p class="text-lg md:text-xl font-light opacity-90 mb-8">
+                    Notre mission : Transformer la complexité juridique en explications claires et dynamiques pour les étudiants et les professionnels.
+                </p>
+                <div class="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4 justify-center lg:justify-start">
+                    <a href="articles.html" class="bg-primary-red hover:bg-white hover:text-primary-red transition duration-300 ease-in-out text-white font-bold py-3 px-8 rounded-full shadow-xl transform hover:-translate-y-0.5">
+                        Lire nos Articles Juridiques
+                    </a>
+                    <a href="tiktok.html" class="bg-white text-primary-blue hover:bg-primary-red hover:text-white transition duration-300 ease-in-out font-bold py-3 px-8 rounded-full shadow-xl transform hover:-translate-y-0.5">
+                        Voir les Vidéos TikTok
+                    </a>
+                </div>
+            </div>
+            
+            <!-- Trust Icon/Image Placeholder -->
+            <div class="lg:w-2/5 flex justify-center">
+                <svg class="w-32 h-32 md:w-48 md:h-48 text-primary-red opacity-80" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm0 10.99c-3.14 0-5.7-2.56-5.7-5.7s2.56-5.7 5.7-5.7 5.7 2.56 5.7 5.7-2.56 5.7-5.7 5.7zm0-9.4c-2.09 0-3.8 1.71-3.8 3.8s1.71 3.8 3.8 3.8 3.8-1.71 3.8-3.8-1.71-3.8-3.8-3.8z"/>
+                </svg>
+            </div>
+        </section>
+
+        <!-- Value Proposition Section: Why Choose Us -->
+        <section class="mb-16 text-center">
+            <h2 class="text-3xl font-bold mb-10 text-primary-blue">Votre Avantage Droit Décodé</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                
+                <!-- Card 1: Expertise -->
+                <div class="p-6 rounded-xl shadow-lg border-t-4 border-primary-red bg-secondary-bg hover:shadow-xl transition duration-300">
+                    <div class="text-4xl mb-3 text-primary-red">🎓</div>
+                    <h3 class="text-xl font-semibold mb-2">Expertise Vérifiée</h3>
+                    <p class="text-gray-600">Des contenus rédigés et validés par des juristes diplômés et des praticiens du droit.</p>
+                </div>
+
+                <!-- Card 2: Accessibilité -->
+                <div class="p-6 rounded-xl shadow-lg border-t-4 border-primary-blue bg-secondary-bg hover:shadow-xl transition duration-300">
+                    <div class="text-4xl mb-3 text-primary-blue">⏱️</div>
+                    <h3 class="text-xl font-semibold mb-2">Format Adapté à l'Ère Digitale</h3>
+                    <p class="text-gray-600">Des articles détaillés pour les études, et des vidéos TikTok courtes pour une révision rapide.</p>
+                </div>
+
+                <!-- Card 3: Clarté -->
+                <div class="p-6 rounded-xl shadow-lg border-t-4 border-primary-red bg-secondary-bg hover:shadow-xl transition duration-300">
+                    <div class="text-4xl mb-3 text-primary-red">💡</div>
+                    <h3 class="text-xl font-semibold mb-2">Clarté Maximale</h3>
+                    <p class="text-gray-600">Fini le jargon illisible. Nous rendons les concepts les plus complexes limpides.</p>
+                </div>
+
+            </div>
         </section>
 
         <!-- Featured Content Grid -->
         <section class="mb-12">
-            <h2 class="text-3xl font-bold mb-6 text-center text-primary-red">Nos Derniers Décryptages</h2>
+            <h2 class="text-3xl font-bold mb-8 text-center text-primary-red">En Vedette: Nos Derniers Contenus</h2>
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                
-                <!-- Article Card 1 -->
-                <div class="bg-primary-white p-6 rounded-lg shadow-lg hover:shadow-2xl transition duration-300 border-t-4 border-primary-blue">
-                    <h3 class="text-xl font-semibold text-primary-blue">Le Contrat: Les 3 piliers essentiels</h3>
-                    <p class="text-sm text-gray-500 mb-4">Article - Droit Civil</p>
-                    <p>Analyse simplifiée des conditions de validité du contrat: consentement, capacité et contenu licite et certain.</p>
-                    <a href="articles.html" class="mt-4 inline-block text-primary-red font-medium">Lire la suite &rarr;</a>
+
+                <!-- Article Card 1 (Refined Look) -->
+                <div class="bg-white p-6 rounded-xl shadow-xl hover:shadow-2xl transition duration-300 border-l-4 border-primary-blue">
+                    <h3 class="text-xl font-bold text-primary-blue mb-2">Le Contrat: Les 3 piliers essentiels</h3>
+                    <p class="text-sm text-gray-500 mb-4 font-medium">Article - Droit Civil</p>
+                    <p class="text-gray-700">Analyse simplifiée des conditions de validité du contrat: consentement, capacité et contenu licite et certain.</p>
+                    <a href="articles.html" class="mt-4 inline-flex items-center text-primary-red font-semibold hover:underline">Lire la suite &rarr;</a>
                 </div>
 
-                <!-- TikTok Highlight Card -->
-                <div class="bg-primary-white p-6 rounded-lg shadow-lg hover:shadow-2xl transition duration-300 border-t-4 border-primary-red">
-                    <h3 class="text-xl font-semibold text-primary-red">TikTok: La faute dans la responsabilité civile</h3>
-                    <p class="text-sm text-gray-500 mb-4">Vidéo - 60 secondes d'explication</p>
-                    <p>Un aperçu rapide de ce qui constitue une faute au sens de l'article 1240 du Code Civil.</p>
-                    <a href="tiktok.html" class="mt-4 inline-block text-primary-blue font-medium">Voir la vidéo &rarr;</a>
+                <!-- TikTok Highlight Card (Refined Look) -->
+                <div class="bg-white p-6 rounded-xl shadow-xl hover:shadow-2xl transition duration-300 border-l-4 border-primary-red">
+                    <h3 class="text-xl font-bold text-primary-red mb-2">TikTok: La faute dans la responsabilité civile</h3>
+                    <p class="text-sm text-gray-500 mb-4 font-medium">Vidéo - 60 secondes d'explication</p>
+                    <p class="text-gray-700">Un aperçu rapide de ce qui constitue une faute au sens de l'article 1240 du Code Civil.</p>
+                    <a href="tiktok.html" class="mt-4 inline-flex items-center text-primary-blue font-semibold hover:underline">Voir la vidéo &rarr;</a>
                 </div>
-                
-                <!-- Case Comment Card -->
-                <div class="bg-primary-white p-6 rounded-lg shadow-lg hover:shadow-2xl transition duration-300 border-t-4 border-primary-blue">
-                    <h3 class="text-xl font-semibold text-primary-blue">Commentaire d'arrêt: Cour de cassation, 2024</h3>
-                    <p class="text-sm text-gray-500 mb-4">Jurisprudence - Procédure</p>
-                    <p>Le commentaire rédigé et la structure de la décision la plus récente en matière de procédure pénale.</p>
-                    <a href="articles.html" class="mt-4 inline-block text-primary-red font-medium">Télécharger &rarr;</a>
+
+                <!-- Case Comment Card (Refined Look) -->
+                <div class="bg-white p-6 rounded-xl shadow-xl hover:shadow-2xl transition duration-300 border-l-4 border-primary-blue">
+                    <h3 class="text-xl font-bold text-primary-blue mb-2">Commentaire d'arrêt: Cour de cassation, 2024</h3>
+                    <p class="text-sm text-gray-500 mb-4 font-medium">Jurisprudence - Procédure</p>
+                    <p class="text-gray-700">Le commentaire rédigé et la structure de la décision la plus récente en matière de procédure pénale.</p>
+                    <a href="articles.html" class="mt-4 inline-flex items-center text-primary-red font-semibold hover:underline">Télécharger &rarr;</a>
                 </div>
             </div>
+        </section>
+        
+        <!-- CTA Footer Section -->
+        <section class="bg-primary-red p-10 rounded-xl shadow-xl text-center text-white mb-12">
+            <h2 class="text-3xl font-bold mb-4">Une question juridique spécifique ?</h2>
+            <p class="text-lg mb-6">Contactez notre équipe directement et recevez une réponse d'expert.</p>
+            <a href="contact.html" class="bg-white text-primary-red hover:bg-primary-blue hover:text-white transition duration-300 ease-in-out font-bold py-3 px-8 rounded-full shadow-lg transform hover:scale-105">
+                Nous Contacter Maintenant
+            </a>
         </section>
 
     </main>
@@ -92,10 +161,11 @@
                 <a href="contact.html">Contact</a> | 
                 <a href="#">Mentions Légales</a>
             </div>
-            <p>Email: Contact à fournir plus tard</p>
+            <p>Email: contact@votreemail.com</p>
         </div>
     </footer>
 
+    <!-- CHEMIN DU SCRIPT RESTAURÉ -->
     <script src="script.js"></script>
 </body>
 </html>
