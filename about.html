@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Droit Décodé - À Propos</title>
 
-    <link rel="stylesheet" href="style.css">
     <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#E84D3D"> 
     <script src="https://cdn.tailwindcss.com"></script>
@@ -45,137 +44,84 @@
         .border-primary-red { border-color: var(--color-primary-red); }
         .border-primary-blue { border-color: var(--color-primary-blue); }
 
-        /* Header logo colors (consistent with style.css intent) */
-        .logo-text strong { color: var(--color-primary-blue); }
-        .logo-text span { color: var(--color-primary-red); }
+        /* Header & Nav Styles */
+        .logo-text strong { color: var(--color-primary-blue); font-weight: 700; }
+        .logo-text span { color: var(--color-primary-red); font-weight: 700; }
+        .logo-container a { display: flex; align-items: center; text-decoration: none; }
+        .logo-container img { height: 40px; width: 40px; border-radius: 50%; margin-right: 10px; }
+        .logo-text { font-size: 1.5rem; line-height: 1; font-weight: 300; }
         
-        /* Active Link Styling (Manually added for about.html) */
+        header { display: flex; justify-content: space-between; align-items: center; padding: 1rem 2rem; background-color: white; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05); }
+        header nav ul { display: flex; list-style: none; gap: 1.5rem; margin: 0; padding: 0; align-items: center; }
+        header nav ul li a { color: #4B5563; text-decoration: none; padding: 0.5rem 0; transition: color 0.3s; }
+        header nav ul li a:hover { color: var(--color-primary-red); }
+
+        /* Nav Buttons */
+        .contact-btn, .log-btn { padding: 0.5rem 1rem; border-radius: 0.5rem; font-weight: 600; }
+        .contact-btn { background-color: var(--color-primary-red); color: white !important; }
+        .log-btn { border: 1px solid var(--color-primary-blue); color: var(--color-primary-blue) !important; }
+        .admin-action-btn { 
+            padding: 0.5rem 1rem; 
+            border-radius: 0.5rem; 
+            font-weight: 600; 
+            transition: background-color 0.3s;
+            cursor: pointer;
+            border: none;
+        }
+        .edit-mode-btn { background-color: var(--color-primary-blue); color: white !important; }
+        .edit-mode-btn:hover { background-color: #313c63; }
+        .save-btn { background-color: #10B981; color: white !important; } /* Emerald Green */
+        .save-btn:hover { background-color: #059669; }
+        .cancel-btn { background-color: #FBBF24; color: #1F2937 !important; } /* Amber Yellow */
+        .cancel-btn:hover { background-color: #F59E0B; }
+
+        /* Active Link Styling */
         header nav ul li a.active {
             color: var(--color-primary-red);
             font-weight: 700;
             border-bottom: 2px solid var(--color-primary-red);
         }
 
-        /* -------------------------------------------
-        STYLE DU BOUTON FLOTTANT (FAB) ET MODAL
-        -------------------------------------------
-        */
-        #notification-fab {
-            position: fixed;
-            bottom: 2rem;
-            right: 2rem;
-            width: 56px;
-            height: 56px;
-            border-radius: 50%;
-            background-color: var(--color-primary-red);
-            color: white;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
-            transition: transform 0.3s ease, background-color 0.3s ease;
-            cursor: pointer; /* Curseur cliquable */
-            z-index: 1000; /* Assurer qu'il est au-dessus de tout */
-            border: none;
+        /* Styling for editable content */
+        .editable-content:focus {
+            outline: 2px solid var(--color-primary-red);
+            outline-offset: 4px;
+            background-color: #fff9f9;
+        }
+        .editable-content[contenteditable="true"] {
+            cursor: text;
         }
 
-        #notification-fab:hover {
-            background-color: #c73a30; /* Red darker on hover */
-            transform: scale(1.05); 
-        }
-
-        #notification-fab .notification-dot {
-            position: absolute;
-            top: 4px;
-            right: 4px;
-            width: 12px;
-            height: 12px;
-            background-color: #FFD700; /* Yellow/Gold for visibility */
-            border: 2px solid white;
-            border-radius: 50%;
-            animation: pulse-dot 1.5s infinite;
+        /* Responsive menu */
+        .menu-toggle { display: none; }
+        @media (max-width: 640px) {
+            header nav ul { display: none; flex-direction: column; position: absolute; top: 60px; right: 0; width: 100%; background-color: white; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); padding: 1rem 0; z-index: 50; align-items: stretch; }
+            header nav ul.open { display: flex; }
+            header nav ul li { width: 100%; text-align: center; padding: 0.5rem 0; border-bottom: 1px solid #eee; }
+            header nav ul li:last-child { border-bottom: none; }
+            .menu-toggle { display: block; background: none; border: none; font-size: 1.5rem; cursor: pointer; color: var(--color-primary-blue); }
+            header nav ul li a.admin-action-btn { display: block; width: auto; margin: 0 1rem; }
         }
         
-        /* Cacher la cloche si le badge n'est pas là ou si la liste est vide */
-        #notification-fab[data-unread="0"] .notification-dot {
-            display: none;
+        /* Loading spinner */
+        .spinner {
+            border: 4px solid rgba(0, 0, 0, 0.1);
+            border-left-color: var(--color-primary-red);
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            animation: spin 1s linear infinite;
         }
-
-        #notification-badge {
-            position: absolute;
-            top: -5px;
-            right: -5px;
-            min-width: 20px;
-            padding: 2px 4px;
-            background-color: var(--color-primary-blue);
-            color: white;
-            border-radius: 9999px; /* Fully rounded */
-            font-size: 0.75rem;
-            font-weight: bold;
-            text-align: center;
-            line-height: 1;
-            pointer-events: none;
-            border: 1px solid white;
-            display: none; /* Caché par défaut, affiché par JS */
-        }
-        #notification-fab[data-unread]:not([data-unread="0"]) #notification-badge {
-            display: block;
-        }
-
-
-        @keyframes pulse-dot {
-            0% { transform: scale(1); opacity: 1; }
-            50% { transform: scale(1.2); opacity: 0.7; }
-            100% { transform: scale(1); opacity: 1; }
-        }
-
-        /* Style pour le panneau de notifications (Modal) */
-        #notification-panel {
-            position: fixed;
-            bottom: 80px; /* Au-dessus du FAB */
-            right: 2rem;
-            width: 90%;
-            max-width: 380px;
-            max-height: 450px;
-            background-color: white;
-            border-radius: 12px;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
-            z-index: 999;
-            overflow: hidden;
-            display: none; /* Caché par défaut */
-            transform: translateY(20px);
-            opacity: 0;
-            transition: opacity 0.3s ease, transform 0.3s ease;
-        }
-
-        #notification-panel.open {
-            display: block;
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        /* Mobile Adjustments for Panel */
-        @media (max-width: 640px) {
-            #notification-panel {
-                bottom: 1rem;
-                right: 1rem;
-                left: 1rem;
-                max-width: none;
-                max-height: 70vh;
-            }
-            #notification-fab {
-                bottom: 1rem;
-                right: 1rem;
-            }
+        @keyframes spin {
+            to { transform: rotate(360deg); }
         }
     </style>
 </head>
 <body>
 
-    <!-- --- Header (En-tête) - Uniform on all pages --- -->
+    <!-- 1. Header (En-tête) -->
     <header role="banner">
         <div class="logo-container">
-            <!-- Mise à jour: Le lien href="index.html" englobe tout le logo -->
             <a href="index.html">
                 <img src="logo1.jpeg" alt="Droit Décodé Logo">
                 <div class="logo-text"><strong>DROIT</strong> <span>DÉCODÉ</span></div>
@@ -183,12 +129,20 @@
         </div>
 
         <nav role="navigation" aria-label="Menu principal du site">
-            <ul>
+            <ul id="main-navigation">
                 <li><a href="index.html">Accueil</a></li>
                 <li><a href="articles.html">Articles & Explications</a></li>
+                <!-- ADMIN EDIT BUTTONS CONTAINER -->
+                <li id="admin-actions-container" class="hidden flex gap-2">
+                    <!-- Les boutons Sauvegarder/Annuler/Éditer seront insérés ici par JS -->
+                </li>
                 <li><a href="tiktok.html">TikTok Publications</a></li>
-                <li><a href="about.html" class="active" aria-current="page">À Propos</a></li>
+                <li class="relative"><a href="about.html" class="active" aria-current="page">À Propos</a></li>
                 <li><a href="contact.html" class="contact-btn">Contact</a></li>
+                <!-- Auth Link -->
+                <li id="auth-link-container">
+                    <a href="login.html" class="log-btn" id="auth-link">Se connecter</a>
+                </li>
             </ul>
         </nav>
 
@@ -198,20 +152,23 @@
         </button>
     </header>
 
-    <!-- --- Main Content: À Propos --- -->
+    <!-- 2. Main Content: À Propos -->
     <main class="container">
-        <h1 class="text-4xl md:text-5xl font-extrabold mb-10 text-center text-primary-blue border-b-4 pb-3 border-primary-red">
-            Droit Décodé : Transformer la Complexité en Clarté
+        <!-- Main Title (Editable) -->
+        <h1 id="main-title" class="text-4xl md:text-5xl font-extrabold mb-10 text-center text-primary-blue border-b-4 pb-3 border-primary-red editable-content">
+            <!-- Content will be loaded from Firestore -->
+            <div id="title-placeholder" class="spinner mx-auto"></div>
         </h1>
 
         <section class="bg-white p-8 rounded-xl shadow-2xl mb-12">
-            
-            <!-- Mission et Problématique (Plus percutant) -->
+
+            <!-- Mission Text (Editable) -->
             <h2 class="text-3xl font-bold mb-6 text-primary-red">Notre Mission Fondatrice</h2>
-            <p class="text-xl mb-8 leading-relaxed border-l-4 border-primary-blue pl-4 italic text-gray-700">
-                Le droit est le fondement de notre société, mais son accès et sa compréhension ne devraient pas être un privilège. Chez **Droit Décodé**, nous avons une mission claire : **briser les barrières de la complexité juridique**. Nous sommes déterminés à rendre le savoir juridique non seulement accessible, mais également engageant et immédiatement applicable pour tous.
+            <p id="mission-text" class="text-xl mb-8 leading-relaxed border-l-4 border-primary-blue pl-4 italic text-gray-700 editable-content">
+                 <!-- Content will be loaded from Firestore -->
             </p>
 
+            <!-- Non-editable structural content for simplification -->
             <h2 class="text-2xl font-semibold text-primary-blue mt-10 mb-4 border-b pb-2">Pour Qui ?</h2>
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6 text-center mb-10">
                 <div class="p-4 bg-primary-red text-white rounded-lg shadow-md">
@@ -231,36 +188,31 @@
                 </div>
             </div>
 
-
             <h2 class="text-2xl font-semibold text-primary-blue mt-10 mb-4 border-b pb-2">Notre Valeur Ajoutée : Un Contenu Structuré</h2>
             <ul class="list-none space-y-4 pl-0 text-gray-700">
+                <!-- Content here is static for this version to focus on main text editing -->
                 <li class="flex items-start p-4 bg-secondary-bg rounded-lg shadow-sm border-l-4 border-primary-red">
                     <span class="text-2xl mr-3">✍️</span>
-                    <div>
-                        <span class="font-bold text-primary-blue">Décryptage de Fond (Articles & Synthèses)</span>
-                        <p class="text-sm mt-1">Des analyses approfondies et des synthèses structurées sur les concepts clés et les nouvelles législations, rédigées pour l'excellence académique et professionnelle.</p>
-                    </div>
+                    <div><span class="font-bold text-primary-blue">Décryptage de Fond (Articles & Synthèses)</span>
+                    <p class="text-sm mt-1">Des analyses approfondies et des synthèses structurées sur les concepts clés et les nouvelles législations, rédigées pour l'excellence académique et professionnelle.</p></div>
                 </li>
                 <li class="flex items-start p-4 bg-secondary-bg rounded-lg shadow-sm border-l-4 border-primary-blue">
                     <span class="text-2xl mr-3">⚖️</span>
-                    <div>
-                        <span class="font-bold text-primary-red">Jurisprudence en Clair (Commentaires d'Arrêt)</span>
-                        <p class="text-sm mt-1">Des fiches d'arrêts et des commentaires de décisions judiciaires majeures, essentiels pour maîtriser la pratique du droit et la méthode juridique.</p>
-                    </div>
+                    <div><span class="font-bold text-primary-red">Jurisprudence en Clair (Commentaires d'Arrêt)</span>
+                    <p class="text-sm mt-1">Des fiches d'arrêts et des commentaires de décisions judiciaires majeures, essentiels pour maîtriser la pratique du droit et la méthode juridique.</p></div>
                 </li>
                 <li class="flex items-start p-4 bg-secondary-bg rounded-lg shadow-sm border-l-4 border-primary-red">
                     <span class="text-2xl mr-3">🎥</span>
-                    <div>
-                        <span class="font-bold text-primary-blue">Le Droit 2.0 (Contenu Multimédia)</span>
-                        <p class="text-sm mt-1">Des capsules TikTok dynamiques pour un apprentissage rapide, visuel et parfaitement adapté aux réseaux sociaux.</p>
-                    </div>
+                    <div><span class="font-bold text-primary-blue">Le Droit 2.0 (Contenu Multimédia)</span>
+                    <p class="text-sm mt-1">Des capsules TikTok dynamiques pour un apprentissage rapide, visuel et parfaitement adapté aux réseaux sociaux.</p></div>
                 </li>
             </ul>
 
+            <!-- Engagement Text (Editable) -->
             <div class="mt-12 p-6 bg-primary-blue text-white rounded-xl shadow-2xl">
-                <h3 class="text-2xl font-bold mb-3">Notre Engagement de Rigueur</h3>
-                <p class="text-lg">
-                    **L'Expertise est Notre Priorité.** Tous nos contenus sont élaborés, relus et validés par une équipe de **juristes qualifiés**, garantissant une rigueur irréprochable et une actualisation constante face aux évolutions législatives. Droit Décodé est la référence pour transformer la complexité en clarté.
+                <h3 class="text-2xl font-bold mb-3" id="engagement-title">Notre Engagement de Rigueur</h3>
+                <p id="engagement-text" class="text-lg editable-content">
+                    <!-- Content will be loaded from Firestore -->
                 </p>
             </div>
         </section>
@@ -268,34 +220,28 @@
     </main>
     <!-- -------------------------------------------------------- -->
 
-    <!-- --- Footer (Bas de page) - Uniform on all pages --- -->
+    <!-- 3. Footer -->
     <footer role="contentinfo">
         <div class="footer-content">
             <p>&copy; 2025 Droit Décodé. Tous droits réservés.</p>
             <div class="footer-links">
                 <a href="about.html">À Propos</a> | 
                 <a href="contact.html">Contact</a> | 
-                <a href="mentions.html">Mentions Légales</a> <!-- Lien mis à jour ici -->
+                <a href="mentions.html">Mentions Légales</a>
             </div>
             <p>Email: droitdecode@gmail.com</p>
         </div>
     </footer>
 
-    <!-- --- BOUTON FLOTTANT DE NOTIFICATION (FAB) --- -->
+    <!-- 4. Notification FAB & Modal (Omitted for brevity in this section, kept in script) -->
     <button id="notification-fab" aria-label="Notifications et annonces">
-        <!-- Icône de cloche -->
         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6">
             <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
             <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
         </svg>
-
-        <!-- Point de notification/Badge (Contient le nombre de notifications non lues) -->
         <span class="notification-dot" title="Nouvelles annonces"></span>
         <span id="notification-badge" data-count="2">2</span>
     </button>
-    <!-- -------------------------------------------------------- -->
-
-    <!-- --- MODAL DE NOTIFICATION --- -->
     <div id="notification-panel" role="dialog" aria-modal="true" aria-labelledby="notification-title">
         <div class="p-4 border-b border-gray-100 flex justify-between items-center bg-gray-50">
             <h3 id="notification-title" class="text-xl font-bold text-primary-blue">Annonces Droit Décodé</h3>
@@ -305,52 +251,275 @@
                 </svg>
             </button>
         </div>
-        
-        <!-- Liste des notifications -->
-        <div id="notification-list" class="p-2 space-y-2 overflow-y-auto max-h-[380px]">
-            <!-- Les notifications seront générées ici par le script -->
-        </div>
-        
+        <div id="notification-list" class="p-2 space-y-2 overflow-y-auto max-h-[380px]"></div>
         <div id="no-notifications" class="text-center p-6 text-gray-500 hidden">
             Aucune nouvelle annonce pour le moment.
         </div>
     </div>
 
+    <!-- 5. Scripts JS & Firebase -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getFirestore, doc, setDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
-    <script src="script.js"></script>
+        // --- GLOBAL CONSTANTS ---
+        const ADMIN_UID = "v4086Cxmi9PMI31GUBZzY8rHyIA3";
+        const CONTENT_DOC_PATH = 'about/main_content'; // Simplified path within 'about_content' collection
 
-    <script>
-        // --- JAVASCRIPT POUR LA CLOCHE DE NOTIFICATION ---
+        // --- FIREBASE SETUP ---
+        const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
+        const firebaseConfig = JSON.parse(typeof __firebase_config !== 'undefined' ? __firebase_config : '{}');
+        const initialAuthToken = typeof __initial_auth_token !== 'undefined' ? __initial_auth_token : null;
 
-        // 1. Définition des notifications (MODIFIEZ CE TABLEAU POUR METTRE À JOUR LES ANNONCES)
-        const NOTIFICATIONS_DATA = [
-            {
-                id: 1,
-                title: "🚨 Nouvelle Section : Mentions Légales",
-                content: "La page 'Mentions Légales' est maintenant en ligne ! Consultez-la via le pied de page pour plus de transparence.",
-                date: "Aujourd'hui",
-                link: "mentions.html",
-                read: false 
-            },
-            {
-                id: 2,
-                title: "📚 Mise à jour des Articles Clés",
-                content: "Tous les articles de 'Droit Civil' ont été revus et mis à jour avec les dernières réformes législatives. Bonne lecture !",
-                date: "Hier",
-                link: "articles.html",
-                read: false
-            },
-            {
-                id: 3,
-                title: "🎉 Lancement du Site Officiel",
-                content: "Bienvenue sur le site officiel de Droit Décodé ! Plus de contenu, plus de clarté. N'hésitez pas à nous contacter.",
-                date: "Il y a 3 jours",
-                link: "contact.html",
-                read: true
+        let db, auth, userId;
+        let isAuthReady = false;
+        let isEditing = false;
+        let originalContent = {}; // To store the content before editing for the Cancel function
+
+        // Elements DOM for editing
+        const mainTitleEl = document.getElementById('main-title');
+        const missionTextEl = document.getElementById('mission-text');
+        const engagementTextEl = document.getElementById('engagement-text');
+        const editableElements = [mainTitleEl, missionTextEl, engagementTextEl];
+
+        // Placeholder content structure if Firestore is empty
+        const DEFAULT_CONTENT = {
+            mainTitle: "Droit Décodé : Transformer la Complexité en Clarté",
+            missionText: "Le droit est le fondement de notre société, mais son accès et sa compréhension ne devraient pas être un privilège. Chez **Droit Décodé**, nous avons une mission claire : **briser les barrières de la complexité juridique**. Nous sommes déterminés à rendre le savoir juridique non seulement accessible, mais également engageant et immédiatement applicable pour tous.",
+            engagementText: "**L'Expertise est Notre Priorité.** Tous nos contenus sont élaborés, relus et validés par une équipe de **juristes qualifiés**, garantissant une rigueur irréprochable et une actualisation constante face aux évolutions législatives. Droit Décodé est la référence pour transformer la complexité en clarté.",
+        };
+
+        // --- UTILITY FUNCTIONS ---
+        function getDisplayName(user) {
+            if (user.uid === ADMIN_UID) return "Admin";
+            if (user.email) return user.email.split('@')[0];
+            return "Utilisateur";
+        }
+
+        /**
+         * Met à jour le bouton de connexion/déconnexion et initialise l'écouteur de contenu.
+         * @param {Object | null} user L'objet utilisateur Firebase.
+         */
+        function updateAuthUI(user) {
+            const authLink = document.getElementById('auth-link');
+            if (!authLink) return;
+
+            if (user) {
+                const userName = getDisplayName(user);
+                authLink.textContent = `Déconnexion (${userName})`;
+                authLink.href = '#'; 
+                authLink.classList.remove('log-btn');
+                authLink.classList.add('bg-primary-red', 'text-white', 'hover:bg-red-700', 'border-transparent'); 
+                
+                authLink.onclick = async (e) => {
+                    e.preventDefault();
+                    try {
+                        await signOut(auth);
+                        window.location.reload(); 
+                    } catch (error) {
+                        console.error("Erreur déconnexion:", error.message);
+                    }
+                };
+            } else {
+                authLink.textContent = 'Se connecter';
+                authLink.href = 'login.html'; // Supposons l'existence d'une page login.html
+                authLink.classList.add('log-btn');
+                authLink.classList.remove('bg-primary-red', 'text-white', 'hover:bg-red-700', 'border-transparent');
+                authLink.onclick = null;
             }
+
+            updateAdminUI(user);
+        }
+
+        /**
+         * Active/Désactive le mode édition pour l'admin.
+         * @param {boolean} enable Si true, active l'édition.
+         */
+        function toggleEditMode(enable) {
+            isEditing = enable;
+            
+            editableElements.forEach(el => {
+                el.contentEditable = enable ? "true" : "false";
+                if (enable) {
+                    el.classList.add('p-2', 'rounded-lg', 'editable-content');
+                } else {
+                    el.classList.remove('p-2', 'rounded-lg', 'editable-content');
+                }
+            });
+
+            // Mettre à jour les boutons d'action
+            renderAdminActions(isEditing);
+            
+            // Si on sort du mode édition (via Cancel ou Save), assure la mise à jour
+            if (!enable) {
+                // Si on sort par Cancel, on restaure le contenu
+                if (mainTitleEl.textContent !== originalContent.mainTitle) {
+                    mainTitleEl.innerHTML = originalContent.mainTitle;
+                }
+            } else {
+                // Si on entre en mode édition, on sauvegarde l'état original
+                originalContent.mainTitle = mainTitleEl.innerHTML;
+                originalContent.missionText = missionTextEl.innerHTML;
+                originalContent.engagementText = engagementTextEl.innerHTML;
+            }
+        }
+
+        /**
+         * Rend les boutons d'action de l'administrateur (Éditer / Sauvegarder & Annuler).
+         * @param {boolean} inEditMode Si l'utilisateur est en mode édition.
+         */
+        function renderAdminActions(inEditMode) {
+            const container = document.getElementById('admin-actions-container');
+            if (!container || !isAuthReady || userId !== ADMIN_UID) {
+                container?.classList.add('hidden');
+                return;
+            }
+            container.classList.remove('hidden');
+            container.innerHTML = '';
+            
+            if (inEditMode) {
+                // Boutons Sauvegarder et Annuler
+                const saveBtn = document.createElement('button');
+                saveBtn.id = 'save-btn';
+                saveBtn.className = 'admin-action-btn save-btn';
+            
+                saveBtn.className = 'admin-action-btn save-btn';
+                saveBtn.textContent = 'Sauvegarder';
+                saveBtn.onclick = saveContent;
+                container.appendChild(saveBtn);
+
+                const cancelBtn = document.createElement('button');
+                cancelBtn.id = 'cancel-btn';
+                cancelBtn.className = 'admin-action-btn cancel-btn';
+                cancelBtn.textContent = 'Annuler';
+                cancelBtn.onclick = () => toggleEditMode(false);
+                container.appendChild(cancelBtn);
+
+            } else {
+                // Bouton Éditer
+                const editBtn = document.createElement('button');
+                editBtn.id = 'edit-btn';
+                editBtn.className = 'admin-action-btn edit-mode-btn';
+                editBtn.textContent = 'Éditer cette page';
+                editBtn.onclick = () => toggleEditMode(true);
+                container.appendChild(editBtn);
+            }
+        }
+        
+        /**
+         * Gère la visibilité et l'affichage des boutons Admin.
+         * @param {Object | null} user L'objet utilisateur Firebase.
+         */
+        function updateAdminUI(user) {
+            userId = user?.uid;
+            renderAdminActions(isEditing);
+        }
+
+        /**
+         * Sauvegarde le contenu des champs éditables vers Firestore.
+         */
+        async function saveContent() {
+            if (!db || userId !== ADMIN_UID) {
+                console.error("Non autorisé ou base de données non initialisée.");
+                return;
+            }
+
+            // Afficher le spinner de sauvegarde
+            const saveBtn = document.getElementById('save-btn');
+            saveBtn.innerHTML = '<div class="spinner mx-auto"></div>';
+            saveBtn.disabled = true;
+
+            const newContent = {
+                mainTitle: mainTitleEl.innerHTML,
+                missionText: missionTextEl.innerHTML,
+                engagementText: engagementTextEl.innerHTML,
+            };
+
+            const docRef = doc(db, 'artifacts', appId, 'public', 'data', CONTENT_DOC_PATH);
+            try {
+                // Utiliser setDoc avec { merge: true } pour ne pas écraser d'autres champs potentiels
+                await setDoc(docRef, newContent, { merge: true });
+                console.log("Contenu sauvegardé avec succès!");
+                
+                // Désactiver le mode édition et restaurer le bouton
+                toggleEditMode(false); 
+
+            } catch (e) {
+                console.error("Erreur lors de la sauvegarde du document: ", e);
+                alert("Erreur de sauvegarde: Consultez la console.");
+            } finally {
+                saveBtn.innerHTML = 'Sauvegarder'; // Restaure le texte après succès ou échec
+                saveBtn.disabled = false;
+            }
+        }
+
+        /**
+         * Écoute en temps réel les changements de contenu dans Firestore.
+         */
+        function listenToContent() {
+            if (!db) return;
+            const docRef = doc(db, 'artifacts', appId, 'public', 'data', CONTENT_DOC_PATH);
+
+            onSnapshot(docRef, (docSnap) => {
+                if (docSnap.exists()) {
+                    const data = docSnap.data();
+                    console.log("Nouveau contenu chargé depuis Firestore.");
+                    mainTitleEl.innerHTML = data.mainTitle || DEFAULT_CONTENT.mainTitle;
+                    missionTextEl.innerHTML = data.missionText || DEFAULT_CONTENT.missionText;
+                    engagementTextEl.innerHTML = data.engagementText || DEFAULT_CONTENT.engagementText;
+                } else {
+                    console.log("Document de contenu non trouvé. Initialisation avec le contenu par défaut.");
+                    // Utiliser le contenu par défaut et tenter de le sauvegarder pour initialisation
+                    mainTitleEl.innerHTML = DEFAULT_CONTENT.mainTitle;
+                    missionTextEl.innerHTML = DEFAULT_CONTENT.missionText;
+                    engagementTextEl.innerHTML = DEFAULT_CONTENT.engagementText;
+                    setDoc(docRef, DEFAULT_CONTENT).catch(e => console.error("Erreur d'initialisation du doc:", e));
+                }
+            }, (error) => {
+                console.error("Erreur d'écoute Firestore:", error);
+                mainTitleEl.innerHTML = `Erreur: ${error.code}`;
+            });
+
+            // Retirer le placeholder de chargement
+            document.getElementById('title-placeholder')?.remove();
+        }
+
+        // --- FIREBASE INITIALIZATION ---
+        async function initializeFirebase() {
+            try {
+                const app = initializeApp(firebaseConfig);
+                auth = getAuth(app);
+                db = getFirestore(app);
+
+                // Authentification
+                if (initialAuthToken) {
+                    await signInWithCustomToken(auth, initialAuthToken);
+                } else {
+                    await signInAnonymously(auth);
+                }
+                
+                // Mise en place de l'écouteur d'état d'auth et de contenu
+                onAuthStateChanged(auth, user => {
+                    isAuthReady = true;
+                    updateAuthUI(user);
+                    listenToContent(); 
+                });
+
+            } catch (error) {
+                console.error("Erreur FATALE lors de l'initialisation Firebase:", error);
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', initializeFirebase);
+        
+        // --- JAVASCRIPT POUR LA CLOCHE DE NOTIFICATION (Tel que fourni) ---
+        const NOTIFICATIONS_DATA = [
+            { id: 1, title: "🚨 Nouvelle Section : Mentions Légales", content: "La page 'Mentions Légales' est maintenant en ligne ! Consultez-la via le pied de page pour plus de transparence.", date: "Aujourd'hui", link: "mentions.html", read: false },
+            { id: 2, title: "📚 Mise à jour des Articles Clés", content: "Tous les articles de 'Droit Civil' ont été revus et mis à jour avec les dernières réformes législatives. Bonne lecture !", date: "Hier", link: "articles.html", read: false },
+            { id: 3, title: "🎉 Lancement du Site Officiel", content: "Bienvenue sur le site officiel de Droit Décodé ! Plus de contenu, plus de clarté. N'hésitez pas à nous contacter.", date: "Il y a 3 jours", link: "contact.html", read: true }
         ];
 
-        // 2. Éléments DOM
         const fab = document.getElementById('notification-fab');
         const panel = document.getElementById('notification-panel');
         const badge = document.getElementById('notification-badge');
@@ -359,27 +528,19 @@
         const list = document.getElementById('notification-list');
         const noNotifications = document.getElementById('no-notifications');
 
-
-        // 3. Fonction pour générer l'HTML des notifications
         function renderNotifications() {
-            list.innerHTML = ''; // Vider la liste
-
+            list.innerHTML = ''; 
             if (NOTIFICATIONS_DATA.length === 0) {
                 noNotifications.classList.remove('hidden');
                 badge.style.display = 'none';
                 dot.style.display = 'none';
                 fab.setAttribute('data-unread', 0);
                 return;
-            } else {
-                noNotifications.classList.add('hidden');
-            }
+            } else { noNotifications.classList.add('hidden'); }
 
             let unreadCount = 0;
-
             NOTIFICATIONS_DATA.forEach(notif => {
-                if (!notif.read) {
-                    unreadCount++;
-                }
+                if (!notif.read) { unreadCount++; }
 
                 const item = document.createElement('a');
                 item.href = notif.link || '#';
@@ -392,71 +553,46 @@
                 list.appendChild(item);
             });
 
-            // Mettre à jour le badge et le dot avec le compte réel
             badge.textContent = unreadCount;
             fab.setAttribute('data-unread', unreadCount);
 
-            // Gérer l'affichage du dot/badge
-            if (unreadCount > 0) {
-                dot.style.display = 'block';
-                badge.style.display = 'block';
-            } else {
-                dot.style.display = 'none';
-                badge.style.display = 'none';
-                // Désactiver l'animation de pulse si tout est lu
-                dot.style.animation = 'none';
-            }
+            if (unreadCount > 0) { dot.style.display = 'block'; badge.style.display = 'block'; } 
+            else { dot.style.display = 'none'; badge.style.display = 'none'; dot.style.animation = 'none'; }
         }
 
-
-        // 4. Gestionnaire d'événement pour le clic sur le FAB
         fab.addEventListener('click', (e) => {
             e.preventDefault();
             const isPanelOpen = panel.classList.contains('open');
-
             if (!isPanelOpen) {
-                // 1. Ouvrir le panneau
                 panel.classList.add('open');
-                
-                // 2. Mettre à jour les notifications comme lues (Logique simplifiée)
                 let unreadExists = false;
                 NOTIFICATIONS_DATA.forEach(notif => {
-                    if (!notif.read) {
-                        notif.read = true; // Simule le marquage comme lu
-                        unreadExists = true;
-                    }
+                    if (!notif.read) { notif.read = true; unreadExists = true; }
                 });
-
-                // 3. Re-rendre la liste pour appliquer les styles 'lu' et mettre à jour le badge
-                if (unreadExists) {
-                    renderNotifications();
-                }
-
+                if (unreadExists) { renderNotifications(); }
             } else {
-                // Fermer le panneau
                 panel.classList.remove('open');
             }
         });
 
-        // 5. Gestionnaire pour le bouton de fermeture
-        closeBtn.addEventListener('click', () => {
-            panel.classList.remove('open');
-        });
-
-        // 6. Fermer le panneau si l'utilisateur clique en dehors
+        closeBtn.addEventListener('click', () => { panel.classList.remove('open'); });
         document.addEventListener('click', (event) => {
-            if (panel.classList.contains('open') && 
-                !panel.contains(event.target) && 
-                !fab.contains(event.target)) {
-                
+            if (panel.classList.contains('open') && !panel.contains(event.target) && !fab.contains(event.target)) {
                 panel.classList.remove('open');
             }
         });
-        
-        // Initialiser au chargement de la page
+
         document.addEventListener('DOMContentLoaded', renderNotifications);
 
+        // Gestion de l'interrupteur du menu mobile
+        const menuToggle = document.querySelector('.menu-toggle');
+        const mainNavigation = document.getElementById('main-navigation');
+
+        menuToggle.addEventListener('click', () => {
+            const isExpanded = menuToggle.getAttribute('aria-expanded') === 'true' || false;
+            menuToggle.setAttribute('aria-expanded', !isExpanded);
+            mainNavigation.classList.toggle('open');
+        });
     </script>
 </body>
 </html>
-
