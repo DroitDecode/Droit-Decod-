@@ -17,12 +17,7 @@
     <!-- Utilisation de Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
 
-    <!-- Feuille de style globale (style.css est requis pour le logo et le menu) -->
-    <link rel="stylesheet" href="style.css">
-
-    <link rel="manifest" href="manifest.json">
-    <meta name="theme-color" content="#E84D3D">
-
+    <!-- Feuille de style globale (simulée ici) -->
     <style>
         /* Définitions des variables de couleur pour la cohérence */
         :root {
@@ -32,10 +27,91 @@
         }
 
         body {
+            font-family: 'Inter', sans-serif;
             background-color: var(--color-secondary-bg);
             min-height: 100vh;
         }
 
+        /* Styles Header/Footer critiques */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2rem;
+            background-color: white;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+        .logo-container a {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+        }
+        .logo-container img {
+            height: 40px;
+            width: 40px;
+            border-radius: 50%;
+            margin-right: 10px;
+        }
+        .logo-text {
+            font-size: 1.5rem;
+            line-height: 1;
+            font-weight: 300;
+        }
+        .logo-text strong { color: var(--color-primary-blue); font-weight: 700; }
+        .logo-text span { color: var(--color-primary-red); font-weight: 700; }
+        
+        header nav ul {
+            display: flex;
+            list-style: none;
+            gap: 1.5rem;
+            margin: 0;
+            padding: 0;
+        }
+        header nav ul li a {
+            color: #4B5563;
+            text-decoration: none;
+            padding: 0.5rem 0;
+            transition: color 0.3s;
+        }
+        header nav ul li a:hover {
+            color: var(--color-primary-red);
+        }
+        .contact-btn, .log-btn {
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+            font-weight: 600;
+        }
+        .contact-btn {
+            background-color: var(--color-primary-red);
+            color: white !important;
+        }
+        .log-btn {
+            border: 1px solid var(--color-primary-blue);
+            color: var(--color-primary-blue) !important;
+        }
+        .menu-toggle { display: none; }
+        
+        /* Footer Styles */
+        footer {
+            background-color: var(--color-primary-blue);
+            color: white;
+            padding: 2rem;
+            text-align: center;
+        }
+        .footer-content {
+            max-width: 1280px;
+            margin: 0 auto;
+        }
+        .footer-links a {
+            color: #b3c0e3;
+            text-decoration: none;
+            margin: 0 10px;
+        }
+        .footer-links a:hover {
+            text-decoration: underline;
+        }
+
+        /* Définitions de couleurs restantes */
         .text-primary-red { color: var(--color-primary-red); }
         .bg-primary-red { background-color: var(--color-primary-red); }
         .text-primary-blue { color: var(--color-primary-blue); }
@@ -43,15 +119,26 @@
         .border-primary-red { border-color: var(--color-primary-red); }
         .border-primary-blue { border-color: var(--color-primary-blue); }
 
-        .logo-text strong { color: var(--color-primary-blue); }
-        .logo-text span { color: var(--color-primary-red); }
-
-        /* Active Link Styling (Manually added for index.html) */
+        /* Active Link Styling */
         header nav ul li a.active {
             color: var(--color-primary-red);
             font-weight: 700;
             border-bottom: 2px solid var(--color-primary-red);
         }
+
+        /* Styles spécifiques pour le bouton Admin */
+        .admin-btn {
+            background-color: var(--color-primary-blue);
+            color: white !important;
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+            font-weight: 600;
+            transition: background-color 0.3s;
+        }
+        .admin-btn:hover {
+            background-color: #313c63;
+        }
+
 
         /* -------------------------------------------
         MODIFICATIONS DE LA SECTION HÉRO AVEC VIDÉO
@@ -67,19 +154,17 @@
             box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1);
         }
 
-        /* Style pour la vidéo en arrière-plan */
         #hero-video {
             position: absolute;
             top: 50%;
             left: 50%;
             width: 100%;
             height: 100%;
-            object-fit: cover; /* Assure que la vidéo couvre tout l'espace sans déformation */
+            object-fit: cover; 
             transform: translate(-50%, -50%);
             z-index: 0;
         }
 
-        /* Overlay semi-transparent pour améliorer la lisibilité du texte blanc sur la vidéo */
         #hero-banner::before {
             content: '';
             position: absolute;
@@ -87,13 +172,12 @@
             right: 0;
             bottom: 0;
             left: 0;
-            /* Dégradé sombre pour garantir la lisibilité du texte */
             background: linear-gradient(180deg, rgba(0, 0, 0, 0.4) 0%, rgba(0, 0, 0, 0.7) 100%);
             z-index: 1;
         }
 
         #hero-content {
-            z-index: 2; /* S'assurer que le contenu est au-dessus de l'overlay et de la vidéo */
+            z-index: 2; 
             max-width: 900px;
             margin: 0 auto;
             text-align: center;
@@ -101,7 +185,6 @@
         }
 
         .hero-button {
-            /* Style générique pour les boutons CTA */
             font-size: 1.125rem;
             padding: 0.75rem 2rem;
             border-radius: 0.5rem;
@@ -131,13 +214,13 @@
             justify-content: center;
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
             transition: transform 0.3s ease, background-color 0.3s ease;
-            cursor: pointer; /* Curseur cliquable */
-            z-index: 1000; /* Assurer qu'il est au-dessus de tout */
+            cursor: pointer; 
+            z-index: 1000; 
             border: none;
         }
 
         #notification-fab:hover {
-            background-color: #c73a30; /* Red darker on hover */
+            background-color: #c73a30; 
             transform: scale(1.05); 
         }
 
@@ -147,13 +230,12 @@
             right: 4px;
             width: 12px;
             height: 12px;
-            background-color: #FFD700; /* Yellow/Gold for visibility */
+            background-color: #FFD700; 
             border: 2px solid white;
             border-radius: 50%;
             animation: pulse-dot 1.5s infinite;
         }
-        
-        /* Cacher la cloche si le badge n'est pas là ou si la liste est vide */
+
         #notification-fab[data-unread="0"] .notification-dot {
             display: none;
         }
@@ -166,14 +248,14 @@
             padding: 2px 4px;
             background-color: var(--color-primary-blue);
             color: white;
-            border-radius: 9999px; /* Fully rounded */
+            border-radius: 9999px; 
             font-size: 0.75rem;
             font-weight: bold;
             text-align: center;
             line-height: 1;
             pointer-events: none;
             border: 1px solid white;
-            display: none; /* Caché par défaut, affiché par JS */
+            display: none; 
         }
         #notification-fab[data-unread]:not([data-unread="0"]) #notification-badge {
             display: block;
@@ -186,10 +268,9 @@
             100% { transform: scale(1); opacity: 1; }
         }
 
-        /* Style pour le panneau de notifications (Modal) */
         #notification-panel {
             position: fixed;
-            bottom: 80px; /* Au-dessus du FAB */
+            bottom: 80px; 
             right: 2rem;
             width: 90%;
             max-width: 380px;
@@ -199,7 +280,7 @@
             box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
             z-index: 999;
             overflow: hidden;
-            display: none; /* Caché par défaut */
+            display: none; 
             transform: translateY(20px);
             opacity: 0;
             transition: opacity 0.3s ease, transform 0.3s ease;
@@ -224,6 +305,39 @@
                 bottom: 1rem;
                 right: 1rem;
             }
+            /* Menu responsive */
+            header nav ul {
+                display: none;
+                flex-direction: column;
+                position: absolute;
+                top: 60px;
+                right: 0;
+                width: 100%;
+                background-color: white;
+                box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+                padding: 1rem 0;
+                z-index: 50;
+            }
+            header nav ul.open {
+                display: flex;
+            }
+            header nav ul li {
+                width: 100%;
+                text-align: center;
+                padding: 0.5rem 0;
+                border-bottom: 1px solid #eee;
+            }
+            header nav ul li:last-child {
+                border-bottom: none;
+            }
+            .menu-toggle { 
+                display: block; 
+                background: none; 
+                border: none; 
+                font-size: 1.5rem; 
+                cursor: pointer;
+                color: var(--color-primary-blue);
+            }
         }
     </style>
 </head>
@@ -232,7 +346,6 @@
     <!-- --- Header (En-tête) - Uniform on all pages --- -->
     <header role="banner">
         <div class="logo-container">
-            <!-- Assurer que l'image et le texte du logo sont cliquables -->
             <a href="index.html">
                 <img src="logo1.jpeg" alt="Logo Droit Décodé">
                 <div class="logo-text"><strong>DROIT</strong> <span>DÉCODÉ</span></div>
@@ -240,14 +353,22 @@
         </div>
 
         <nav role="navigation" aria-label="Menu principal du site">
-            <ul>
+            <ul id="main-navigation">
                 <!-- 'active' class on Accueil -->
                 <li><a href="index.html" class="active" aria-current="page">Accueil</a></li>
                 <li><a href="articles.html">Articles & Explications</a></li>
+                <!-- Point d'insertion pour le bouton Admin -->
+                <li id="admin-link-container" class="hidden">
+                    <a href="admin_dashboard.html" class="admin-btn" id="admin-link">Tableau de bord</a>
+                </li>
+                <!-- Fin du point d'insertion Admin -->
                 <li><a href="tiktok.html">TikTok Publications</a></li>
                 <li><a href="about.html">À Propos</a></li>
                 <li><a href="contact.html" class="contact-btn">Contact</a></li>
-                <li><a href="login.html" class="log-btn">Se connecter</a></li>
+                <!-- Le lien de connexion/déconnexion sera mis à jour par JavaScript -->
+                <li id="auth-link-container">
+                    <a href="login.html" class="log-btn" id="auth-link">Se connecter</a>
+                </li>
             </ul>
         </nav>
 
@@ -370,8 +491,6 @@
         </div>
     </section>
 
-    <!-- -------------------------------------------------------- -->
-
     <!-- --- Footer (Bas de page) - Uniform on all pages --- -->
     <footer role="contentinfo">
         <div class="footer-content">
@@ -398,7 +517,6 @@
         <span id="notification-badge" data-count="2">2</span>
     </button>
     <!-- -------------------------------------------------------- -->
-
     <!-- --- MODAL DE NOTIFICATION --- -->
     <div id="notification-panel" role="dialog" aria-modal="true" aria-labelledby="notification-title">
         <div class="p-4 border-b border-gray-100 flex justify-between items-center bg-gray-50">
@@ -409,24 +527,146 @@
                 </svg>
             </button>
         </div>
-        
+
         <!-- Liste des notifications -->
         <div id="notification-list" class="p-2 space-y-2 overflow-y-auto max-h-[380px]">
             <!-- Les notifications seront générées ici par le script -->
         </div>
-        
+
         <div id="no-notifications" class="text-center p-6 text-gray-500 hidden">
             Aucune nouvelle annonce pour le moment.
         </div>
     </div>
 
-    <!-- Global JavaScript (Handles menu responsiveness and active link) -->
-    <script src="script.js"></script>
+    <!-- -------------------------------------------------------------------------------------- -->
+    <!-- --- SCRIPTS JS & FIREBASE (Début de la section des scripts) --- -->
+    <!-- -------------------------------------------------------------------------------------- -->
+
+    <!-- 1. Charger les SDK Firebase (App, Analytics ET AUTH) -->
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-analytics-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
 
     <script>
+        // --- CONSTANTE ADMIN ---
+        const ADMIN_UID = "v4086Cxmi9PMI31GUBZzY8rHyIA3"; 
+
+        // --- JAVASCRIPT FIREBASE ---
+
+        // Votre configuration Firebase (Utilisé pour initialiser l'application)
+        const firebaseConfig = {
+            apiKey: "AIzaSyDpNtHXiZK3bIyLwAUlTNAiWRrg2vhPYeE",
+            authDomain: "droitdecode-9aa4d.firebaseapp.com",
+            projectId: "droitdecode-9aa4d",
+            storageBucket: "droitdecode-9aa4d.firebasestorage.app",
+            messagingSenderId: "219930978240",
+            appId: "1:219930978240:web:886c40e47d276c75548a25",
+            measurementId: "G-D619J4YSQL"
+        };
+
+        let auth; // Variable globale pour l'instance d'authentification
+        let app;
+
+        // Initialisation de Firebase
+        try {
+            app = firebase.initializeApp(firebaseConfig);
+            auth = firebase.auth();
+            
+            // Log de confirmation pour le développeur
+            if (typeof firebase.analytics === 'function') {
+                 firebase.analytics();
+                 console.log("Firebase, Analytics, et Auth initialisés avec succès.");
+            } else {
+                 console.log("Firebase initialisé, mais Google Analytics non disponible ou désactivé.");
+            }
+        } catch (error) {
+            console.error("Erreur lors de l'initialisation de Firebase:", error);
+        }
+
+        /**
+         * Gère la visibilité du bouton Admin.
+         * @param {firebase.User | null} user - L'utilisateur actuellement connecté.
+         */
+        function updateAdminUI(user) {
+            const adminContainer = document.getElementById('admin-link-container');
+            if (!adminContainer) return;
+
+            if (user && user.uid === ADMIN_UID) {
+                // L'utilisateur est l'administrateur
+                adminContainer.classList.remove('hidden');
+                console.log("UID Administrateur détecté. Affichage du Tableau de bord.");
+            } else {
+                // L'utilisateur n'est pas l'administrateur ou est déconnecté
+                adminContainer.classList.add('hidden');
+            }
+        }
+
+        /**
+         * Met à jour le bouton de navigation (Se connecter / Déconnexion)
+         * en fonction de l'état d'authentification de l'utilisateur.
+         * @param {firebase.User | null} user - L'utilisateur actuellement connecté.
+         */
+        function updateAuthUI(user) {
+            const authLink = document.getElementById('auth-link');
+            if (!authLink) return;
+
+            if (user) {
+                // Utilisateur connecté
+                authLink.textContent = 'Déconnexion';
+                authLink.href = '#'; 
+                authLink.classList.remove('log-btn');
+                authLink.classList.add('bg-primary-red', 'text-white', 'hover:bg-red-700', 'border-transparent'); 
+                authLink.style.borderColor = 'transparent';
+                
+                // Ajouter un gestionnaire d'événement de déconnexion
+                authLink.onclick = async (e) => {
+                    e.preventDefault();
+                    try {
+                        await auth.signOut();
+                        console.log("Déconnexion réussie. Rafraîchissement de la page.");
+                        window.location.reload(); 
+                    } catch (error) {
+                        console.error("Erreur lors de la déconnexion:", error.message);
+                    }
+                };
+
+            } else {
+                // Utilisateur déconnecté
+                authLink.textContent = 'Se connecter';
+                authLink.href = 'login.html';
+                authLink.classList.add('log-btn');
+                authLink.classList.remove('bg-primary-red', 'text-white', 'hover:bg-red-700', 'border-transparent');
+                authLink.onclick = null; 
+            }
+        }
+        
+        // ----------------------------------------------------------------
+        // 2. ÉCOUTEUR D'ÉTAT D'AUTHENTIFICATION (C'EST LA CLÉ)
+        // ----------------------------------------------------------------
+        auth.onAuthStateChanged(user => {
+            console.log("Changement d'état d'authentification détecté. Utilisateur:", user ? user.uid : "Déconnecté");
+            
+            // 1. Mise à jour du bouton Connexion/Déconnexion
+            updateAuthUI(user);
+            
+            // 2. Mise à jour du bouton Admin
+            updateAdminUI(user);
+        });
+
+
+        // --- Global JavaScript (Gestion de l'interrupteur du menu mobile) ---
+        const menuToggle = document.querySelector('.menu-toggle');
+        const mainNavigation = document.getElementById('main-navigation');
+
+        menuToggle.addEventListener('click', () => {
+            const isExpanded = menuToggle.getAttribute('aria-expanded') === 'true' || false;
+            menuToggle.setAttribute('aria-expanded', !isExpanded);
+            mainNavigation.classList.toggle('open');
+        });
+        
         // --- JAVASCRIPT POUR LA CLOCHE DE NOTIFICATION ---
 
-        // 1. Définition des notifications (MODIFIEZ CE TABLEAU POUR METTRE À JOUR LES ANNONCES)
+        // 1. Définition des notifications 
         const NOTIFICATIONS_DATA = [
             {
                 id: 1,
@@ -434,7 +674,7 @@
                 content: "La page 'Mentions Légales' est maintenant en ligne ! Consultez-la via le pied de page pour plus de transparence.",
                 date: "Aujourd'hui",
                 link: "mentions.html",
-                read: false // Laissez cette propriété pour la gestion future
+                read: false 
             },
             {
                 id: 2,
@@ -448,13 +688,13 @@
                 id: 3,
                 title: "🎉 Lancement du Site Officiel",
                 content: "Bienvenue sur le site officiel de Droit Décodé ! Plus de contenu, plus de clarté. N'hésitez pas à nous contacter.",
-              date: "Il y a 3 jours",
+                date: "Il y a 3 jours",
                 link: "contact.html",
                 read: true
             }
         ];
 
-        // 2. Éléments DOM
+        // 2. Éléments DOM pour les notifications
         const fab = document.getElementById('notification-fab');
         const panel = document.getElementById('notification-panel');
         const badge = document.getElementById('notification-badge');
@@ -466,7 +706,7 @@
 
         // 3. Fonction pour générer l'HTML des notifications
         function renderNotifications() {
-            list.innerHTML = ''; // Vider la liste
+            list.innerHTML = ''; 
 
             if (NOTIFICATIONS_DATA.length === 0) {
                 noNotifications.classList.remove('hidden');
@@ -507,7 +747,6 @@
             } else {
                 dot.style.display = 'none';
                 badge.style.display = 'none';
-                // Désactiver l'animation de pulse si tout est lu
                 dot.style.animation = 'none';
             }
         }
@@ -519,25 +758,19 @@
             const isPanelOpen = panel.classList.contains('open');
 
             if (!isPanelOpen) {
-                // 1. Ouvrir le panneau
                 panel.classList.add('open');
-                
-                // 2. Mettre à jour les notifications comme lues (Logique simplifiée)
                 let unreadExists = false;
                 NOTIFICATIONS_DATA.forEach(notif => {
                     if (!notif.read) {
-                        notif.read = true; // Simule le marquage comme lu
+                        notif.read = true; 
                         unreadExists = true;
                     }
                 });
-
-                // 3. Re-rendre la liste pour appliquer les styles 'lu' et mettre à jour le badge
                 if (unreadExists) {
                     renderNotifications();
                 }
 
             } else {
-                // Fermer le panneau
                 panel.classList.remove('open');
             }
         });
@@ -552,140 +785,14 @@
             if (panel.classList.contains('open') && 
                 !panel.contains(event.target) && 
                 !fab.contains(event.target)) {
-                
+
                 panel.classList.remove('open');
             }
         });
-        
+
         // Initialiser au chargement de la page
         document.addEventListener('DOMContentLoaded', renderNotifications);
-    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-analytics-compat.js"></script>
 
-    <script>
-        // 2. Votre configuration Firebase
-        const firebaseConfig = {
-            apiKey: "AIzaSyDpNtHXiZK3bIyLwAUlTNAiWRrg2vhPYeE",
-            authDomain: "droitdecode-9aa4d.firebaseapp.com",
-            projectId: "droitdecode-9aa4d",
-            storageBucket: "droitdecode-9aa4d.firebasestorage.app",
-            messagingSenderId: "219930978240",
-            appId: "1:219930978240:web:886c40e47d276c75548a25",
-            measurementId: "G-D619J4YSQL"
-        };
-
-        // 3. Initialiser Firebase
-        const app = firebase.initializeApp(firebaseConfig);
-        const analytics = firebase.analytics();
-        
-        console.log("Firebase initialisé avec succès");
-    </script>
-
-    <script src="script.js"></script>
-
-    <script>
-        // --- VOTRE JAVASCRIPT EXISTANT POUR LA CLOCHE DE NOTIFICATION ---
-        const NOTIFICATIONS_DATA = [
-            {
-                id: 1,
-                title: "🚨 Nouvelle Section : Mentions Légales",
-                content: "La page 'Mentions Légales' est maintenant en ligne ! Consultez-la via le pied de page pour plus de transparence.",
-                date: "Aujourd'hui",
-                link: "mentions.html",
-                read: false 
-            },
-            {
-                id: 2,
-                title: "📚 Mise à jour des Articles Clés",
-                content: "Tous les articles de 'Droit Civil' ont été revus et mis à jour avec les dernières réformes législatives. Bonne lecture !",
-                date: "Hier",
-                link: "articles.html",
-                read: false
-            },
-            {
-                id: 3,
-                title: "🎉 Lancement du Site Officiel",
-                content: "Bienvenue sur le site officiel de Droit Décodé ! Plus de contenu, plus de clarté. N'hésitez pas à nous contacter.",
-                date: "Il y a 3 jours",
-                link: "contact.html",
-                read: true
-            }
-        ];
-
-        // Éléments DOM
-        const fab = document.getElementById('notification-fab');
-        const panel = document.getElementById('notification-panel');
-        const badge = document.getElementById('notification-badge');
-        const dot = document.querySelector('#notification-fab .notification-dot');
-        const closeBtn = document.getElementById('close-panel');
-        const list = document.getElementById('notification-list');
-        const noNotifications = document.getElementById('no-notifications');
-
-        function renderNotifications() {
-            list.innerHTML = ''; 
-            if (NOTIFICATIONS_DATA.length === 0) {
-                noNotifications.classList.remove('hidden');
-                badge.style.display = 'none';
-                dot.style.display = 'none';
-                fab.setAttribute('data-unread', 0);
-                return;
-            } else {
-                noNotifications.classList.add('hidden');
-            }
-
-            let unreadCount = 0;
-            NOTIFICATIONS_DATA.forEach(notif => {
-                if (!notif.read) unreadCount++;
-                const item = document.createElement('a');
-                item.href = notif.link || '#';
-                item.className = `block p-3 rounded-lg transition duration-200 ${notif.read ? 'bg-white hover:bg-gray-100 border-l-2 border-transparent' : 'bg-secondary-bg hover:bg-gray-200 border-l-2 border-primary-red'}`;
-                item.innerHTML = `
-                    <p class="text-sm font-semibold ${notif.read ? 'text-gray-800' : 'text-primary-blue'}">${notif.title}</p>
-                    <p class="text-xs text-gray-500 mt-1">${notif.content}</p>
-                    <p class="text-xs text-gray-400 mt-1">${notif.date}</p>
-                `;
-                list.appendChild(item);
-            });
-
-            badge.textContent = unreadCount;
-            fab.setAttribute('data-unread', unreadCount);
-
-            if (unreadCount > 0) {
-                dot.style.display = 'block';
-                badge.style.display = 'block';
-            } else {
-                dot.style.display = 'none';
-                badge.style.display = 'none';
-                dot.style.animation = 'none';
-            }
-        }
-
-        fab.addEventListener('click', (e) => {
-            e.preventDefault();
-            if (!panel.classList.contains('open')) {
-                panel.classList.add('open');
-                let unreadExists = false;
-                NOTIFICATIONS_DATA.forEach(notif => {
-                    if (!notif.read) {
-                        notif.read = true;
-                        unreadExists = true;
-                    }
-                });
-                if (unreadExists) renderNotifications();
-            } else {
-                panel.classList.remove('open');
-            }
-        });
-
-        closeBtn.addEventListener('click', () => panel.classList.remove('open'));
-
-        document.addEventListener('click', (event) => {
-            if (panel.classList.contains('open') && !panel.contains(event.target) && !fab.contains(event.target)) {
-                panel.classList.remove('open');
-            }
-        });
-
-        document.addEventListener('DOMContentLoaded', renderNotifications);
     </script>
 </body>
 </html>
