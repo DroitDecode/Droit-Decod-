@@ -342,7 +342,6 @@ const profileData = {
 await setDoc(doc(db, 'UserProfiles', user.uid), profileData);
 
 console.log("Données enregistrées avec succès !");
-
                     // CECI EST CRUCIAL POUR LE TABLEAU DE BORD ADMINISTRATEUR
                     const publicProfileDocRef = doc(db, 'UserProfiles', user.uid);
                     await setDoc(publicProfileDocRef, profileData);
