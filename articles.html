@@ -13,7 +13,6 @@
         }
         body { font-family: 'Inter', sans-serif; background-color: var(--color-secondary-bg); min-height: 100vh; display: flex; flex-direction: column; }
         
-        /* Navigation Styles */
         header { display: flex; justify-content: space-between; align-items: center; padding: 1rem 2rem; background-color: white; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05); position: sticky; top: 0; z-index: 1000; }
         .logo-container a { display: flex; align-items: center; text-decoration: none; }
         .logo-container img { height: 40px; width: 40px; border-radius: 50%; margin-right: 10px; }
@@ -28,21 +27,19 @@
         .contact-btn { background-color: var(--color-primary-red); color: white !important; padding: 0.5rem 1rem; border-radius: 0.5rem; }
         .log-btn { border: 1px solid var(--color-primary-blue); color: var(--color-primary-blue) !important; padding: 0.5rem 1rem; border-radius: 0.5rem; }
 
-        /* Article Card Styles */
         .article-card-old {
             background-color: white; padding: 1.5rem; border-radius: 0.75rem;
             box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
             border-left: 4px solid var(--color-primary-blue);
             margin-bottom: 2rem;
         }
-        .media-container { width: 100%; max-height: 300px; overflow: hidden; border-radius: 0.5rem; margin-bottom: 1rem; background: #000; }
-        .media-container img, .media-container video { width: 100%; height: 300px; object-fit: cover; }
+        .media-container { width: 100%; max-height: 350px; overflow: hidden; border-radius: 0.5rem; margin-bottom: 1rem; background: #000; display: flex; justify-content: center; }
+        .media-container img, .media-container video { max-width: 100%; max-height: 350px; object-fit: contain; }
 
         .content-hidden { display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
-        .content-visible { display: block; }
-
+        
         @media (max-width: 768px) {
-            header nav ul { display: none; flex-direction: column; position: absolute; top: 64px; right: 0; width: 100%; background-color: white; padding: 1rem 0; }
+            header nav ul { display: none; flex-direction: column; position: absolute; top: 64px; right: 0; width: 100%; background-color: white; padding: 1rem 0; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
             header nav ul.open { display: flex; }
             .menu-toggle { display: block; font-size: 1.8rem; cursor: pointer; color: var(--color-primary-blue); border:none; background:none; }
         }
@@ -71,20 +68,24 @@
     <main class="max-w-4xl mx-auto p-6">
         
         <section id="admin-editor" class="hidden bg-white p-6 rounded-xl border-2 border-primary-blue mb-10 shadow-lg">
-            <h2 id="form-title" class="text-2xl font-bold text-primary-blue mb-4">Publier un article (Photo ou Vidéo)</h2>
+            <h2 id="form-title" class="text-2xl font-bold text-primary-blue mb-4">Publier/Modifier un article</h2>
             <input type="hidden" id="edit-id">
             <div class="space-y-4 flex flex-col">
                 <input type="text" id="art-title" placeholder="Titre de l'article" class="p-3 border rounded-lg">
-                <input type="text" id="art-media" placeholder="Lien de l'image ou de la vidéo (.mp4)" class="p-3 border rounded-lg">
-                <textarea id="art-content" rows="5" placeholder="Écrivez le contenu ici..." class="p-3 border rounded-lg"></textarea>
-                <button id="publish-btn" class="bg-primary-red text-white font-bold py-3 rounded-lg hover:bg-red-700">PUBLIER L'ARTICLE</button>
+                <input type="text" id="art-media" placeholder="Lien Photo ou Vidéo (.mp4)" class="p-3 border rounded-lg">
+                <textarea id="art-content" rows="8" placeholder="Contenu de l'article..." class="p-3 border rounded-lg"></textarea>
+                <div class="flex gap-2">
+                    <button id="publish-btn" class="flex-1 bg-primary-red text-white font-bold py-3 rounded-lg hover:bg-red-700 transition">PUBLIER L'ARTICLE</button>
+                    <button id="cancel-btn" class="hidden bg-gray-500 text-white font-bold py-3 px-6 rounded-lg" onclick="resetForm()">ANNULER</button>
+                </div>
             </div>
         </section>
 
-        <h1 class="text-3xl font-black text-primary-blue border-b-2 border-primary-red pb-2 mb-8 inline-block">Bibliothèque Juridique</h1>
+        <h1 class="text-3xl font-black text-primary-blue border-b-2 border-primary-red pb-2 mb-8 inline-block">Articles & Explications</h1>
         
         <div id="articles-list">
-            </div>
+            <p class="text-center text-gray-500">Chargement des articles...</p>
+        </div>
     </main>
 
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
@@ -105,40 +106,52 @@
         const db = firebase.firestore();
         const ADMIN_UID = "v4086Cxmi9PMI31GUBZzY8rHyIA3";
 
-        // Admin Security Check
+        // Détection Admin
         auth.onAuthStateChanged(user => {
-            const editor = document.getElementById('admin-editor');
-            const dash = document.getElementById('admin-link-container');
-            const authL = document.getElementById('auth-link');
-
             if (user) {
-                authL.textContent = "Déconnexion";
-                authL.onclick = (e) => { e.preventDefault(); auth.signOut().then(() => location.reload()); };
+                document.getElementById('auth-link').textContent = "Déconnexion";
+                document.getElementById('auth-link').onclick = (e) => { e.preventDefault(); auth.signOut().then(() => location.reload()); };
                 if (user.uid === ADMIN_UID) {
-                    editor.classList.remove('hidden');
-                    dash.classList.remove('hidden');
+                    document.getElementById('admin-editor').classList.remove('hidden');
+                    document.getElementById('admin-link-container').classList.remove('hidden');
                 }
             }
         });
 
-        // Publish function
+        // Fonction Publier / Modifier
         document.getElementById('publish-btn').onclick = async () => {
             const id = document.getElementById('edit-id').value;
+            const btn = document.getElementById('publish-btn');
             const data = {
                 title: document.getElementById('art-title').value,
                 media: document.getElementById('art-media').value,
                 content: document.getElementById('art-content').value,
                 timestamp: firebase.firestore.FieldValue.serverTimestamp()
             };
-            if(!data.title || !data.content) return alert("Remplissez les champs !");
 
-            if(id) await db.collection("Articles").doc(id).update(data);
-            else await db.collection("Articles").add(data);
+            if(!data.title || !data.content) return alert("Veuillez remplir le titre et le contenu.");
             
-            location.reload();
+            btn.disabled = true;
+            btn.innerText = "Chargement...";
+
+            try {
+                if(id) {
+                    await db.collection("Articles").doc(id).update(data);
+                    alert("Article mis à jour !");
+                } else {
+                    await db.collection("Articles").add(data);
+                    alert("Article publié !");
+                }
+                resetForm();
+            } catch (e) {
+                alert("Erreur : " + e.message);
+            } finally {
+                btn.disabled = false;
+                btn.innerText = "PUBLIER L'ARTICLE";
+            }
         };
 
-        // Load Articles
+        // Chargement des articles
         db.collection("Articles").orderBy("timestamp", "desc").onSnapshot(snap => {
             const list = document.getElementById('articles-list');
             list.innerHTML = '';
@@ -153,17 +166,28 @@
                         ${art.media ? (isVideo ? `<video src="${art.media}" controls></video>` : `<img src="${art.media}">`) : ''}
                     </div>
                     <h3 class="text-2xl font-bold text-primary-blue mb-2">${art.title}</h3>
-                    <div id="text-${doc.id}" class="text-gray-700 leading-relaxed content-hidden mb-4">
-                        ${art.content.replace(/\n/g, '<br>')}
-                    </div>
+                    <div id="text-${doc.id}" class="text-gray-700 leading-relaxed content-hidden mb-4" style="white-space: pre-wrap;">${art.content}</div>
                     <div class="flex justify-between items-center">
                         <button onclick="toggleRead('${doc.id}', this)" class="text-primary-red font-bold hover:underline">Lire la suite &rarr;</button>
                         <div class="admin-only hidden flex gap-4">
-                            <button onclick="prepareEdit('${doc.id}', '${art.title.replace(/'/g, "\\'")}', '${art.media}', \`${art.content.replace(/`/g, "\\`")}\`)" class="text-blue-500 text-sm font-bold">MODIFIER</button>
-                            <button onclick="deleteArt('${doc.id}')" class="text-red-500 text-sm font-bold">SUPPRIMER</button>
+                            <button class="edit-trigger text-blue-500 text-sm font-bold uppercase" data-id="${doc.id}">Modifier</button>
+                            <button onclick="deleteArt('${doc.id}')" class="text-red-500 text-sm font-bold uppercase">Supprimer</button>
                         </div>
                     </div>
                 `;
+
+                // Gestionnaire d'événement spécial pour le bouton Modifier
+                card.querySelector('.edit-trigger').onclick = () => {
+                    document.getElementById('edit-id').value = doc.id;
+                    document.getElementById('art-title').value = art.title;
+                    document.getElementById('art-media').value = art.media || '';
+                    document.getElementById('art-content').value = art.content;
+                    document.getElementById('form-title').innerText = "Modifier l'article";
+                    document.getElementById('publish-btn').innerText = "ENREGISTRER LES MODIFICATIONS";
+                    document.getElementById('cancel-btn').classList.remove('hidden');
+                    window.scrollTo({top: 0, behavior: 'smooth'});
+                };
+
                 list.appendChild(card);
                 if(auth.currentUser && auth.currentUser.uid === ADMIN_UID) {
                     card.querySelector('.admin-only').classList.remove('hidden');
@@ -171,7 +195,6 @@
             });
         });
 
-        // Toggle Read function
         window.toggleRead = (id, btn) => {
             const textDiv = document.getElementById(`text-${id}`);
             if(textDiv.classList.contains('content-hidden')) {
@@ -183,16 +206,17 @@
             }
         };
 
-        window.deleteArt = (id) => { if(confirm("Supprimer ?")) db.collection("Articles").doc(id).delete(); };
+        window.deleteArt = (id) => { if(confirm("Voulez-vous vraiment supprimer cet article ?")) db.collection("Articles").doc(id).delete(); };
 
-        window.prepareEdit = (id, title, media, content) => {
-            document.getElementById('edit-id').value = id;
-            document.getElementById('art-title').value = title;
-            document.getElementById('art-media').value = media;
-            document.getElementById('art-content').value = content;
-            document.getElementById('publish-btn').innerText = "SAUVEGARDER";
-            window.scrollTo({top: 0, behavior: 'smooth'});
-        };
+        function resetForm() {
+            document.getElementById('edit-id').value = '';
+            document.getElementById('art-title').value = '';
+            document.getElementById('art-media').value = '';
+            document.getElementById('art-content').value = '';
+            document.getElementById('form-title').innerText = "Publier un article (Photo ou Vidéo)";
+            document.getElementById('publish-btn').innerText = "PUBLIER L'ARTICLE";
+            document.getElementById('cancel-btn').classList.add('hidden');
+        }
     </script>
 </body>
 </html>
