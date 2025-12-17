@@ -22,6 +22,14 @@
             justify-content: center;
             align-items: center;
             min-height: 100vh;
+            margin: 0;
+        }
+        /* Ensure button is always visible */
+        .btn-submit {
+            background-color: #E84D3D !important;
+            color: white !important;
+            display: block !important;
+            width: 100%;
         }
     </style>
 </head>
@@ -31,7 +39,7 @@
         <div class="text-center mb-8">
             <img src="logo1.jpeg" alt="Logo" class="mx-auto h-16 w-auto rounded-xl shadow-lg border-2 border-primary-blue" onerror="this.onerror=null;this.src='https://placehold.co/64x64/3498DB/FFFFFF?text=DD'">
             <h1 class="mt-4 text-3xl font-extrabold text-text-dark">Droit Décodé</h1>
-            <p class="text-sm text-gray-500 mt-1" id="mode-subtitle">Connectez-vous pour accéder au contenu.</p>
+            <p class="text-sm text-gray-500 mt-1" id="mode-subtitle">Connectez-vous pour continuer.</p>
         </div>
 
         <div class="bg-white p-6 rounded-xl shadow-2xl border-t-8 border-primary-red">
@@ -51,8 +59,8 @@
                     <input type="password" id="password" required placeholder="Min. 6 caractères" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-primary-red focus:border-primary-red outline-none">
                 </div>
 
-                <button type="submit" id="auth-button" class="w-full py-3 px-4 rounded-md text-white bg-primary-red hover:bg-red-600 font-bold transition duration-200">
-                    Connexion
+                <button type="submit" id="auth-button" class="btn-submit py-3 px-4 rounded-md font-bold transition duration-200 hover:opacity-90">
+                    Se connecter
                 </button>
             </form>
 
@@ -70,7 +78,7 @@
             <h3 id="modal-title" class="text-xl font-bold mb-2">Message</h3>
             <p id="modal-content" class="text-gray-700 mb-6"></p>
             <div class="flex justify-end">
-                <button id="modal-close-btn" class="py-2 px-6 bg-gray-800 text-white font-bold rounded-md hover:bg-black">OK</button>
+                <button id="modal-close-btn" class="py-2 px-6 bg-gray-800 text-white font-bold rounded-md">OK</button>
             </div>
         </div>
     </div>
@@ -86,8 +94,7 @@
             projectId: "droitdecode-9aa4d",
             storageBucket: "droitdecode-9aa4d.firebasestorage.app",
             messagingSenderId: "219930978240",
-            appId: "1:219930978240:web:886c40e47d276c75548a25",
-            measurementId: "G-D619J4YSQL"
+            appId: "1:219930978240:web:886c40e47d276c75548a25"
         };
 
         const app = initializeApp(firebaseConfig);
@@ -104,7 +111,7 @@
 
         toggleModeBtn.addEventListener('click', () => {
             isLoginMode = !isLoginMode;
-            authButton.textContent = isLoginMode ? "Connexion" : "S'inscrire";
+            authButton.textContent = isLoginMode ? "Se connecter" : "Créer mon compte";
             nameFieldDiv.classList.toggle('hidden', isLoginMode);
             nameInput.required = !isLoginMode;
             document.getElementById('toggle-text').textContent = isLoginMode ? "Pas encore de compte?" : "Déjà un compte?";
@@ -114,47 +121,50 @@
         authForm.addEventListener('submit', async (e) => {
             e.preventDefault();
             authButton.disabled = true;
-            authButton.textContent = "Un instant...";
+            authButton.textContent = "Chargement...";
 
             try {
                 let user;
+                const email = document.getElementById('email').value;
+                const password = document.getElementById('password').value;
+
                 if (isLoginMode) {
-                    const userCredential = await signInWithEmailAndPassword(auth, document.getElementById('email').value, document.getElementById('password').value);
+                    const userCredential = await signInWithEmailAndPassword(auth, email, password);
                     user = userCredential.user;
                     alertMsg("Connexion réussie ! Redirection...", "success");
                 } else {
-                    const userCredential = await createUserWithEmailAndPassword(auth, document.getElementById('email').value, document.getElementById('password').value);
+                    const userCredential = await createUserWithEmailAndPassword(auth, email, password);
                     user = userCredential.user;
                     await updateProfile(user, { displayName: nameInput.value });
                     await setDoc(doc(db, 'UserProfiles', user.uid), {
                         name: nameInput.value,
-                        email: document.getElementById('email').value,
+                        email: email,
                         createdAt: new Date().toISOString()
                     });
                     alertMsg("Compte créé avec succès !", "success");
                 }
 
-                // --- LOGIQUE DE REDIRECTION ---
+                // --- REDIRECTION LOGIC ---
                 setTimeout(() => {
                     const ADMIN_UID = "v4086Cxmi9PMI31GUBZzY8rHyIA3";
                     
-                    if (user && user.uid === ADMIN_UID) {
+                    // If you are the admin, go to admin.html, otherwise go to index.html
+                    if (user.uid === ADMIN_UID) {
                         window.location.replace('admin.html');
                     } else {
-                        // On utilise .replace pour éviter que l'utilisateur puisse revenir en arrière sur la page login
                         window.location.replace('index.html');
                     }
                 }, 1500);
 
             } catch (error) {
                 console.error(error);
-                let errorFrench = "Erreur de connexion.";
-                if (error.code === 'auth/wrong-password' || error.code === 'auth/invalid-credential') errorFrench = "Email ou mot de passe incorrect.";
-                if (error.code === 'auth/user-not-found') errorFrench = "Aucun compte trouvé.";
-                
-                alertMsg(errorFrench, "error");
+                let errorMsgTxt = "Erreur : Vérifiez vos informations.";
+                if (error.code === 'auth/wrong-password' || error.code === 'auth/invalid-credential') {
+                    errorMsgTxt = "Email ou mot de passe incorrect.";
+                }
+                alertMsg(errorMsgTxt, "error");
                 authButton.disabled = false;
-                authButton.textContent = isLoginMode ? "Connexion" : "S'inscrire";
+                authButton.textContent = isLoginMode ? "Se connecter" : "Créer mon compte";
             }
         });
 
