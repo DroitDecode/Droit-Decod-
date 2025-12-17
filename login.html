@@ -330,11 +330,19 @@
                         createdAt: new Date().toISOString()
                     };
 
-                    // 2. SAUVEGARDE PRIVÉE (Sécurité): artifacts/{appId}/users/{user.uid}/profile/data
-                    const privateDocRef = doc(db, `artifacts/${appId}/users/${user.uid}/profile`, 'data');
-                    await setDoc(privateDocRef, profileData, { merge: true });
+                    // --- Bloc de sauvegarde simplifié ---
+const profileData = {
+    name: name,
+    email: email,
+    createdAt: new Date().toISOString()
+};
 
-                    // 3. SAUVEGARDE PUBLIQUE (Admin Dashboard): UserProfiles/{user.uid}
+// On enregistre directement dans UserProfiles
+// Cela créera la collection automatiquement au premier clic
+await setDoc(doc(db, 'UserProfiles', user.uid), profileData);
+
+console.log("Données enregistrées avec succès !");
+
                     // CECI EST CRUCIAL POUR LE TABLEAU DE BORD ADMINISTRATEUR
                     const publicProfileDocRef = doc(db, 'UserProfiles', user.uid);
                     await setDoc(publicProfileDocRef, profileData);
