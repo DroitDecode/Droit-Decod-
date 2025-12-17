@@ -14,81 +14,135 @@
             --color-primary-blue: #3E4B7A;
             --color-secondary-bg: #F8F9FA;
         }
-        body { background-color: var(--color-secondary-bg); font-family: 'Inter', sans-serif; }
-        .text-primary-red { color: var(--color-primary-red); }
-        .bg-primary-red { background-color: var(--color-primary-red); }
-        .text-primary-blue { color: var(--color-primary-blue); }
-        .border-primary-red { border-color: var(--color-primary-red); }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--color-secondary-bg);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Header & Nav Styles */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2rem;
+            background-color: white;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        .logo-container a { display: flex; align-items: center; text-decoration: none; }
+        .logo-container img { height: 40px; width: 40px; border-radius: 50%; margin-right: 10px; }
+        .logo-text { font-size: 1.5rem; line-height: 1; font-weight: 300; }
+        .logo-text strong { color: var(--color-primary-blue); font-weight: 700; }
+        .logo-text span { color: var(--color-primary-red); font-weight: 700; }
+
+        header nav ul { display: flex; list-style: none; gap: 1.5rem; margin: 0; padding: 0; align-items: center; }
+        header nav ul li a { color: #4B5563; text-decoration: none; padding: 0.5rem 0; transition: color 0.3s; font-weight: 600; }
+        header nav ul li a:hover { color: var(--color-primary-red); }
+        header nav ul li a.active { color: var(--color-primary-red); border-bottom: 2px solid var(--color-primary-red); }
+
+        .contact-btn { background-color: var(--color-primary-red); color: white !important; padding: 0.5rem 1rem; border-radius: 0.5rem; }
+        .log-btn { border: 1px solid var(--color-primary-blue); color: var(--color-primary-blue) !important; padding: 0.5rem 1rem; border-radius: 0.5rem; }
+        .admin-btn { background-color: var(--color-primary-blue); color: white !important; padding: 0.5rem 1rem; border-radius: 0.5rem; font-weight: 600; }
+
+        footer { background-color: var(--color-primary-blue); color: white; padding: 2rem; text-align: center; margin-top: auto; }
+
+        /* Article Card Styles */
+        .article-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 1rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            border-left: 4px solid var(--color-primary-blue);
+            transition: transform 0.2s, shadow 0.2s;
+        }
+        .article-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px rgba(0,0,0,0.1);
+        }
+
+        @media (max-width: 768px) {
+            header nav ul {
+                display: none;
+                flex-direction: column;
+                position: absolute;
+                top: 64px;
+                right: 0;
+                width: 100%;
+                background-color: white;
+                box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+                padding: 1rem 0;
+            }
+            header nav ul.open { display: flex; }
+            header nav ul li { width: 100%; text-align: center; padding: 0.75rem 0; border-bottom: 1px solid #f3f4f6; }
+            .menu-toggle { display: block; background: none; border: none; font-size: 1.8rem; cursor: pointer; color: var(--color-primary-blue); }
+        }
     </style>
 </head>
-<body class="min-h-screen flex flex-col">
+<body>
 
-    <header class="bg-white shadow-md sticky top-0 z-50">
-        <div class="max-w-6xl mx-auto px-4 h-16 flex justify-between items-center">
-            <a href="index.html" class="flex items-center space-x-2">
-                <img src="logo1.jpeg" alt="Logo" class="h-10 w-auto rounded border border-gray-200" onerror="this.src='https://placehold.co/40x40?text=DD'">
-                <div class="text-lg font-extrabold tracking-tight">
-                    <span style="color: var(--color-primary-blue)">DROIT</span> 
-                    <span style="color: var(--color-primary-red)">DÉCODÉ</span>
-                </div>
+    <header role="banner">
+        <div class="logo-container">
+            <a href="index.html">
+                <img src="logo1.jpeg" alt="Logo">
+                <div class="logo-text"><strong>DROIT</strong> <span>DÉCODÉ</span></div>
             </a>
-
-            <nav class="hidden md:flex space-x-8 font-semibold text-gray-700">
-                <a href="index.html" class="hover:text-primary-red transition">Accueil</a>
-                <a href="articles.html" class="text-primary-red">Articles</a>
-                <a href="tiktok.html" class="hover:text-primary-red transition">TikTok</a>
-                <a href="contact.html" class="hover:text-primary-red transition">Contact</a>
-            </nav>
-
-            <button id="menu-toggle" class="md:hidden p-2 text-primary-blue text-3xl focus:outline-none" aria-label="Menu">
-                &#9776;
-            </button>
         </div>
 
-        <div id="mobile-menu" class="hidden md:hidden bg-white border-t border-gray-100 flex flex-col p-4 space-y-4 font-bold text-gray-700 shadow-xl">
-            <a href="index.html" class="hover:text-primary-red">Accueil</a>
-            <a href="articles.html" class="text-primary-red">Articles</a>
-            <a href="tiktok.html" class="hover:text-primary-red">TikTok</a>
-            <a href="contact.html" class="hover:text-primary-red">Contact</a>
-            <hr>
-            <button id="logout-btn" class="text-left text-sm text-gray-400">Déconnexion</button>
-        </div>
+        <nav role="navigation">
+            <ul id="main-navigation">
+                <li><a href="index.html">Accueil</a></li>
+                <li><a href="articles.html" class="active">Articles & Explications</a></li>
+                <li id="admin-link-container" class="hidden">
+                    <a href="admin_dashboard.html" class="admin-btn">Tableau de bord</a>
+                </li>
+                <li><a href="tiktok.html">TikTok Publications</a></li>
+                <li><a href="about.html">À Propos</a></li>
+                <li><a href="contact.html" class="contact-btn">Contact</a></li>
+                <li id="auth-link-container">
+                    <a href="login.html" class="log-btn" id="auth-link">Se connecter</a>
+                </li>
+            </ul>
+        </nav>
+
+        <button class="menu-toggle" onclick="document.getElementById('main-navigation').classList.toggle('open')">
+            &#9776;
+        </button>
     </header>
 
-    <main class="flex-grow container mx-auto px-4 py-8 max-w-4xl">
-        
-        <section id="admin-section" class="hidden mb-10 bg-white p-6 rounded-2xl shadow-xl border-t-8 border-primary-red">
-            <h2 class="text-2xl font-black mb-4 text-primary-blue">Publier un Article</h2>
-            <form id="article-form" class="space-y-4">
-                <input type="hidden" id="article-id">
-                <input type="text" id="title" placeholder="Titre de l'article" required class="w-full p-3 border rounded-lg focus:ring-2 focus:ring-red-400 outline-none">
-                <input type="url" id="image-url" placeholder="Lien de l'image (URL)" required class="w-full p-3 border rounded-lg focus:ring-2 focus:ring-red-400 outline-none">
-                <textarea id="content" placeholder="Écrivez votre texte ici..." required rows="6" class="w-full p-3 border rounded-lg focus:ring-2 focus:ring-red-400 outline-none"></textarea>
-                <div class="flex space-x-2">
-                    <button type="submit" id="submit-btn" class="bg-primary-red text-white px-8 py-3 rounded-lg font-bold hover:bg-red-600 transition shadow-lg">Publier maintenant</button>
-                    <button type="button" id="cancel-edit" class="hidden px-4 py-3 text-gray-500 underline">Annuler</button>
-                </div>
-            </form>
-        </section>
+    <main class="max-w-7xl mx-auto p-6 md:p-12 w-full">
+        <div class="flex flex-col md:flex-row justify-between items-center mb-10 border-b-2 border-primary-red pb-4">
+            <h1 class="text-3xl md:text-4xl font-black text-primary-blue uppercase">
+                Décryptages Juridiques
+            </h1>
+            <div id="add-article-container" class="hidden mt-4 md:mt-0">
+                <a href="admin_dashboard.html" class="bg-green-600 text-white px-4 py-2 rounded-lg font-bold flex items-center shadow-lg">
+                    <span class="mr-2">+</span> Nouvel Article
+                </a>
+            </div>
+        </div>
 
-        <h1 class="text-3xl font-black text-primary-blue mb-8">Articles & Décryptages Juridiques</h1>
-
-        <div id="articles-container" class="space-y-8">
-            <div class="flex justify-center p-10">
-                <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-red"></div>
+        <div id="articles-list" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div class="col-span-full text-center py-20 text-gray-400">
+                Chargement des articles...
             </div>
         </div>
     </main>
 
-    <footer class="bg-white border-t p-8 mt-12 text-center text-gray-500 text-sm">
+    <footer>
         <p>&copy; 2025 Droit Décodé. Tous droits réservés.</p>
     </footer>
 
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
-        import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
-        import { getFirestore, collection, addDoc, onSnapshot, query, orderBy, serverTimestamp, doc, deleteDoc, updateDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
 
+    <script>
         const firebaseConfig = {
             apiKey: "AIzaSyDpNtHXiZK3bIyLwAUlTNAiWRrg2vhPYeE",
             authDomain: "droitdecode-9aa4d.firebaseapp.com",
@@ -98,117 +152,57 @@
             appId: "1:219930978240:web:886c40e47d276c75548a25"
         };
 
-        const app = initializeApp(firebaseConfig);
-        const auth = getAuth(app);
-        const db = getFirestore(app);
+        firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+        const db = firebase.firestore();
         const ADMIN_UID = "v4086Cxmi9PMI31GUBZzY8rHyIA3";
 
-        // --- GESTION DU MENU MOBILE ---
-        const menuToggle = document.getElementById('menu-toggle');
-        const mobileMenu = document.getElementById('mobile-menu');
-        menuToggle.addEventListener('click', () => mobileMenu.classList.toggle('hidden'));
+        const articlesList = document.getElementById('articles-list');
+        const adminContainer = document.getElementById('admin-link-container');
+        const addBtnContainer = document.getElementById('add-article-container');
+        const authLink = document.getElementById('auth-link');
 
-        // --- AUTHENTIFICATION ---
-        onAuthStateChanged(auth, (user) => {
-            if (user && user.uid === ADMIN_UID) {
-                document.getElementById('admin-section').classList.remove('hidden');
+        // 1. AUTH LOGIC
+        auth.onAuthStateChanged(user => {
+            if (user) {
+                authLink.textContent = 'Déconnexion';
+                authLink.onclick = (e) => { e.preventDefault(); auth.signOut().then(() => window.location.reload()); };
+                if (user.uid === ADMIN_UID) {
+                    adminContainer.classList.remove('hidden');
+                    addBtnContainer.classList.remove('hidden');
+                }
+            } else {
+                authLink.textContent = 'Se connecter';
+                authLink.href = 'login.html';
+                adminContainer.classList.add('hidden');
+                addBtnContainer.classList.add('hidden');
             }
-            loadArticles(user && user.uid === ADMIN_UID);
         });
 
-        document.getElementById('logout-btn').addEventListener('click', () => signOut(auth).then(() => window.location.reload()));
+        // 2. LOAD ARTICLES
+        db.collection("Articles").orderBy("timestamp", "desc").onSnapshot(snapshot => {
+            articlesList.innerHTML = '';
+            if (snapshot.empty) {
+                articlesList.innerHTML = '<p class="col-span-full text-center text-gray-500">Aucun article disponible pour le moment.</p>';
+                return;
+            }
 
-        // --- CHARGEMENT DES ARTICLES ---
-        function loadArticles(isAdmin) {
-            const q = query(collection(db, "Articles"), orderBy("timestamp", "desc"));
-            onSnapshot(q, (snapshot) => {
-                const container = document.getElementById('articles-container');
-                container.innerHTML = '';
-                
-                snapshot.forEach((docSnap) => {
-                    const art = docSnap.data();
-                    const id = docSnap.id;
-                    const date = art.timestamp ? art.timestamp.toDate().toLocaleDateString('fr-FR') : 'Récemment';
-
-                    const card = document.createElement('div');
-                    card.className = "bg-white rounded-2xl shadow-md overflow-hidden border border-gray-100";
-                    card.innerHTML = `
-                        <img src="${art.imageUrl}" class="w-full h-56 object-cover" onerror="this.src='https://placehold.co/600x300?text=Droit+Décodé'">
-                        <div class="p-6">
-                            <h2 class="text-2xl font-bold text-gray-800 mb-2">${art.title}</h2>
-                            <p class="text-xs font-bold text-primary-red uppercase tracking-widest mb-4">Publié le ${date}</p>
-                            <p id="text-${id}" class="text-gray-600 leading-relaxed line-clamp-3 mb-4">${art.content}</p>
-                            <button onclick="window.toggleText('${id}')" id="btn-${id}" class="text-primary-blue font-black hover:underline">Lire la suite</button>
-                            
-                            ${isAdmin ? `
-                                <div class="mt-6 pt-4 border-t flex space-x-6">
-                                    <button onclick="window.prepareEdit('${id}', '${art.title.replace(/'/g, "\\'")}', '${art.imageUrl}', '${art.content.replace(/'/g, "\\'")}')" class="text-blue-500 font-bold text-sm">MODIFIER</button>
-                                    <button onclick="window.deleteArt('${id}')" class="text-red-500 font-bold text-sm">SUPPRIMER</button>
-                                </div>
-                            ` : ''}
-                        </div>
-                    `;
-                    container.appendChild(card);
-                });
+            snapshot.forEach(doc => {
+                const article = doc.data();
+                const card = document.createElement('div');
+                card.className = 'article-card';
+                card.innerHTML = `
+                    <h3 class="text-xl font-bold text-primary-blue mb-2">${article.title}</h3>
+                    <p class="text-sm text-primary-red font-semibold mb-3">${article.category || 'Droit'}</p>
+                    <p class="text-gray-600 mb-4 line-clamp-3">${article.summary || article.content.substring(0, 100) + '...'}</p>
+                    <div class="flex justify-between items-center mt-4">
+                        <a href="view_article.html?id=${doc.id}" class="text-primary-blue font-bold hover:underline">Lire l'article &rarr;</a>
+                        ${auth.currentUser && auth.currentUser.uid === ADMIN_UID ? `<a href="edit_article.html?id=${doc.id}" class="text-gray-400 text-sm hover:text-primary-blue">Modifier</a>` : ''}
+                    </div>
+                `;
+                articlesList.appendChild(card);
             });
-        }
-
-        // --- ACTIONS ARTICLES ---
-        const articleForm = document.getElementById('article-form');
-        articleForm.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const id = document.getElementById('article-id').value;
-            const data = {
-                title: document.getElementById('title').value,
-                imageUrl: document.getElementById('image-url').value,
-                content: document.getElementById('content').value,
-                timestamp: serverTimestamp()
-            };
-
-            if(id) {
-                await updateDoc(doc(db, "Articles", id), data);
-            } else {
-                await addDoc(collection(db, "Articles"), data);
-            }
-            articleForm.reset();
-            window.cancelEditAction();
         });
-
-        window.toggleText = (id) => {
-            const p = document.getElementById(`text-${id}`);
-            const btn = document.getElementById(`btn-${id}`);
-            if (p.classList.contains('line-clamp-3')) {
-                p.classList.remove('line-clamp-3');
-                btn.textContent = "Réduire le texte";
-            } else {
-                p.classList.add('line-clamp-3');
-                btn.textContent = "Lire la suite";
-            }
-        };
-
-        window.deleteArt = async (id) => {
-            if(confirm("Supprimer définitivement cet article ?")) await deleteDoc(doc(db, "Articles", id));
-        };
-
-        window.prepareEdit = (id, title, img, content) => {
-            document.getElementById('article-id').value = id;
-            document.getElementById('title').value = title;
-            document.getElementById('image-url').value = img;
-            document.getElementById('content').value = content;
-            document.getElementById('submit-btn').textContent = "Enregistrer les modifications";
-            document.getElementById('cancel-edit').classList.remove('hidden');
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        };
-
-        window.cancelEditAction = () => {
-            document.getElementById('article-id').value = "";
-            document.getElementById('submit-btn').textContent = "Publier maintenant";
-            document.getElementById('cancel-edit').classList.add('hidden');
-            articleForm.reset();
-        };
-
-        document.getElementById('cancel-edit').addEventListener('click', window.cancelEditAction);
-
     </script>
 </body>
 </html>
