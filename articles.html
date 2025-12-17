@@ -5,183 +5,207 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Droit Décodé - Articles & Explications</title>
 
-    <!-- Utilisation de Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-
-    <!-- Feuille de style globale (pour header/footer/gabarit) -->
     <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
 
-    <link rel="manifest" href="manifest.json">
-    <meta name="theme-color" content="#E84D3D"> 
-    
     <style>
-        /* Définitions des variables de couleur pour la cohérence */
         :root {
             --color-primary-red: #E84D3D;
-            --color-primary-blue: #3E4B7A; /* Deep, professional blue */
+            --color-primary-blue: #3E4B7A;
             --color-secondary-bg: #F8F9FA;
         }
-
-        body {
-            background-color: var(--color-secondary-bg);
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            font-family: 'Inter', sans-serif;
-        }
-        
-        /* Assure que le contenu principal prend l'espace restant */
-        main {
-            flex-grow: 1; 
-            padding-top: 2rem; 
-            padding-bottom: 2rem;
-        }
-
-        .container {
-            max-width: 1200px;
-            margin-left: auto;
-            margin-right: auto;
-            padding-left: 1rem;
-            padding-right: 1rem;
-        }
-
+        body { background-color: var(--color-secondary-bg); font-family: 'Inter', sans-serif; }
         .text-primary-red { color: var(--color-primary-red); }
+        .bg-primary-red { background-color: var(--color-primary-red); }
         .text-primary-blue { color: var(--color-primary-blue); }
         .border-primary-red { border-color: var(--color-primary-red); }
-        .border-primary-blue { border-color: var(--color-primary-blue); }
-
-        /* Styles pour les cartes d'article */
-        article {
-            background-color: white; /* Remplacer par bg-white de Tailwind */
-        }
-
-        /* Active Link Styling (Doit être dans style.css pour le header, mais redéfini ici pour la cohérence visuelle) */
-        header nav ul li a.active {
-            color: var(--color-primary-red);
-            font-weight: 700;
-            border-bottom: 2px solid var(--color-primary-red);
-        }
-
-        /* Ajustement du style du header si nécessaire */
-        .logo-text strong { color: var(--color-primary-blue); }
-        .logo-text span { color: var(--color-primary-red); }
     </style>
 </head>
 <body>
 
-    <!-- --- Header (En-tête) - Uniform on all pages --- -->
     <header role="banner">
         <div class="logo-container">
-            <!-- Assurer que l'image et le texte du logo sont cliquables -->
             <a href="index.html">
-                <img src="logo1.jpeg" alt="Logo Droit Décodé">
+                <img src="logo1.jpeg" alt="Logo">
                 <div class="logo-text"><strong>DROIT</strong> <span>DÉCODÉ</span></div>
             </a>
         </div>
-
-        <nav role="navigation" aria-label="Menu principal du site">
+        <nav role="navigation">
             <ul>
                 <li><a href="index.html">Accueil</a></li>
-                <!-- Lien actif -->
-                <li><a href="articles.html" class="active" aria-current="page">Articles & Explications</a></li>
-                <li><a href="tiktok.html">TikTok Publications</a></li>
-                <li><a href="about.html">À Propos</a></li>
-                <li><a href="contact.html" class="contact-btn">Contact</a></li>
+                <li><a href="articles.html" class="active">Articles</a></li>
+                <li><a href="tiktok.html">TikTok</a></li>
+                <li><a href="contact.html">Contact</a></li>
             </ul>
         </nav>
-
-        <button class="menu-toggle" aria-expanded="false" aria-controls="main-navigation">
-            &#9776; <!-- Icône Burger -->
-            <span class="sr-only">Ouvrir le menu</span>
-        </button>
     </header>
 
-    <!-- --- Main Content: Articles --- -->
-    <main class="container mx-auto px-4 sm:px-6 lg:px-8">
-        <h1 class="text-4xl font-extrabold text-primary-blue mb-8 border-b-4 pb-2 border-primary-red">
-            Articles, Commentaires et Explications Complètes
-        </h1>
-
-        <!-- Filter/Search Bar (Professional Feature) -->
-        <div class="mb-10 p-4 bg-white rounded-xl shadow-lg flex flex-col md:flex-row gap-4 items-center border-t-4 border-primary-blue">
-            <input type="text" 
-                   placeholder="Rechercher par mot-clé (Ex: Contrat, Succession, Pénal...)" 
-                   class="w-full md:flex-grow p-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-primary-blue transition duration-200">
-            <select class="w-full md:w-auto p-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-primary-blue transition duration-200">
-                <option value="">Filtrer par Thème</option>
-                <option value="droit-civil">Droit Civil</option>
-                <option value="droit-penal">Droit Pénal</option>
-                <option value="droit-commercial">Droit Commercial</option>
-                <option value="droit-social">Droit Social</option>
-                <option value="procedure">Procédure</option>
-                <option value="jurisprudence">Jurisprudence</option>
-            </select>
-        </div>
-
-        <!-- Article List -->
-        <section class="space-y-6">
-
-            <!-- Article 1: Commentaire d'arrêt -->
-            <article class="p-6 rounded-xl shadow-lg hover:shadow-2xl transition duration-300 border-l-4 border-primary-red">
-                <h2 class="text-2xl font-semibold text-primary-blue">Commentaire d'Arrêt: L'évolution de la faute lourde (Cass. 2023)</h2>
-                <p class="text-sm text-gray-500 mb-3">Publié le 15 Octobre 2025 | Thème: Jurisprudence, Droit du Travail</p>
-                <p class="mb-4 text-gray-700">Analyse complète et plan détaillé de l'arrêt majeur de la Cour de cassation redéfinissant les critères de la faute lourde de l'employé. Un incontournable pour les étudiants en droit social.</p>
-                <a href="#" class="inline-flex items-center text-primary-red font-bold hover:text-primary-blue transition duration-200">Lire le Commentaire &rarr;</a>
-            </article>
-
-            <!-- Article 2: Explication de Notion -->
-            <article class="p-6 rounded-xl shadow-lg hover:shadow-2xl transition duration-300 border-l-4 border-primary-blue">
-                <h2 class="text-2xl font-semibold text-primary-blue">Explication: La Théorie de l'Apparence en Droit Commercial</h2>
-                <p class="text-sm text-gray-500 mb-3">Publié le 10 Octobre 2025 | Thème: Droit Commercial</p>
-                <p class="mb-4 text-gray-700">Un décryptage facile à comprendre de la théorie de l'apparence, avec des exemples pratiques pour l'examen et la pratique des affaires.</p>
-                <a href="#" class="inline-flex items-center text-primary-red font-bold hover:text-primary-blue transition duration-200">Voir l'Explication &rarr;</a>
-            </article>
-
-            <!-- Article 3: Article de fond -->
-            <article class="p-6 rounded-xl shadow-lg hover:shadow-2xl transition duration-300 border-l-4 border-primary-red">
-                <h2 class="text-2xl font-semibold text-primary-blue">Article: Le Principe de Légalité et ses Limites en Droit Pénal</h2>
-                <p class="text-sm text-gray-500 mb-3">Publié le 01 Octobre 2025 | Thème: Droit Pénal, Principes Fondamentaux</p>
-                <p class="mb-4 text-gray-700">Un essai sur l'importance du principe de légalité criminelle et comment la jurisprudence l'interprète aujourd'hui, notamment face aux nouvelles technologies.</p>
-                <a href="#" class="inline-flex items-center text-primary-red font-bold hover:text-primary-blue transition duration-200">Lire l'Article &rarr;</a>
-            </article>
-            
-            <!-- Article 4: Droit de la famille -->
-            <article class="p-6 rounded-xl shadow-lg hover:shadow-2xl transition duration-300 border-l-4 border-primary-blue">
-                <h2 class="text-2xl font-semibold text-primary-blue">Le Divorce par Consentement Mutuel: Procédure et Coûts</h2>
-                <p class="text-sm text-gray-500 mb-3">Publié le 25 Septembre 2025 | Thème: Droit de la Famille, Procédure</p>
-                <p class="mb-4 text-gray-700">Tout ce que vous devez savoir sur le divorce sans juge, de la signature de la convention aux formalités d'enregistrement.</p>
-                <a href="#" class="inline-flex items-center text-primary-red font-bold hover:text-primary-blue transition duration-200">Lire le Guide &rarr;</a>
-            </article>
-
-            <!-- Section de pagination (Placeholder visuel) -->
-            <div class="flex justify-center items-center space-x-2 pt-6">
-                <button class="px-4 py-2 text-primary-blue border border-primary-blue rounded-lg hover:bg-primary-blue hover:text-white transition duration-200" disabled>&larr; Précédent</button>
-                <span class="px-4 py-2 bg-primary-red text-white font-bold rounded-lg">1</span>
-                <a href="#" class="px-4 py-2 text-primary-blue border border-gray-300 rounded-lg hover:bg-gray-100 transition duration-200">2</a>
-                <a href="#" class="px-4 py-2 text-primary-blue border border-gray-300 rounded-lg hover:bg-gray-100 transition duration-200">3</a>
-                <a href="#" class="px-4 py-2 text-primary-blue border border-primary-blue rounded-lg hover:bg-primary-blue hover:text-white transition duration-200">Suivant &rarr;</a>
-            </div>
-
+    <main class="container mx-auto px-4 py-8 max-w-4xl">
+        
+        <section id="admin-section" class="hidden mb-12 bg-white p-6 rounded-xl shadow-xl border-t-4 border-primary-red">
+            <h2 class="text-2xl font-bold mb-4 text-primary-blue">Publier un nouvel article</h2>
+            <form id="article-form" class="space-y-4">
+                <input type="hidden" id="article-id">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">Titre de l'article</label>
+                    <input type="text" id="title" required class="w-full p-2 border rounded-md outline-none focus:ring-2 focus:ring-red-400">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">Lien de l'image (URL)</label>
+                    <input type="url" id="image-url" required class="w-full p-2 border rounded-md outline-none focus:ring-2 focus:ring-red-400" placeholder="https://exemple.com/image.jpg">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">Contenu de l'article</label>
+                    <textarea id="content" required rows="6" class="w-full p-2 border rounded-md outline-none focus:ring-2 focus:ring-red-400"></textarea>
+                </div>
+                <button type="submit" id="submit-btn" class="bg-primary-red text-white px-6 py-2 rounded-md font-bold hover:bg-red-600 transition">Publier l'article</button>
+                <button type="button" id="cancel-edit" class="hidden ml-2 text-gray-500 underline">Annuler modification</button>
+            </form>
         </section>
 
-    </main>
-    <!-- -------------------------------------------------------- -->
+        <h1 class="text-3xl font-extrabold text-primary-blue mb-8 border-b-4 pb-2 border-primary-red">Dernières Publications</h1>
 
-    <!-- --- Footer (Bas de page) - Uniform on all pages --- -->
-    <footer role="contentinfo">
-        <div class="footer-content">
-            <p>&copy; 2025 Droit Décodé. Tous droits réservés.</p>
-            <div class="footer-links">
-                <a href="about.html">À Propos</a> | 
-                <a href="contact.html">Contact</a> | 
-                <a href="mention">Mentions Légales</a>
-            </div>
-            <p>Email: droitdecode@gmail.com</p>
+        <div id="articles-container" class="space-y-8">
+            <p class="text-center text-gray-500">Chargement des articles...</p>
         </div>
-    </footer>
+    </main>
 
-    <!-- JavaScript Global (Gère la réactivité du menu) -->
-    <script src="script.js"></script>
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getFirestore, collection, addDoc, onSnapshot, query, orderBy, serverTimestamp, doc, deleteDoc, updateDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyDpNtHXiZK3bIyLwAUlTNAiWRrg2vhPYeE",
+            authDomain: "droitdecode-9aa4d.firebaseapp.com",
+            projectId: "droitdecode-9aa4d",
+            storageBucket: "droitdecode-9aa4d.firebasestorage.app",
+            messagingSenderId: "219930978240",
+            appId: "1:219930978240:web:886c40e47d276c75548a25"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+        const ADMIN_UID = "v4086Cxmi9PMI31GUBZzY8rHyIA3"; 
+
+        const adminSection = document.getElementById('admin-section');
+        const articleForm = document.getElementById('article-form');
+        const articlesContainer = document.getElementById('articles-container');
+
+        // 1. Vérifier si l'utilisateur est l'admin
+        onAuthStateChanged(auth, (user) => {
+            if (user && user.uid === ADMIN_UID) {
+                adminSection.classList.remove('hidden');
+            } else {
+                adminSection.classList.add('hidden');
+            }
+            loadArticles(user && user.uid === ADMIN_UID);
+        });
+
+        // 2. Publier ou Modifier un article
+        articleForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const id = document.getElementById('article-id').value;
+            const data = {
+                title: document.getElementById('title').value,
+                imageUrl: document.getElementById('image-url').value,
+                content: document.getElementById('content').value,
+                timestamp: serverTimestamp()
+            };
+
+            try {
+                if (id) {
+                    await updateDoc(doc(db, "Articles", id), data);
+                    alert("Article modifié !");
+                } else {
+                    await addDoc(collection(db, "Articles"), data);
+                    alert("Article publié !");
+                }
+                articleForm.reset();
+                resetForm();
+            } catch (err) { alert("Erreur : " + err.message); }
+        });
+
+        // 3. Charger les articles en temps réel
+        function loadArticles(isAdmin) {
+            const q = query(collection(db, "Articles"), orderBy("timestamp", "desc"));
+            onSnapshot(q, (snapshot) => {
+                articlesContainer.innerHTML = '';
+                if (snapshot.empty) {
+                    articlesContainer.innerHTML = '<p class="text-center text-gray-500">Aucun article pour le moment.</p>';
+                    return;
+                }
+                snapshot.forEach((doc) => {
+                    const art = doc.data();
+                    const card = document.createElement('div');
+                    card.className = "bg-white rounded-xl shadow-lg overflow-hidden border-l-4 border-primary-blue";
+                    
+                    card.innerHTML = `
+                        <img src="${art.imageUrl}" class="w-full h-48 object-cover" onerror="this.src='https://placehold.co/600x400?text=Image+indisponible'">
+                        <div class="p-6">
+                            <h2 class="text-2xl font-bold text-primary-blue mb-2">${art.title}</h2>
+                            <p class="text-xs text-gray-400 mb-4">Publié le ${art.timestamp?.toDate().toLocaleDateString('fr-FR') || 'récemment'}</p>
+                            
+                            <div class="article-body">
+                                <p class="text-gray-700 line-clamp-3 mb-4" id="text-${doc.id}">${art.content}</p>
+                                <button onclick="window.toggleText('${doc.id}')" id="btn-${doc.id}" class="text-primary-red font-bold hover:underline">Lire la suite</button>
+                            </div>
+
+                            ${isAdmin ? `
+                                <div class="mt-6 pt-4 border-t flex space-x-4">
+                                    <button onclick="window.editArticle('${doc.id}', '${art.title.replace(/'/g, "\\'")}', '${art.imageUrl}', '${art.content.replace(/'/g, "\\'")}')" class="text-blue-600 text-sm font-bold">Modifier</button>
+                                    <button onclick="window.deleteArticle('${doc.id}')" class="text-red-600 text-sm font-bold">Supprimer</button>
+                                </div>
+                            ` : ''}
+                        </div>
+                    `;
+                    articlesContainer.appendChild(card);
+                });
+            });
+        }
+
+        // Fonctions globales pour les boutons (Modifier / Supprimer / Lire la suite)
+        window.toggleText = (id) => {
+            const p = document.getElementById(`text-${id}`);
+            const btn = document.getElementById(`btn-${id}`);
+            if (p.classList.contains('line-clamp-3')) {
+                p.classList.remove('line-clamp-3');
+                btn.textContent = "Réduire";
+            } else {
+                p.classList.add('line-clamp-3');
+                btn.textContent = "Lire la suite";
+            }
+        };
+
+        window.deleteArticle = async (id) => {
+            if (confirm("Supprimer cet article ?")) {
+                await deleteDoc(doc(db, "Articles", id));
+            }
+        };
+
+        window.editArticle = (id, title, img, content) => {
+            document.getElementById('article-id').value = id;
+            document.getElementById('title').value = title;
+            document.getElementById('image-url').value = img;
+            document.getElementById('content').value = content;
+            document.getElementById('submit-btn').textContent = "Enregistrer les modifications";
+            document.getElementById('cancel-edit').classList.remove('hidden');
+            window.scrollTo(0, 0);
+        };
+
+        function resetForm() {
+            document.getElementById('article-id').value = "";
+            document.getElementById('submit-btn').textContent = "Publier l'article";
+            document.getElementById('cancel-edit').classList.add('hidden');
+        }
+
+        document.getElementById('cancel-edit').addEventListener('click', () => {
+            articleForm.reset();
+            resetForm();
+        });
+
+    </script>
 </body>
 </html>
-
