@@ -8,7 +8,6 @@
     <script src="https://cdn.tailwindcss.com"></script>
 
     <style>
-        /* Extraction stricte des styles de votre index.html */
         :root {
             --color-primary-red: #E84D3D;
             --color-primary-blue: #3E4B7A;
@@ -23,76 +22,112 @@
             flex-direction: column;
         }
 
-        /* Header & Nav Styles de index.html */
-        header { display: flex; justify-content: space-between; align-items: center; padding: 1rem 2rem; background-color: white; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05); }
+        /* --- STYLES MENU (COPIÉS DE INDEX.HTML) --- */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2rem;
+            background-color: white;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
         .logo-container a { display: flex; align-items: center; text-decoration: none; }
         .logo-container img { height: 40px; width: 40px; border-radius: 50%; margin-right: 10px; }
         .logo-text { font-size: 1.5rem; line-height: 1; font-weight: 300; }
         .logo-text strong { color: var(--color-primary-blue); font-weight: 700; }
         .logo-text span { color: var(--color-primary-red); font-weight: 700; }
 
-        header nav ul { display: flex; list-style: none; gap: 1.5rem; margin: 0; padding: 0; }
+        header nav ul { display: flex; list-style: none; gap: 1.5rem; margin: 0; padding: 0; align-items: center; }
         header nav ul li a { color: #4B5563; text-decoration: none; padding: 0.5rem 0; transition: color 0.3s; font-weight: 600; }
-        header nav ul li a:hover, header nav ul li a.active { color: var(--color-primary-red); }
-        header nav ul li a.active { border-bottom: 2px solid var(--color-primary-red); }
+        header nav ul li a:hover { color: var(--color-primary-red); }
+        header nav ul li a.active { color: var(--color-primary-red); border-bottom: 2px solid var(--color-primary-red); }
 
         .contact-btn { background-color: var(--color-primary-red); color: white !important; padding: 0.5rem 1rem; border-radius: 0.5rem; }
         .log-btn { border: 1px solid var(--color-primary-blue); color: var(--color-primary-blue) !important; padding: 0.5rem 1rem; border-radius: 0.5rem; }
+        .admin-btn { background-color: var(--color-primary-blue); color: white !important; padding: 0.5rem 1rem; border-radius: 0.5rem; font-weight: 600; }
 
-        /* Styles spécifiques pour l'édition dynamique */
+        /* Style spécifique pour le Crayon d'édition */
         .editable-zone[contenteditable="true"] {
             border: 2px dashed var(--color-primary-red);
-            padding: 5px;
+            padding: 10px;
             background: #fffafa;
             border-radius: 8px;
+            cursor: text;
         }
 
         #edit-fab {
             position: fixed;
             bottom: 2rem;
             left: 2rem;
-            width: 56px;
-            height: 56px;
+            width: 60px;
+            height: 60px;
             background-color: var(--color-primary-blue);
             color: white;
             border-radius: 50%;
-            display: none; /* Caché par défaut, visible pour admin */
+            display: none; 
             align-items: center;
             justify-content: center;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
             cursor: pointer;
-            z-index: 1000;
+            z-index: 1001;
+            font-size: 1.5rem;
+            border: none;
         }
 
         footer { background-color: var(--color-primary-blue); color: white; padding: 2rem; text-align: center; margin-top: auto; }
-        
-        @media (max-width: 640px) {
-            header nav ul { display: none; flex-direction: column; position: absolute; top: 60px; right: 0; width: 100%; background: white; z-index: 50; }
+
+        /* --- RESPONSIVE MENU --- */
+        @media (max-width: 768px) {
+            header nav ul {
+                display: none;
+                flex-direction: column;
+                position: absolute;
+                top: 64px;
+                right: 0;
+                width: 100%;
+                background-color: white;
+                box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+                padding: 1rem 0;
+            }
             header nav ul.open { display: flex; }
-            .menu-toggle { display: block; font-size: 1.5rem; color: var(--color-primary-blue); }
+            header nav ul li { width: 100%; text-align: center; padding: 0.75rem 0; border-bottom: 1px solid #f3f4f6; }
+            .menu-toggle { display: block; background: none; border: none; font-size: 1.8rem; cursor: pointer; color: var(--color-primary-blue); }
         }
+        @media (min-width: 769px) { .menu-toggle { display: none; } }
     </style>
 </head>
 <body>
 
-    <header>
+    <header role="banner">
         <div class="logo-container">
             <a href="index.html">
                 <img src="logo1.jpeg" alt="Logo">
                 <div class="logo-text"><strong>DROIT</strong> <span>DÉCODÉ</span></div>
             </a>
         </div>
-        <nav>
+
+        <nav role="navigation">
             <ul id="main-navigation">
                 <li><a href="index.html">Accueil</a></li>
                 <li><a href="articles.html">Articles & Explications</a></li>
-                <li><a href="tiktok.html">TikTok</a></li>
+                <li id="admin-link-container" class="hidden">
+                    <a href="admin_dashboard.html" class="admin-btn">Tableau de bord</a>
+                </li>
+                <li><a href="tiktok.html">TikTok Publications</a></li>
                 <li><a href="about.html" class="active">À Propos</a></li>
                 <li><a href="contact.html" class="contact-btn">Contact</a></li>
-                <li id="auth-link-container"><a href="login.html" class="log-btn" id="auth-link">Se connecter</a></li>
+                <li id="auth-link-container">
+                    <a href="login.html" class="log-btn" id="auth-link">Se connecter</a>
+                </li>
             </ul>
         </nav>
-        <button class="menu-toggle md:hidden" onclick="document.getElementById('main-navigation').classList.toggle('open')">&#9776;</button>
+
+        <button class="menu-toggle" aria-label="Menu" onclick="document.getElementById('main-navigation').classList.toggle('open')">
+            &#9776;
+        </button>
     </header>
 
     <main class="max-w-4xl mx-auto p-6 md:p-12">
@@ -100,7 +135,7 @@
             À Propos de Droit Décodé
         </h1>
 
-        <div class="bg-white rounded-2xl shadow-xl p-8 space-y-8">
+        <div class="bg-white rounded-2xl shadow-xl p-8 space-y-10">
             <section>
                 <h2 class="text-xl font-bold text-primary-red uppercase tracking-wider">Qui sommes-nous ?</h2>
                 <div id="about-desc" class="editable-zone text-gray-700 leading-relaxed text-lg mt-2">
@@ -124,9 +159,7 @@
         </div>
     </main>
 
-    <button id="edit-fab" title="Modifier le contenu">
-        <span id="fab-icon">✏️</span>
-    </button>
+    <button id="edit-fab" title="Modifier le contenu">✏️</button>
 
     <footer>
         <p>&copy; 2025 Droit Décodé. Tous droits réservés.</p>
@@ -158,48 +191,60 @@
             contact: document.getElementById('contact-info')
         };
         const fab = document.getElementById('edit-fab');
+        const adminContainer = document.getElementById('admin-link-container');
+        const authLink = document.getElementById('auth-link');
         let isEditing = false;
 
-        // 1. Charger les données
+        // 1. ÉCOUTEUR D'ÉTAT D'AUTHENTIFICATION
+        auth.onAuthStateChanged(user => {
+            if (user) {
+                authLink.textContent = 'Déconnexion';
+                authLink.onclick = (e) => { e.preventDefault(); auth.signOut().then(() => window.location.reload()); };
+                
+                if (user.uid === ADMIN_UID) {
+                    adminContainer.classList.remove('hidden');
+                    fab.style.display = 'flex';
+                }
+            } else {
+                authLink.textContent = 'Se connecter';
+                authLink.href = 'login.html';
+                adminContainer.classList.add('hidden');
+            }
+        });
+
+        // 2. CHARGEMENT DES DONNÉES EN TEMPS RÉEL
         DOC_REF.onSnapshot(doc => {
             if (doc.exists && !isEditing) {
                 const data = doc.data();
-                zones.desc.innerHTML = data.desc || "Entrez une description...";
-                zones.target.innerHTML = data.target || "Étudiants, citoyens...";
-                zones.contact.innerHTML = data.contact || "Email: ...";
+                zones.desc.innerHTML = data.desc || "Description ici...";
+                zones.target.innerHTML = data.target || "Public cible ici...";
+                zones.contact.innerHTML = data.contact || "Contacts ici...";
             }
         });
 
-        // 2. Vérifier Admin
-        auth.onAuthStateChanged(user => {
-            if (user && user.uid === ADMIN_UID) {
-                fab.style.display = 'flex';
-                document.getElementById('auth-link').textContent = "Déconnexion";
-            }
-        });
-
-        // 3. Gestion du clic sur le Crayon
+        // 3. LOGIQUE D'ÉDITION (LE CRAYON)
         fab.onclick = async () => {
             if (!isEditing) {
-                // Passer en mode édition
                 isEditing = true;
                 Object.values(zones).forEach(z => z.contentEditable = "true");
-                document.getElementById('fab-icon').textContent = "💾";
-                fab.style.backgroundColor = "#10B981"; // Vert
+                fab.textContent = "💾";
+                fab.style.backgroundColor = "#10B981"; // Vert pour sauvegarder
+                zones.desc.focus();
             } else {
-                // Sauvegarder
                 try {
                     await DOC_REF.set({
                         desc: zones.desc.innerHTML,
                         target: zones.target.innerHTML,
                         contact: zones.contact.innerHTML
-                    });
+                    }, { merge: true });
                     isEditing = false;
                     Object.values(zones).forEach(z => z.contentEditable = "false");
-                    document.getElementById('fab-icon').textContent = "✏️";
+                    fab.textContent = "✏️";
                     fab.style.backgroundColor = "#3E4B7A"; 
-                    alert("Modifications enregistrées !");
-                } catch (e) { alert("Erreur : " + e.message); }
+                    alert("Informations mises à jour !");
+                } catch (e) {
+                    alert("Erreur lors de la sauvegarde : " + e.message);
+                }
             }
         };
     </script>
