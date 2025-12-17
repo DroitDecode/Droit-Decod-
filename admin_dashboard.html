@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Droit Décodé - Tableau de Bord Admin</title>
+
+    <!-- Intégration de Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Utilisation de la police Inter pour la cohérence -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
+    
+    <style>
+        /* Définition des couleurs personnalisées */
+        :root {
+            --primary-red: #E84D3D;
+            --primary-blue: #3498DB;
+            --text-dark: #2c3e50;
+            --background-light: #F4F4F4;
+        }
+
+        .text-primary-red { color: var(--primary-red); }
+        .bg-primary-red { background-color: var(--primary-red); }
+        .text-primary-blue { color: var(--primary-blue); }
+        .bg-primary-blue { background-color: var(--primary-blue); }
+        .border-primary-red { border-color: var(--primary-red); }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--background-light);
+            min-height: 100vh;
+        }
+        
+        .loader {
+            border-top-color: #f3f3f3;
+            border-right-color: #f3f3f3;
+            border-bottom-color: #f3f3f3;
+            border-left-color: var(--primary-red);
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Styles pour le modal de message personnalisé */
+        .message-modal {
+            z-index: 100;
+        }
+    </style>
+</head>
+<body class="flex flex-col items-center">
+
+    <!-- En-tête du Tableau de Bord -->
+    <header class="w-full bg-white shadow-md p-4 sticky top-0 z-10">
+        <div class="max-w-6xl mx-auto flex justify-between items-center">
+            <div class="flex items-center">
+                <img src="assets/logo1.jpeg" alt="Logo Droit Décodé" class="h-8 w-auto rounded-md shadow-sm border border-primary-blue mr-2" onerror="this.onerror=null;this.src='https://placehold.co/32x32/3498DB/FFFFFF?text=DD'">
+                <h1 class="text-xl font-extrabold text-text-dark">Tableau de Bord Admin</h1>
+            </div>
+            <div>
+                <button id="logout-btn" class="py-2 px-4 text-sm font-medium text-white bg-primary-blue rounded-md hover:bg-blue-700 transition duration-150">
+                    Déconnexion
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Contenu Principal -->
+    <main class="p-4 md:p-8 w-full max-w-6xl mx-auto flex-grow">
+        
+        <!-- Tableau des Utilisateurs -->
+        <div id="users-dashboard">
+            <h2 class="text-3xl font-bold text-text-dark mb-6">Liste des Inscrits</h2>
+
+            <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+                <table class="min-w-full divide-y divide-gray-200">
+                    <thead class="bg-gray-50">
+                        <tr>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                Nom / Prénom
+                            </th>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                Email
+                            </th>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                ID Utilisateur (UID)
+                            </th>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                Date d'Inscription
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody id="user-list" class="bg-white divide-y divide-gray-200">
+                        <!-- Les données des utilisateurs seront insérées ici par JS -->
+                        <tr><td colspan="4" class="text-center py-4 text-gray-500" id="loading-message">Chargement des utilisateurs...</td></tr>
+                    </tbody>
+                </table>
+                <div id="no-users-message" class="hidden text-center p-6 text-gray-500">Aucun utilisateur trouvé pour l'instant.</div>
+            </div>
+        </div>
+        
+    </main>
+
+    <!-- Modal de Message Personnalisé (Remplace alert()) -->
+    <div id="message-modal" class="message-modal fixed inset-0 bg-gray-600 bg-opacity-75 hidden flex items-center justify-center p-4" aria-modal="true" role="dialog">
+        <div class="bg-white rounded-lg p-6 shadow-2xl w-full max-w-sm transform transition-all border-t-8" id="modal-card">
+            <h3 id="modal-title" class="text-xl font-bold mb-3 text-text-dark">Message</h3>
+            <p id="modal-content" class="text-gray-700 mb-6"></p>
+            <div class="flex justify-end">
+                <button id="modal-close-btn" class="py-2 px-4 bg-primary-red text-white font-medium rounded-md hover:bg-red-600">
+                    Fermer
+                </button>
+            </div>
+        </div>
+    </div>
+
+
+    <script type="module">
+        // --- Configuration et Imports Firebase ---
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAuth, signInAnonymously, signInWithCustomToken, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getFirestore, collection, query, getDocs, doc, onSnapshot } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+        import { setLogLevel } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+        // Configuration Firebase (intégrée)
+        const firebaseConfig = {
+            apiKey: "AIzaSyDpNtHXiZK3bIyLwAUlTNAiWRrg2vhPYeE",
+            authDomain: "droitdecode-9aa4d.firebaseapp.com",
+            projectId: "droitdecode-9aa4d",
+            storageBucket: "droitdecode-9aa4d.firebasestorage.app",
+            messagingSenderId: "219930978240",
+            appId: "1:219930978240:web:886c40e47d276c75548a25",
+            measurementId: "G-D619J4YSQL"
+        };
+        
+        // Variables globales du Canvas / Par défaut
+        const APP_ID = typeof __app_id !== 'undefined' ? __app_id : firebaseConfig.projectId;
+        const initialAuthToken = typeof __initial_auth_token !== 'undefined' ? __initial_auth_token : null;
+
+        // --- UID ADMINISTRATEUR (À REMPLACER) ---
+        // Seul l'utilisateur avec cet UID aura accès au tableau de bord.
+        // Vous DEVEZ remplacer ceci par l'UID de votre compte d'administrateur.
+        const ADMIN_UID = "v4086Cxmi9PMI31GUBZzY8rHyIA3"; 
+        
+        // Initialisation de Firebase
+        let app;
+        let auth;
+        let db;
+
+        try {
+            app = initializeApp(firebaseConfig);
+            auth = getAuth(app);
+            db = getFirestore(app);
+            setLogLevel('Debug');
+            console.log("Firebase initialisé.");
+        } catch (e) {
+            console.error("Erreur d'initialisation Firebase:", e);
+        }
+
+        // --- Éléments du DOM et Modal ---
+        const userListBody = document.getElementById('user-list');
+        const loadingMessage = document.getElementById('loading-message');
+        const noUsersMessage = document.getElementById('no-users-message');
+        const logoutBtn = document.getElementById('logout-btn');
+        const modal = document.getElementById('message-modal');
+        const modalTitle = document.getElementById('modal-title');
+        const modalContent = document.getElementById('modal-content');
+        const modalCloseBtn = document.getElementById('modal-close-btn');
+        const modalCard = document.getElementById('modal-card');
+
+        function alertMessage(message, type = 'info') {
+            modalContent.textContent = message;
+            let titleText = type === 'error' ? 'Erreur d\'Accès' : type === 'success' ? 'Succès' : 'Information';
+            let titleColor = type === 'error' ? 'text-primary-red' : type === 'success' ? 'text-green-600' : 'text-text-dark';
+            let borderColor = type === 'error' ? 'border-t-primary-red' : type === 'success' ? 'border-t-green-600' : 'border-t-primary-blue';
+            
+            modalTitle.textContent = titleText;
+            modalTitle.className = `text-xl font-bold mb-3 ${titleColor}`;
+            modalCard.className = `bg-white rounded-lg p-6 shadow-2xl w-full max-w-sm transform transition-all border-t-8 ${borderColor}`;
+
+            modal.classList.remove('hidden');
+        }
+
+        modalCloseBtn.addEventListener('click', () => {
+            modal.classList.add('hidden');
+        });
+
+        // --- Fonctions de Gestion de l'UI et des Données ---
+
+        /**
+         * Récupère la liste des utilisateurs depuis la collection publique UserProfiles.
+         * Utilise onSnapshot pour une mise à jour en temps réel.
+         */
+        function fetchUsers() {
+            if (!db || !auth.currentUser) return;
+
+            // Chemin de la collection publique pour le listing (doit être protégé par les règles Firestore)
+            const userProfilesCollectionRef = collection(db, 'UserProfiles');
+            
+            // Masquer les messages
+            loadingMessage.classList.remove('hidden');
+            userListBody.innerHTML = '';
+            noUsersMessage.classList.add('hidden');
+
+
+            // Listener en temps réel sur la liste des utilisateurs
+            onSnapshot(userProfilesCollectionRef, (snapshot) => {
+                const users = [];
+                snapshot.forEach(doc => {
+                    const data = doc.data();
+                    users.push({
+                        uid: doc.id,
+                        name: data.name,
+                        email: data.email,
+                        createdAt: data.createdAt,
+                    });
+                });
+                renderUserList(users);
+            }, (error) => {
+                console.error("Erreur lors de la récupération des utilisateurs:", error);
+                alertMessage("Erreur lors du chargement des données. Veuillez vérifier les règles de sécurité.", 'error');
+                loadingMessage.classList.add('hidden');
+            });
+        }
+
+        /**
+         * Rend la liste des utilisateurs dans le tableau.
+         */
+        function renderUserList(users) {
+            userListBody.innerHTML = '';
+            loadingMessage.classList.add('hidden');
+            
+            if (users.length === 0) {
+                noUsersMessage.classList.remove('hidden');
+                return;
+            }
+
+            users.forEach(user => {
+                const row = userListBody.insertRow();
+                row.className = 'hover:bg-gray-100 transition duration-150';
+
+                // Nom
+                let cell = row.insertCell();
+                cell.className = 'px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900';
+                cell.textContent = user.name || 'N/A';
+
+                // Email
+                cell = row.insertCell();
+                cell.className = 'px-6 py-4 whitespace-nowrap text-sm text-gray-500';
+                cell.textContent = user.email || 'N/A';
+
+                // UID
+                cell = row.insertCell();
+                cell.className = 'px-6 py-4 whitespace-nowrap text-xs text-gray-400 font-mono overflow-ellipsis overflow-hidden max-w-xs';
+                cell.textContent = user.uid || 'N/A';
+
+                // Date d'Inscription
+                cell = row.insertCell();
+                cell.className = 'px-6 py-4 whitespace-nowrap text-sm text-gray-500';
+                try {
+                    cell.textContent = user.createdAt ? new Date(user.createdAt).toLocaleDateString('fr-FR') : 'Inconnue';
+                } catch {
+                    cell.textContent = 'Inconnue';
+                }
+            });
+            noUsersMessage.classList.add('hidden');
+        }
+
+        // --- Logique d'Authentification et d'Accès Admin ---
+
+        logoutBtn.addEventListener('click', async () => {
+            if (auth) {
+                try {
+                    await signOut(auth);
+                } catch (error) {
+                    alertMessage("Erreur lors de la déconnexion.", 'error');
+                }
+            }
+        });
+
+        // Gestion de l'état d'authentification
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                // Utilisateur est connecté
+                if (user.uid === ADMIN_UID) {
+                    console.log("Accès Administrateur vérifié. UID:", user.uid);
+                    fetchUsers(); // Lancer la récupération des données
+                } else {
+                    console.log("Accès refusé pour l'UID:", user.uid);
+                    alertMessage("Accès refusé. Seul l'administrateur peut voir ce tableau de bord.", 'error');
+                    // Déconnecter l'utilisateur non-admin et rediriger
+                    signOut(auth);
+                }
+            } else {
+                // Utilisateur déconnecté - Redirection vers la page de connexion
+                console.log("Utilisateur déconnecté. Redirection vers login.html.");
+                window.location.href = 'login.html';
+            }
+        });
+
+        // Authentification initiale au chargement de la page
+        document.addEventListener('DOMContentLoaded', () => {
+            if (!auth) return;
+            if (initialAuthToken) {
+                // Tente de se connecter avec le jeton fourni par le Canvas
+                signInWithCustomToken(auth, initialAuthToken).catch(e => {
+                    console.error("Erreur de connexion par jeton initial:", e);
+                    signInAnonymously(auth); 
+                });
+            } else {
+                // Si pas de jeton, se connecter anonymement (nécessite l'activation dans Firebase Auth)
+                signInAnonymously(auth).catch(e => console.error("Erreur de connexion anonyme:", e));
+            }
+        });
+    </script>
+</body>
+</html>
+
