@@ -15,7 +15,6 @@
             --text-dark: #2c3e50;
             --background-light: #F4F4F4;
         }
-
         body {
             font-family: 'Inter', sans-serif;
             background-color: var(--background-light);
@@ -24,48 +23,35 @@
             align-items: center;
             min-height: 100vh;
         }
-
-        .loader {
-            border-top-color: #f3f3f3;
-            border-right-color: #f3f3f3;
-            border-bottom-color: #f3f3f3;
-            border-left-color: var(--primary-red);
-            animation: spin 1s linear infinite;
-        }
-
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
     </style>
 </head>
 <body>
 
-    <div class="p-4 md:p-8 w-full max-w-sm mx-auto">
+    <div class="p-4 w-full max-w-sm mx-auto">
         <div class="text-center mb-8">
             <img src="logo1.jpeg" alt="Logo" class="mx-auto h-16 w-auto rounded-xl shadow-lg border-2 border-primary-blue" onerror="this.onerror=null;this.src='https://placehold.co/64x64/3498DB/FFFFFF?text=DD'">
             <h1 class="mt-4 text-3xl font-extrabold text-text-dark">Droit Décodé</h1>
             <p class="text-sm text-gray-500 mt-1" id="mode-subtitle">Connectez-vous pour accéder au contenu.</p>
         </div>
 
-        <div class="bg-white p-6 md:p-8 rounded-xl shadow-2xl border-t-8 border-primary-red">
+        <div class="bg-white p-6 rounded-xl shadow-2xl border-t-8 border-primary-red">
             <form id="auth-form" class="space-y-6">
                 <div id="name-field" class="hidden">
                     <label class="block text-sm font-medium text-gray-700">Nom / Prénom</label>
-                    <input type="text" id="name" placeholder="Ex: Jean Dupont" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-primary-red focus:border-primary-red">
+                    <input type="text" id="name" placeholder="Ex: Jean Dupont" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-primary-red focus:border-primary-red outline-none">
                 </div>
 
                 <div>
                     <label class="block text-sm font-medium text-gray-700">Adresse Email</label>
-                    <input type="email" id="email" required placeholder="utilisateur@exemple.com" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-primary-red focus:border-primary-red">
+                    <input type="email" id="email" required placeholder="utilisateur@exemple.com" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-primary-red focus:border-primary-red outline-none">
                 </div>
 
                 <div>
                     <label class="block text-sm font-medium text-gray-700">Mot de Passe</label>
-                    <input type="password" id="password" required placeholder="Min. 6 caractères" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-primary-red focus:border-primary-red">
+                    <input type="password" id="password" required placeholder="Min. 6 caractères" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-primary-red focus:border-primary-red outline-none">
                 </div>
 
-                <button type="submit" id="auth-button" class="w-full py-2 px-4 rounded-md text-white bg-primary-red hover:bg-red-600 font-medium transition">
+                <button type="submit" id="auth-button" class="w-full py-3 px-4 rounded-md text-white bg-primary-red hover:bg-red-600 font-bold transition duration-200">
                     Connexion
                 </button>
             </form>
@@ -73,18 +59,18 @@
             <div class="mt-6 text-center">
                 <p class="text-sm text-gray-600">
                     <span id="toggle-text">Pas encore de compte?</span>
-                    <button type="button" id="toggle-mode" class="font-bold text-primary-blue">S'inscrire</button>
+                    <button type="button" id="toggle-mode" class="font-bold text-primary-blue ml-1">S'inscrire</button>
                 </p>
             </div>
         </div>
     </div>
 
-    <div id="message-modal" class="fixed inset-0 bg-gray-600 bg-opacity-75 hidden flex items-center justify-center p-4 z-50">
-        <div class="bg-white rounded-lg p-6 shadow-2xl w-full max-w-sm border-t-8 border-primary-blue">
-            <h3 id="modal-title" class="text-xl font-bold mb-3">Message</h3>
+    <div id="message-modal" class="fixed inset-0 bg-black bg-opacity-50 hidden flex items-center justify-center p-4 z-50">
+        <div id="modal-card" class="bg-white rounded-lg p-6 shadow-2xl w-full max-w-sm border-t-8 transition-all">
+            <h3 id="modal-title" class="text-xl font-bold mb-2">Message</h3>
             <p id="modal-content" class="text-gray-700 mb-6"></p>
             <div class="flex justify-end">
-                <button id="modal-close-btn" class="py-2 px-4 bg-primary-red text-white rounded-md">Fermer</button>
+                <button id="modal-close-btn" class="py-2 px-6 bg-gray-800 text-white font-bold rounded-md hover:bg-black">OK</button>
             </div>
         </div>
     </div>
@@ -113,12 +99,9 @@
         const toggleModeBtn = document.getElementById('toggle-mode');
         const nameFieldDiv = document.getElementById('name-field');
         const nameInput = document.getElementById('name');
-        const emailInput = document.getElementById('email');
-        const passwordInput = document.getElementById('password');
 
         let isLoginMode = true;
 
-        // Basculer entre Connexion et Inscription
         toggleModeBtn.addEventListener('click', () => {
             isLoginMode = !isLoginMode;
             authButton.textContent = isLoginMode ? "Connexion" : "S'inscrire";
@@ -128,47 +111,73 @@
             toggleModeBtn.textContent = isLoginMode ? "S'inscrire" : "Se connecter";
         });
 
-        // Gestion de la soumission
         authForm.addEventListener('submit', async (e) => {
             e.preventDefault();
+            
+            // On bloque le bouton
             authButton.disabled = true;
-            authButton.textContent = "Chargement...";
+            const originalText = authButton.textContent;
+            authButton.textContent = "Un instant...";
 
             try {
                 if (isLoginMode) {
-                    await signInWithEmailAndPassword(auth, emailInput.value, passwordInput.value);
-                    alertMsg("Connexion réussie !", "success");
+                    await signInWithEmailAndPassword(auth, document.getElementById('email').value, document.getElementById('password').value);
+                    alertMsg("Heureux de vous revoir !", "success");
                 } else {
-                    // 1. Création compte
-                    const userCredential = await createUserWithEmailAndPassword(auth, emailInput.value, passwordInput.value);
-                    const user = userCredential.user;
-
-                    // 2. Nom dans le profil
-                    await updateProfile(user, { displayName: nameInput.value });
-
-                    // 3. Sauvegarde dans Firestore (Création de la collection)
-                    await setDoc(doc(db, 'UserProfiles', user.uid), {
+                    const userCredential = await createUserWithEmailAndPassword(auth, document.getElementById('email').value, document.getElementById('password').value);
+                    await updateProfile(userCredential.user, { displayName: nameInput.value });
+                    await setDoc(doc(db, 'UserProfiles', userCredential.user.uid), {
                         name: nameInput.value,
-                        email: emailInput.value,
+                        email: document.getElementById('email').value,
                         createdAt: new Date().toISOString()
                     });
-
-                    alertMsg("Compte créé avec succès !", "success");
+                    alertMsg("Compte créé avec succès ! Bienvenue.", "success");
                 }
 
-                setTimeout(() => { window.location.href = 'index.html'; }, 1500);
+                // Redirection après un court délai
+                setTimeout(() => { 
+                    // Si c'est l'admin (votre UID), on peut rediriger vers admin.html si vous voulez
+                    if(auth.currentUser.uid === "v4086Cxmi9PMI31GUBZzY8rHyIA3") {
+                        window.location.href = 'admin.html';
+                    } else {
+                        window.location.href = 'index.html'; 
+                    }
+                }, 2000);
 
             } catch (error) {
                 console.error(error);
-                alertMsg("Erreur : " + error.message, "error");
+                let errorFrench = "Une erreur est survenue.";
+                if (error.code === 'auth/wrong-password') errorFrench = "Mot de passe incorrect.";
+                if (error.code === 'auth/user-not-found') errorFrench = "Aucun compte trouvé avec cet email.";
+                if (error.code === 'auth/email-already-in-use') errorFrench = "Cet email est déjà utilisé.";
+                
+                alertMsg(errorFrench, "error");
+                
+                // On débloque le bouton pour réessayer
                 authButton.disabled = false;
-                authButton.textContent = isLoginMode ? "Connexion" : "S'inscrire";
+                authButton.textContent = originalText;
             }
         });
 
         function alertMsg(msg, type) {
-            document.getElementById('modal-content').textContent = msg;
-            document.getElementById('message-modal').classList.remove('hidden');
+            const modal = document.getElementById('message-modal');
+            const card = document.getElementById('modal-card');
+            const title = document.getElementById('modal-title');
+            const content = document.getElementById('modal-content');
+
+            content.textContent = msg;
+            
+            if (type === "success") {
+                card.style.borderColor = "#27ae60"; // Vert
+                title.textContent = "Succès";
+                title.style.color = "#27ae60";
+            } else {
+                card.style.borderColor = "#E84D3D"; // Rouge
+                title.textContent = "Attention";
+                title.style.color = "#E84D3D";
+            }
+
+            modal.classList.remove('hidden');
         }
 
         document.getElementById('modal-close-btn').addEventListener('click', () => {
