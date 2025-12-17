@@ -25,8 +25,7 @@
         .text-primary-red { color: var(--color-primary-red); }
         .text-primary-blue { color: var(--color-primary-blue); }
         .bg-primary-red { background-color: var(--color-primary-red); }
-        .bg-primary-blue { background-color: var(--color-primary-blue); }
-
+        
         /* Editable highlight */
         .editable-content:focus { 
             outline: 2px solid var(--color-primary-red); 
@@ -34,88 +33,85 @@
             padding: 4px;
             border-radius: 4px;
         }
-
-        /* Mobile Menu Transitions */
-        #mobile-menu {
-            transition: all 0.3s ease-in-out;
-        }
     </style>
 </head>
 <body>
 
     <header class="bg-white shadow-sm sticky top-0 z-50">
         <div class="max-w-6xl mx-auto px-4 h-16 flex justify-between items-center">
-            <a href="index.html" class="flex items-center space-x-2">
+            <a href="index.html" class="flex items-center space-x-2 flex-shrink-0">
                 <img src="logo1.jpeg" alt="Logo" class="h-10 w-10 rounded-full border border-gray-100">
                 <div class="text-xl font-black">
                     <span class="text-primary-blue">DROIT</span> <span class="text-primary-red">DÉCODÉ</span>
                 </div>
             </a>
 
-            <nav class="hidden md:flex items-center space-x-6 font-bold text-gray-600">
-                <a href="index.html" class="hover:text-primary-red">Accueil</a>
-                <a href="articles.html" class="hover:text-primary-red">Articles</a>
+            <nav class="hidden md:flex flex-grow justify-center items-center space-x-8 font-bold text-gray-600">
+                <a href="index.html" class="hover:text-primary-red transition">Accueil</a>
+                <a href="articles.html" class="hover:text-primary-red transition">Articles</a>
                 <a href="about.html" class="text-primary-red">À Propos</a>
+                <a href="contact.html" class="hover:text-primary-red transition">Contact</a>
                 <div id="admin-zone-desktop" class="hidden"></div>
-                <a href="contact.html" class="bg-primary-red text-white px-4 py-2 rounded-lg">Contact</a>
             </nav>
+
+            <div class="hidden md:flex items-center space-x-4">
+                <span id="user-greeting" class="text-sm font-medium text-gray-500"></span>
+                <a id="auth-btn" href="login.html" class="bg-primary-red text-white px-4 py-2 rounded-lg font-bold text-sm shadow-md hover:opacity-90 transition">
+                    Se connecter
+                </a>
+            </div>
 
             <button id="menu-btn" class="md:hidden text-primary-blue text-3xl focus:outline-none">
                 &#9776;
             </button>
         </div>
 
-        <div id="mobile-menu" class="hidden md:hidden bg-white border-t border-gray-100 p-4 space-y-4 font-bold text-gray-700 shadow-xl">
-            <a href="index.html" class="block hover:text-primary-red">Accueil</a>
-            <a href="articles.html" class="block hover:text-primary-red">Articles</a>
-            <a href="about.html" class="block text-primary-red">À Propos</a>
-            <div id="admin-zone-mobile" class="hidden border-t pt-2"></div>
-            <a href="contact.html" class="block bg-primary-red text-white text-center py-2 rounded-lg">Contact</a>
+        <div id="mobile-menu" class="hidden md:hidden bg-white border-t border-gray-100 p-6 flex flex-col items-center space-y-5 font-bold text-gray-700 shadow-xl">
+            <span id="user-greeting-mobile" class="text-primary-blue text-sm"></span>
+            <a href="index.html" class="hover:text-primary-red">Accueil</a>
+            <a href="articles.html" class="hover:text-primary-red">Articles</a>
+            <a href="about.html" class="text-primary-red">À Propos</a>
+            <a href="contact.html" class="hover:text-primary-red">Contact</a>
+            <div id="admin-zone-mobile" class="hidden"></div>
+            <a id="auth-btn-mobile" href="login.html" class="bg-primary-red text-white px-8 py-2 rounded-lg w-full text-center">
+                Se connecter
+            </a>
         </div>
     </header>
 
     <main class="max-w-4xl mx-auto px-4 py-10">
         <h1 id="main-title" class="text-3xl md:text-5xl font-black text-center text-primary-blue border-b-4 border-primary-red pb-4 mb-8 editable-content">
-            Chargement du titre...
+            Chargement...
         </h1>
 
         <section class="bg-white p-6 md:p-10 rounded-2xl shadow-xl mb-10">
-            <h2 class="text-2xl font-bold text-primary-red mb-4 uppercase tracking-widest">Notre Mission</h2>
+            <h2 class="text-2xl font-bold text-primary-red mb-4 uppercase tracking-widest text-center md:text-left">Notre Mission</h2>
             <div id="mission-text" class="text-lg md:text-xl leading-relaxed text-gray-700 italic border-l-4 border-primary-blue pl-4 md:pl-6 mb-10 editable-content">
-                Chargement de la mission...
+                Chargement...
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-center mb-10">
-                <div class="p-4 bg-primary-red text-white rounded-xl shadow-md">
-                    <span class="text-2xl block mb-1">🎓</span>
-                    <span class="font-bold">Étudiants</span>
-                </div>
-                <div class="p-4 bg-primary-blue text-white rounded-xl shadow-md">
-                    <span class="text-2xl block mb-1">💼</span>
-                    <span class="font-bold">Professionnels</span>
-                </div>
-                <div class="p-4 bg-primary-red text-white rounded-xl shadow-md">
-                    <span class="text-2xl block mb-1">💡</span>
-                    <span class="font-bold">Citoyens</span>
-                </div>
+                <div class="p-4 bg-primary-red text-white rounded-xl shadow-md font-bold">🎓 Étudiants</div>
+                <div class="p-4 bg-primary-blue text-white rounded-xl shadow-md font-bold">💼 Professionnels</div>
+                <div class="p-4 bg-primary-red text-white rounded-xl shadow-md font-bold">💡 Citoyens</div>
             </div>
 
             <div class="p-6 md:p-8 bg-primary-blue text-white rounded-2xl shadow-2xl">
-                <h3 class="text-xl md:text-2xl font-bold mb-4">Notre Engagement de Rigueur</h3>
+                <h3 class="text-xl md:text-2xl font-bold mb-4 text-center md:text-left">Notre Engagement</h3>
                 <div id="engagement-text" class="text-base md:text-lg opacity-90 leading-relaxed editable-content">
-                    Chargement de l'engagement...
+                    Chargement...
                 </div>
             </div>
         </section>
     </main>
 
-    <footer class="p-8 text-center text-gray-400 text-sm border-t bg-white">
+    <footer class="p-8 text-center text-gray-400 text-sm border-t bg-white mt-auto">
         <p>&copy; 2025 Droit Décodé. Tous droits réservés.</p>
     </footer>
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
-        import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
         import { getFirestore, doc, onSnapshot, setDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
         const firebaseConfig = {
@@ -133,9 +129,13 @@
         const ADMIN_UID = "v4086Cxmi9PMI31GUBZzY8rHyIA3";
         const DOC_REF = doc(db, "Pages", "About");
 
-        // UI Elements
         const menuBtn = document.getElementById('menu-btn');
         const mobileMenu = document.getElementById('mobile-menu');
+        const userGreeting = document.getElementById('user-greeting');
+        const userGreetingMob = document.getElementById('user-greeting-mobile');
+        const authBtn = document.getElementById('auth-btn');
+        const authBtnMob = document.getElementById('auth-btn-mobile');
+        
         const fields = {
             title: document.getElementById('main-title'),
             mission: document.getElementById('mission-text'),
@@ -146,27 +146,45 @@
 
         let isEditing = false;
 
-        // --- 1. MOBILE MENU LOGIC ---
-        menuBtn.addEventListener('click', () => {
-            mobileMenu.classList.toggle('hidden');
-        });
+        // --- MENU MOBILE ---
+        menuBtn.addEventListener('click', () => mobileMenu.classList.toggle('hidden'));
 
-        // --- 2. FIREBASE REAL-TIME DATA ---
+        // --- REAL-TIME DATA ---
         onSnapshot(DOC_REF, (snap) => {
             if (snap.exists() && !isEditing) {
                 const data = snap.data();
                 fields.title.innerText = data.title || "Droit Décodé";
-                fields.mission.innerText = data.mission || "Mission à définir...";
-                fields.engagement.innerText = data.engagement || "Engagement à définir...";
+                fields.mission.innerText = data.mission || "Mission...";
+                fields.engagement.innerText = data.engagement || "Engagement...";
             }
         });
 
-        // --- 3. ADMIN CHECK ---
+        // --- AUTHENTICATION & USER GREETING ---
         onAuthStateChanged(auth, (user) => {
-            if (user && user.uid === ADMIN_UID) {
-                adminZoneDesktop.classList.remove('hidden');
-                adminZoneMobile.classList.remove('hidden');
-                renderAdminBtn();
+            if (user) {
+                const name = user.displayName || user.email.split('@')[0];
+                userGreeting.innerText = `Bonjour, ${name}`;
+                userGreetingMob.innerText = `Bonjour, ${name}`;
+                authBtn.innerText = "Déconnexion";
+                authBtnMob.innerText = "Déconnexion";
+                
+                authBtn.onclick = authBtnMob.onclick = (e) => {
+                    e.preventDefault();
+                    signOut(auth).then(() => window.location.reload());
+                };
+
+                // Admin check
+                if (user.uid === ADMIN_UID) {
+                    adminZoneDesktop.classList.remove('hidden');
+                    adminZoneMobile.classList.remove('hidden');
+                    renderAdminBtn();
+                }
+            } else {
+                userGreeting.innerText = "";
+                userGreetingMob.innerText = "";
+                authBtn.innerText = "Se connecter";
+                authBtnMob.innerText = "Se connecter";
+                authBtn.href = authBtnMob.href = "login.html";
             }
         });
 
@@ -175,7 +193,7 @@
                 zone.innerHTML = '';
                 const btn = document.createElement('button');
                 btn.className = isEditing ? "bg-green-500 text-white px-3 py-1 rounded font-bold" : "border border-blue-800 text-blue-800 px-3 py-1 rounded font-bold";
-                btn.innerText = isEditing ? "✅ SAUVEGARDER" : "✏️ MODIFIER";
+                btn.innerText = isEditing ? "SAUVEGARDER" : "MODIFIER TEXTES";
                 btn.onclick = isEditing ? saveChanges : startEditing;
                 zone.appendChild(btn);
             });
@@ -197,10 +215,8 @@
                 isEditing = false;
                 Object.values(fields).forEach(el => el.contentEditable = false);
                 renderAdminBtn();
-                alert("Données mises à jour avec succès !");
-            } catch (e) {
-                alert("Erreur: " + e.message);
-            }
+                alert("Modifié !");
+            } catch (e) { alert("Erreur: " + e.message); }
         }
     </script>
 </body>
