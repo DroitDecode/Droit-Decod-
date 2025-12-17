@@ -4,119 +4,139 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Droit Décodé - À Propos</title>
-    
+
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
 
     <style>
+        /* Extraction stricte des styles de votre index.html */
         :root {
             --color-primary-red: #E84D3D;
             --color-primary-blue: #3E4B7A;
             --color-secondary-bg: #F8F9FA;
         }
-        body { background-color: var(--color-secondary-bg); min-height: 100vh; display: flex; flex-direction: column; font-family: 'Inter', sans-serif; }
-        
-        /* Matching the screenshot style */
-        .nav-link-mobile {
-            padding: 1rem;
-            width: 100%;
-            text-align: center;
-            font-weight: 600;
-            color: #4B5563;
-            border-bottom: 1px solid #f3f4f6;
-        }
-        .nav-link-mobile.active {
-            color: var(--color-primary-red);
-            position: relative;
-        }
-        /* The red underline from your screenshot */
-        .nav-link-mobile.active::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 50px;
-            height: 3px;
-            background-color: var(--color-primary-red);
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--color-secondary-bg);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
         }
 
-        .btn-contact-mobile {
-            background-color: var(--color-primary-red);
+        /* Header & Nav Styles de index.html */
+        header { display: flex; justify-content: space-between; align-items: center; padding: 1rem 2rem; background-color: white; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05); }
+        .logo-container a { display: flex; align-items: center; text-decoration: none; }
+        .logo-container img { height: 40px; width: 40px; border-radius: 50%; margin-right: 10px; }
+        .logo-text { font-size: 1.5rem; line-height: 1; font-weight: 300; }
+        .logo-text strong { color: var(--color-primary-blue); font-weight: 700; }
+        .logo-text span { color: var(--color-primary-red); font-weight: 700; }
+
+        header nav ul { display: flex; list-style: none; gap: 1.5rem; margin: 0; padding: 0; }
+        header nav ul li a { color: #4B5563; text-decoration: none; padding: 0.5rem 0; transition: color 0.3s; font-weight: 600; }
+        header nav ul li a:hover, header nav ul li a.active { color: var(--color-primary-red); }
+        header nav ul li a.active { border-bottom: 2px solid var(--color-primary-red); }
+
+        .contact-btn { background-color: var(--color-primary-red); color: white !important; padding: 0.5rem 1rem; border-radius: 0.5rem; }
+        .log-btn { border: 1px solid var(--color-primary-blue); color: var(--color-primary-blue) !important; padding: 0.5rem 1rem; border-radius: 0.5rem; }
+
+        /* Styles spécifiques pour l'édition dynamique */
+        .editable-zone[contenteditable="true"] {
+            border: 2px dashed var(--color-primary-red);
+            padding: 5px;
+            background: #fffafa;
+            border-radius: 8px;
+        }
+
+        #edit-fab {
+            position: fixed;
+            bottom: 2rem;
+            left: 2rem;
+            width: 56px;
+            height: 56px;
+            background-color: var(--color-primary-blue);
             color: white;
-            padding: 0.75rem 2rem;
-            border-radius: 0.5rem;
-            font-weight: 700;
-            margin-top: 1rem;
+            border-radius: 50%;
+            display: none; /* Caché par défaut, visible pour admin */
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+            cursor: pointer;
+            z-index: 1000;
         }
 
-        .btn-login-mobile {
-            border: 1px solid var(--color-primary-blue);
-            color: var(--color-primary-blue);
-            padding: 0.75rem 2rem;
-            border-radius: 0.5rem;
-            font-weight: 600;
-            margin-top: 1rem;
-            background: white;
+        footer { background-color: var(--color-primary-blue); color: white; padding: 2rem; text-align: center; margin-top: auto; }
+        
+        @media (max-width: 640px) {
+            header nav ul { display: none; flex-direction: column; position: absolute; top: 60px; right: 0; width: 100%; background: white; z-index: 50; }
+            header nav ul.open { display: flex; }
+            .menu-toggle { display: block; font-size: 1.5rem; color: var(--color-primary-blue); }
         }
-
-        .editable-content:focus { outline: 2px solid var(--color-primary-red); background-color: #fff9f9; padding: 4px; border-radius: 4px; }
     </style>
 </head>
 <body>
 
-    <header class="bg-white sticky top-0 z-50 shadow-sm">
-        <div class="max-w-6xl mx-auto px-4 h-16 flex justify-between items-center">
-            <a href="index.html" class="flex items-center space-x-2">
-                <img src="logo1.jpeg" alt="Logo" class="h-10 w-10 rounded-full">
-                <div class="text-xl font-black"><span class="text-primary-blue">DROIT</span> <span class="text-primary-red">DÉCODÉ</span></div>
+    <header>
+        <div class="logo-container">
+            <a href="index.html">
+                <img src="logo1.jpeg" alt="Logo">
+                <div class="logo-text"><strong>DROIT</strong> <span>DÉCODÉ</span></div>
             </a>
-
-            <nav class="hidden md:flex space-x-8 font-bold text-gray-600">
-                <a href="index.html">Accueil</a>
-                <a href="articles.html">Articles & Explications</a>
-                <a href="about.html" class="text-primary-red border-b-2 border-primary-red">À Propos</a>
-                <div id="admin-zone-desktop" class="hidden"></div>
-                <a href="contact.html" class="text-primary-red">Contact</a>
-            </nav>
-
-            <button id="menu-btn" class="md:hidden text-primary-blue text-3xl">&#9776;</button>
         </div>
-
-        <div id="mobile-menu" class="hidden md:hidden bg-white border-t flex flex-col items-center pb-6">
-            <span id="user-greeting-mobile" class="py-2 text-xs text-gray-400 font-bold"></span>
-            
-            <a href="index.html" class="nav-link-mobile">Accueil</a>
-            <a href="articles.html" class="nav-link-mobile">Articles & Explications</a>
-            <a href="tiktok.html" class="nav-link-mobile">TikTok Publications</a>
-            <a href="about.html" class="nav-link-mobile active">À Propos</a>
-            
-            <div id="admin-zone-mobile" class="hidden w-full text-center py-2"></div>
-
-            <a href="contact.html" class="btn-contact-mobile">Contact</a>
-            <a id="auth-btn-mobile" href="login.html" class="btn-login-mobile">Se connecter</a>
-        </div>
+        <nav>
+            <ul id="main-navigation">
+                <li><a href="index.html">Accueil</a></li>
+                <li><a href="articles.html">Articles & Explications</a></li>
+                <li><a href="tiktok.html">TikTok</a></li>
+                <li><a href="about.html" class="active">À Propos</a></li>
+                <li><a href="contact.html" class="contact-btn">Contact</a></li>
+                <li id="auth-link-container"><a href="login.html" class="log-btn" id="auth-link">Se connecter</a></li>
+            </ul>
+        </nav>
+        <button class="menu-toggle md:hidden" onclick="document.getElementById('main-navigation').classList.toggle('open')">&#9776;</button>
     </header>
 
-    <main class="max-w-4xl mx-auto px-4 py-10">
-        <h1 id="main-title" class="text-3xl md:text-5xl font-black text-center text-primary-blue border-b-4 border-primary-red pb-4 mb-8 editable-content">Chargement...</h1>
-        
-        <section class="bg-white p-6 md:p-10 rounded-2xl shadow-xl mb-10">
-            <h2 class="text-2xl font-bold text-primary-red mb-4 uppercase text-center md:text-left">Notre Mission</h2>
-            <div id="mission-text" class="text-lg md:text-xl leading-relaxed text-gray-700 italic border-l-4 border-primary-blue pl-4 md:pl-6 mb-10 editable-content">Chargement...</div>
-            
-            <div class="p-6 md:p-8 bg-primary-blue text-white rounded-2xl shadow-2xl">
-                <h3 class="text-xl md:text-2xl font-bold mb-4 text-center md:text-left">Notre Engagement</h3>
-                <div id="engagement-text" class="text-base md:text-lg opacity-90 leading-relaxed editable-content">Chargement...</div>
-            </div>
-        </section>
+    <main class="max-w-4xl mx-auto p-6 md:p-12">
+        <h1 class="text-3xl md:text-5xl font-extrabold text-primary-blue border-b-4 border-primary-red pb-4 mb-10 text-center">
+            À Propos de Droit Décodé
+        </h1>
+
+        <div class="bg-white rounded-2xl shadow-xl p-8 space-y-8">
+            <section>
+                <h2 class="text-xl font-bold text-primary-red uppercase tracking-wider">Qui sommes-nous ?</h2>
+                <div id="about-desc" class="editable-zone text-gray-700 leading-relaxed text-lg mt-2">
+                    Chargement de la description...
+                </div>
+            </section>
+
+            <section>
+                <h2 class="text-xl font-bold text-primary-red uppercase tracking-wider">Public Cible</h2>
+                <div id="target-desc" class="editable-zone text-gray-700 leading-relaxed mt-2">
+                    Chargement...
+                </div>
+            </section>
+
+            <section class="bg-gray-50 p-6 rounded-xl border-l-4 border-primary-blue">
+                <h2 class="text-xl font-bold text-primary-blue mb-4">Informations de Contact</h2>
+                <div id="contact-info" class="editable-zone space-y-2 text-gray-700 italic">
+                    Chargement des contacts...
+                </div>
+            </section>
+        </div>
     </main>
 
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
-        import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
-        import { getFirestore, doc, onSnapshot, setDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+    <button id="edit-fab" title="Modifier le contenu">
+        <span id="fab-icon">✏️</span>
+    </button>
 
+    <footer>
+        <p>&copy; 2025 Droit Décodé. Tous droits réservés.</p>
+    </footer>
+
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+
+    <script>
         const firebaseConfig = {
             apiKey: "AIzaSyDpNtHXiZK3bIyLwAUlTNAiWRrg2vhPYeE",
             authDomain: "droitdecode-9aa4d.firebaseapp.com",
@@ -126,60 +146,62 @@
             appId: "1:219930978240:web:886c40e47d276c75548a25"
         };
 
-        const app = initializeApp(firebaseConfig);
-        const auth = getAuth(app);
-        const db = getFirestore(app);
+        firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+        const db = firebase.firestore();
         const ADMIN_UID = "v4086Cxmi9PMI31GUBZzY8rHyIA3";
-        const DOC_REF = doc(db, "Pages", "About");
+        const DOC_REF = db.collection("Pages").doc("AboutData");
 
-        const menuBtn = document.getElementById('menu-btn');
-        const mobileMenu = document.getElementById('mobile-menu');
-        const authBtnMob = document.getElementById('auth-btn-mobile');
-        const userGreetingMob = document.getElementById('user-greeting-mobile');
-        const fields = { title: document.getElementById('main-title'), mission: document.getElementById('mission-text'), engagement: document.getElementById('engagement-text') };
-        const adminZoneMobile = document.getElementById('admin-zone-mobile');
-
+        const zones = {
+            desc: document.getElementById('about-desc'),
+            target: document.getElementById('target-desc'),
+            contact: document.getElementById('contact-info')
+        };
+        const fab = document.getElementById('edit-fab');
         let isEditing = false;
 
-        menuBtn.onclick = () => mobileMenu.classList.toggle('hidden');
-
-        onSnapshot(DOC_REF, (snap) => {
-            if (snap.exists() && !isEditing) {
-                const data = snap.data();
-                fields.title.innerText = data.title || "Droit Décodé";
-                fields.mission.innerText = data.mission || "Ma mission...";
-                fields.engagement.innerText = data.engagement || "Mon engagement...";
+        // 1. Charger les données
+        DOC_REF.onSnapshot(doc => {
+            if (doc.exists && !isEditing) {
+                const data = doc.data();
+                zones.desc.innerHTML = data.desc || "Entrez une description...";
+                zones.target.innerHTML = data.target || "Étudiants, citoyens...";
+                zones.contact.innerHTML = data.contact || "Email: ...";
             }
         });
 
-        onAuthStateChanged(auth, (user) => {
-            if (user) {
-                userGreetingMob.innerText = `Connecté en tant que : ${user.displayName || user.email.split('@')[0]}`;
-                authBtnMob.innerText = "Déconnexion";
-                authBtnMob.onclick = (e) => { e.preventDefault(); signOut(auth).then(() => window.location.reload()); };
-                if (user.uid === ADMIN_UID) { adminZoneMobile.classList.remove('hidden'); renderAdminBtn(); }
+        // 2. Vérifier Admin
+        auth.onAuthStateChanged(user => {
+            if (user && user.uid === ADMIN_UID) {
+                fab.style.display = 'flex';
+                document.getElementById('auth-link').textContent = "Déconnexion";
+            }
+        });
+
+        // 3. Gestion du clic sur le Crayon
+        fab.onclick = async () => {
+            if (!isEditing) {
+                // Passer en mode édition
+                isEditing = true;
+                Object.values(zones).forEach(z => z.contentEditable = "true");
+                document.getElementById('fab-icon').textContent = "💾";
+                fab.style.backgroundColor = "#10B981"; // Vert
             } else {
-                authBtnMob.innerText = "Se connecter";
-                authBtnMob.href = "login.html";
+                // Sauvegarder
+                try {
+                    await DOC_REF.set({
+                        desc: zones.desc.innerHTML,
+                        target: zones.target.innerHTML,
+                        contact: zones.contact.innerHTML
+                    });
+                    isEditing = false;
+                    Object.values(zones).forEach(z => z.contentEditable = "false");
+                    document.getElementById('fab-icon').textContent = "✏️";
+                    fab.style.backgroundColor = "#3E4B7A"; 
+                    alert("Modifications enregistrées !");
+                } catch (e) { alert("Erreur : " + e.message); }
             }
-        });
-
-        function renderAdminBtn() {
-            adminZoneMobile.innerHTML = '';
-            const btn = document.createElement('button');
-            btn.className = "bg-primary-blue text-white px-6 py-2 rounded-lg font-bold mt-2";
-            btn.innerText = isEditing ? "ENREGISTRER" : "MODIFIER LA PAGE";
-            btn.onclick = isEditing ? saveChanges : () => { isEditing = true; Object.values(fields).forEach(el => el.contentEditable = true); renderAdminBtn(); };
-            adminZoneMobile.appendChild(btn);
-        }
-
-        async function saveChanges() {
-            await setDoc(DOC_REF, { title: fields.title.innerText, mission: fields.mission.innerText, engagement: fields.engagement.innerText }, { merge: true });
-            isEditing = false;
-            Object.values(fields).forEach(el => el.contentEditable = false);
-            renderAdminBtn();
-            alert("Page mise à jour !");
-        }
+        };
     </script>
 </body>
 </html>
