@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Droit Décodé - Articles & Administration</title>
+    <title>Droit Décodé - Articles</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         :root {
@@ -13,7 +13,7 @@
         }
         body { font-family: 'Inter', sans-serif; background-color: var(--color-secondary-bg); min-height: 100vh; display: flex; flex-direction: column; }
         
-        /* Header & Nav */
+        /* Navigation Styles */
         header { display: flex; justify-content: space-between; align-items: center; padding: 1rem 2rem; background-color: white; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05); position: sticky; top: 0; z-index: 1000; }
         .logo-container a { display: flex; align-items: center; text-decoration: none; }
         .logo-container img { height: 40px; width: 40px; border-radius: 50%; margin-right: 10px; }
@@ -28,23 +28,23 @@
         .contact-btn { background-color: var(--color-primary-red); color: white !important; padding: 0.5rem 1rem; border-radius: 0.5rem; }
         .log-btn { border: 1px solid var(--color-primary-blue); color: var(--color-primary-blue) !important; padding: 0.5rem 1rem; border-radius: 0.5rem; }
 
-        /* Article Card Old Style */
+        /* Article Card Styles */
         .article-card-old {
             background-color: white; padding: 1.5rem; border-radius: 0.75rem;
             box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
             border-left: 4px solid var(--color-primary-blue);
-            transition: transform 0.3s ease;
+            margin-bottom: 2rem;
         }
-        .article-card-old:hover { transform: translateY(-5px); }
+        .media-container { width: 100%; max-height: 300px; overflow: hidden; border-radius: 0.5rem; margin-bottom: 1rem; background: #000; }
+        .media-container img, .media-container video { width: 100%; height: 300px; object-fit: cover; }
 
-        /* Admin Form Style */
-        .admin-form-box { background: white; padding: 2rem; border-radius: 1rem; shadow: 0 10px 25px rgba(0,0,0,0.1); border: 2px solid var(--color-primary-blue); }
-        
+        .content-hidden { display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+        .content-visible { display: block; }
+
         @media (max-width: 768px) {
-            header nav ul { display: none; flex-direction: column; position: absolute; top: 64px; right: 0; width: 100%; background-color: white; padding: 1rem 0; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+            header nav ul { display: none; flex-direction: column; position: absolute; top: 64px; right: 0; width: 100%; background-color: white; padding: 1rem 0; }
             header nav ul.open { display: flex; }
-            header nav ul li { width: 100%; text-align: center; padding: 0.75rem 0; border-bottom: 1px solid #f3f4f6; }
-            .menu-toggle { display: block; background: none; border: none; font-size: 1.8rem; cursor: pointer; color: var(--color-primary-blue); }
+            .menu-toggle { display: block; font-size: 1.8rem; cursor: pointer; color: var(--color-primary-blue); border:none; background:none; }
         }
     </style>
 </head>
@@ -58,7 +58,7 @@
             <ul id="main-navigation">
                 <li><a href="index.html">Accueil</a></li>
                 <li><a href="articles.html" class="active">Articles & Explications</a></li>
-                <li id="admin-link-container" class="hidden"><a href="admin_dashboard.html" class="log-btn bg-primary-blue text-white">Dashboard</a></li>
+                <li id="admin-link-container" class="hidden"><a href="admin_dashboard.html" class="log-btn">Dashboard</a></li>
                 <li><a href="tiktok.html">TikTok</a></li>
                 <li><a href="about.html">À Propos</a></li>
                 <li><a href="contact.html" class="contact-btn">Contact</a></li>
@@ -68,24 +68,22 @@
         <button class="menu-toggle md:hidden" onclick="document.getElementById('main-navigation').classList.toggle('open')">&#9776;</button>
     </header>
 
-    <main class="max-w-6xl mx-auto p-6">
+    <main class="max-w-4xl mx-auto p-6">
         
-        <section id="admin-editor" class="hidden mb-12">
-            <div class="admin-form-box">
-                <h2 id="form-title" class="text-2xl font-bold text-primary-blue mb-4">Publier un nouvel article</h2>
-                <input type="hidden" id="edit-id">
-                <div class="grid grid-cols-1 gap-4">
-                    <input type="text" id="art-title" placeholder="Titre de l'article" class="p-3 border rounded-lg focus:ring-2 focus:ring-blue-500">
-                    <input type="text" id="art-image" placeholder="Lien de l'image (URL)" class="p-3 border rounded-lg">
-                    <textarea id="art-content" rows="6" placeholder="Contenu de l'article..." class="p-3 border rounded-lg"></textarea>
-                    <button id="publish-btn" class="bg-primary-red text-white font-bold py-3 rounded-lg hover:bg-red-700 transition">PUBLIER L'ARTICLE</button>
-                </div>
+        <section id="admin-editor" class="hidden bg-white p-6 rounded-xl border-2 border-primary-blue mb-10 shadow-lg">
+            <h2 id="form-title" class="text-2xl font-bold text-primary-blue mb-4">Publier un article (Photo ou Vidéo)</h2>
+            <input type="hidden" id="edit-id">
+            <div class="space-y-4 flex flex-col">
+                <input type="text" id="art-title" placeholder="Titre de l'article" class="p-3 border rounded-lg">
+                <input type="text" id="art-media" placeholder="Lien de l'image ou de la vidéo (.mp4)" class="p-3 border rounded-lg">
+                <textarea id="art-content" rows="5" placeholder="Écrivez le contenu ici..." class="p-3 border rounded-lg"></textarea>
+                <button id="publish-btn" class="bg-primary-red text-white font-bold py-3 rounded-lg hover:bg-red-700">PUBLIER L'ARTICLE</button>
             </div>
         </section>
 
-        <h2 class="text-3xl font-extrabold text-primary-blue border-b-2 border-primary-red pb-2 mb-8 inline-block">Articles Récents</h2>
+        <h1 class="text-3xl font-black text-primary-blue border-b-2 border-primary-red pb-2 mb-8 inline-block">Bibliothèque Juridique</h1>
         
-        <div id="articles-list" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div id="articles-list">
             </div>
     </main>
 
@@ -107,87 +105,93 @@
         const db = firebase.firestore();
         const ADMIN_UID = "v4086Cxmi9PMI31GUBZzY8rHyIA3";
 
-        const adminEditor = document.getElementById('admin-editor');
-        const articlesList = document.getElementById('articles-list');
-        const publishBtn = document.getElementById('publish-btn');
-
-        // Check Admin
+        // Admin Security Check
         auth.onAuthStateChanged(user => {
-            if (user && user.uid === ADMIN_UID) {
-                adminEditor.classList.remove('hidden');
-                document.getElementById('admin-link-container').classList.remove('hidden');
+            const editor = document.getElementById('admin-editor');
+            const dash = document.getElementById('admin-link-container');
+            const authL = document.getElementById('auth-link');
+
+            if (user) {
+                authL.textContent = "Déconnexion";
+                authL.onclick = (e) => { e.preventDefault(); auth.signOut().then(() => location.reload()); };
+                if (user.uid === ADMIN_UID) {
+                    editor.classList.remove('hidden');
+                    dash.classList.remove('hidden');
+                }
             }
-            updateAuthUI(user);
         });
 
-        function updateAuthUI(user) {
-            const link = document.getElementById('auth-link');
-            if (user) {
-                link.textContent = 'Déconnexion';
-                link.onclick = (e) => { e.preventDefault(); auth.signOut().then(() => location.reload()); };
-            }
-        }
-
-        // Publish / Update Article
-        publishBtn.onclick = async () => {
+        // Publish function
+        document.getElementById('publish-btn').onclick = async () => {
             const id = document.getElementById('edit-id').value;
             const data = {
                 title: document.getElementById('art-title').value,
-                image: document.getElementById('art-image').value,
+                media: document.getElementById('art-media').value,
                 content: document.getElementById('art-content').value,
                 timestamp: firebase.firestore.FieldValue.serverTimestamp()
             };
+            if(!data.title || !data.content) return alert("Remplissez les champs !");
 
-            try {
-                if (id) {
-                    await db.collection("Articles").doc(id).update(data);
-                    alert("Article mis à jour !");
-                } else {
-                    await db.collection("Articles").add(data);
-                    alert("Article publié !");
-                }
-                location.reload();
-            } catch (e) { alert("Erreur: " + e.message); }
+            if(id) await db.collection("Articles").doc(id).update(data);
+            else await db.collection("Articles").add(data);
+            
+            location.reload();
         };
 
         // Load Articles
         db.collection("Articles").orderBy("timestamp", "desc").onSnapshot(snap => {
-            articlesList.innerHTML = '';
+            const list = document.getElementById('articles-list');
+            list.innerHTML = '';
             snap.forEach(doc => {
                 const art = doc.data();
+                const isVideo = art.media && art.media.toLowerCase().endsWith('.mp4');
                 const card = document.createElement('div');
                 card.className = 'article-card-old';
+                
                 card.innerHTML = `
-                    ${art.image ? `<img src="${art.image}" class="w-full h-40 object-cover rounded-md mb-4">` : ''}
-                    <h3 class="text-xl font-bold text-primary-blue mb-2">${art.title}</h3>
-                    <p class="text-gray-600 text-sm line-clamp-3 mb-4">${art.content}</p>
+                    <div class="media-container">
+                        ${art.media ? (isVideo ? `<video src="${art.media}" controls></video>` : `<img src="${art.media}">`) : ''}
+                    </div>
+                    <h3 class="text-2xl font-bold text-primary-blue mb-2">${art.title}</h3>
+                    <div id="text-${doc.id}" class="text-gray-700 leading-relaxed content-hidden mb-4">
+                        ${art.content.replace(/\n/g, '<br>')}
+                    </div>
                     <div class="flex justify-between items-center">
-                         <a href="view_article.html?id=${doc.id}" class="text-primary-red font-bold hover:underline">Lire la suite &rarr;</a>
-                         <div class="admin-controls hidden flex gap-2">
-                            <button onclick="editArticle('${doc.id}', '${art.title}', '${art.image}', \`${art.content}\`)" class="text-blue-600 text-xs font-bold uppercase">Modifier</button>
-                            <button onclick="deleteArticle('${doc.id}')" class="text-red-600 text-xs font-bold uppercase">Supprimer</button>
-                         </div>
+                        <button onclick="toggleRead('${doc.id}', this)" class="text-primary-red font-bold hover:underline">Lire la suite &rarr;</button>
+                        <div class="admin-only hidden flex gap-4">
+                            <button onclick="prepareEdit('${doc.id}', '${art.title.replace(/'/g, "\\'")}', '${art.media}', \`${art.content.replace(/`/g, "\\`")}\`)" class="text-blue-500 text-sm font-bold">MODIFIER</button>
+                            <button onclick="deleteArt('${doc.id}')" class="text-red-500 text-sm font-bold">SUPPRIMER</button>
+                        </div>
                     </div>
                 `;
-                articlesList.appendChild(card);
-                if (auth.currentUser && auth.currentUser.uid === ADMIN_UID) {
-                    card.querySelector('.admin-controls').classList.remove('hidden');
+                list.appendChild(card);
+                if(auth.currentUser && auth.currentUser.uid === ADMIN_UID) {
+                    card.querySelector('.admin-only').classList.remove('hidden');
                 }
             });
         });
 
-        window.deleteArticle = (id) => {
-            if (confirm("Supprimer cet article ?")) db.collection("Articles").doc(id).delete();
+        // Toggle Read function
+        window.toggleRead = (id, btn) => {
+            const textDiv = document.getElementById(`text-${id}`);
+            if(textDiv.classList.contains('content-hidden')) {
+                textDiv.classList.remove('content-hidden');
+                btn.innerHTML = "Réduire &uarr;";
+            } else {
+                textDiv.classList.add('content-hidden');
+                btn.innerHTML = "Lire la suite &rarr;";
+            }
         };
 
-        window.editArticle = (id, title, image, content) => {
+        window.deleteArt = (id) => { if(confirm("Supprimer ?")) db.collection("Articles").doc(id).delete(); };
+
+        window.prepareEdit = (id, title, media, content) => {
             document.getElementById('edit-id').value = id;
             document.getElementById('art-title').value = title;
-            document.getElementById('art-image').value = image;
+            document.getElementById('art-media').value = media;
             document.getElementById('art-content').value = content;
-            document.getElementById('form-title').innerText = "Modifier l'article";
-            document.getElementById('publish-btn').innerText = "SAUVEGARDER LES MODIFICATIONS";
-            window.scrollTo(0, 0);
+            document.getElementById('publish-btn').innerText = "SAUVEGARDER";
+            window.scrollTo({top: 0, behavior: 'smooth'});
         };
     </script>
 </body>
