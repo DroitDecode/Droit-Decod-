@@ -6,7 +6,6 @@
     <title>Droit Décodé - Articles & Explications</title>
 
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
 
     <style>
@@ -22,58 +21,72 @@
         .border-primary-red { border-color: var(--color-primary-red); }
     </style>
 </head>
-<body>
+<body class="min-h-screen flex flex-col">
 
-    <header role="banner">
-        <div class="logo-container">
-            <a href="index.html">
-                <img src="logo1.jpeg" alt="Logo">
-                <div class="logo-text"><strong>DROIT</strong> <span>DÉCODÉ</span></div>
+    <header class="bg-white shadow-md sticky top-0 z-50">
+        <div class="max-w-6xl mx-auto px-4 h-16 flex justify-between items-center">
+            <a href="index.html" class="flex items-center space-x-2">
+                <img src="logo1.jpeg" alt="Logo" class="h-10 w-auto rounded border border-gray-200" onerror="this.src='https://placehold.co/40x40?text=DD'">
+                <div class="text-lg font-extrabold tracking-tight">
+                    <span style="color: var(--color-primary-blue)">DROIT</span> 
+                    <span style="color: var(--color-primary-red)">DÉCODÉ</span>
+                </div>
             </a>
+
+            <nav class="hidden md:flex space-x-8 font-semibold text-gray-700">
+                <a href="index.html" class="hover:text-primary-red transition">Accueil</a>
+                <a href="articles.html" class="text-primary-red">Articles</a>
+                <a href="tiktok.html" class="hover:text-primary-red transition">TikTok</a>
+                <a href="contact.html" class="hover:text-primary-red transition">Contact</a>
+            </nav>
+
+            <button id="menu-toggle" class="md:hidden p-2 text-primary-blue text-3xl focus:outline-none" aria-label="Menu">
+                &#9776;
+            </button>
         </div>
-        <nav role="navigation">
-            <ul>
-                <li><a href="index.html">Accueil</a></li>
-                <li><a href="articles.html" class="active">Articles</a></li>
-                <li><a href="tiktok.html">TikTok</a></li>
-                <li><a href="contact.html">Contact</a></li>
-            </ul>
-        </nav>
+
+        <div id="mobile-menu" class="hidden md:hidden bg-white border-t border-gray-100 flex flex-col p-4 space-y-4 font-bold text-gray-700 shadow-xl">
+            <a href="index.html" class="hover:text-primary-red">Accueil</a>
+            <a href="articles.html" class="text-primary-red">Articles</a>
+            <a href="tiktok.html" class="hover:text-primary-red">TikTok</a>
+            <a href="contact.html" class="hover:text-primary-red">Contact</a>
+            <hr>
+            <button id="logout-btn" class="text-left text-sm text-gray-400">Déconnexion</button>
+        </div>
     </header>
 
-    <main class="container mx-auto px-4 py-8 max-w-4xl">
+    <main class="flex-grow container mx-auto px-4 py-8 max-w-4xl">
         
-        <section id="admin-section" class="hidden mb-12 bg-white p-6 rounded-xl shadow-xl border-t-4 border-primary-red">
-            <h2 class="text-2xl font-bold mb-4 text-primary-blue">Publier un nouvel article</h2>
+        <section id="admin-section" class="hidden mb-10 bg-white p-6 rounded-2xl shadow-xl border-t-8 border-primary-red">
+            <h2 class="text-2xl font-black mb-4 text-primary-blue">Publier un Article</h2>
             <form id="article-form" class="space-y-4">
                 <input type="hidden" id="article-id">
-                <div>
-                    <label class="block text-sm font-medium text-gray-700">Titre de l'article</label>
-                    <input type="text" id="title" required class="w-full p-2 border rounded-md outline-none focus:ring-2 focus:ring-red-400">
+                <input type="text" id="title" placeholder="Titre de l'article" required class="w-full p-3 border rounded-lg focus:ring-2 focus:ring-red-400 outline-none">
+                <input type="url" id="image-url" placeholder="Lien de l'image (URL)" required class="w-full p-3 border rounded-lg focus:ring-2 focus:ring-red-400 outline-none">
+                <textarea id="content" placeholder="Écrivez votre texte ici..." required rows="6" class="w-full p-3 border rounded-lg focus:ring-2 focus:ring-red-400 outline-none"></textarea>
+                <div class="flex space-x-2">
+                    <button type="submit" id="submit-btn" class="bg-primary-red text-white px-8 py-3 rounded-lg font-bold hover:bg-red-600 transition shadow-lg">Publier maintenant</button>
+                    <button type="button" id="cancel-edit" class="hidden px-4 py-3 text-gray-500 underline">Annuler</button>
                 </div>
-                <div>
-                    <label class="block text-sm font-medium text-gray-700">Lien de l'image (URL)</label>
-                    <input type="url" id="image-url" required class="w-full p-2 border rounded-md outline-none focus:ring-2 focus:ring-red-400" placeholder="https://exemple.com/image.jpg">
-                </div>
-                <div>
-                    <label class="block text-sm font-medium text-gray-700">Contenu de l'article</label>
-                    <textarea id="content" required rows="6" class="w-full p-2 border rounded-md outline-none focus:ring-2 focus:ring-red-400"></textarea>
-                </div>
-                <button type="submit" id="submit-btn" class="bg-primary-red text-white px-6 py-2 rounded-md font-bold hover:bg-red-600 transition">Publier l'article</button>
-                <button type="button" id="cancel-edit" class="hidden ml-2 text-gray-500 underline">Annuler modification</button>
             </form>
         </section>
 
-        <h1 class="text-3xl font-extrabold text-primary-blue mb-8 border-b-4 pb-2 border-primary-red">Dernières Publications</h1>
+        <h1 class="text-3xl font-black text-primary-blue mb-8">Articles & Décryptages Juridiques</h1>
 
         <div id="articles-container" class="space-y-8">
-            <p class="text-center text-gray-500">Chargement des articles...</p>
+            <div class="flex justify-center p-10">
+                <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-red"></div>
+            </div>
         </div>
     </main>
 
+    <footer class="bg-white border-t p-8 mt-12 text-center text-gray-500 text-sm">
+        <p>&copy; 2025 Droit Décodé. Tous droits réservés.</p>
+    </footer>
+
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
-        import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
         import { getFirestore, collection, addDoc, onSnapshot, query, orderBy, serverTimestamp, doc, deleteDoc, updateDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
         const firebaseConfig = {
@@ -88,23 +101,60 @@
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
         const db = getFirestore(app);
-        const ADMIN_UID = "v4086Cxmi9PMI31GUBZzY8rHyIA3"; 
+        const ADMIN_UID = "v4086Cxmi9PMI31GUBZzY8rHyIA3";
 
-        const adminSection = document.getElementById('admin-section');
-        const articleForm = document.getElementById('article-form');
-        const articlesContainer = document.getElementById('articles-container');
+        // --- GESTION DU MENU MOBILE ---
+        const menuToggle = document.getElementById('menu-toggle');
+        const mobileMenu = document.getElementById('mobile-menu');
+        menuToggle.addEventListener('click', () => mobileMenu.classList.toggle('hidden'));
 
-        // 1. Vérifier si l'utilisateur est l'admin
+        // --- AUTHENTIFICATION ---
         onAuthStateChanged(auth, (user) => {
             if (user && user.uid === ADMIN_UID) {
-                adminSection.classList.remove('hidden');
-            } else {
-                adminSection.classList.add('hidden');
+                document.getElementById('admin-section').classList.remove('hidden');
             }
             loadArticles(user && user.uid === ADMIN_UID);
         });
 
-        // 2. Publier ou Modifier un article
+        document.getElementById('logout-btn').addEventListener('click', () => signOut(auth).then(() => window.location.reload()));
+
+        // --- CHARGEMENT DES ARTICLES ---
+        function loadArticles(isAdmin) {
+            const q = query(collection(db, "Articles"), orderBy("timestamp", "desc"));
+            onSnapshot(q, (snapshot) => {
+                const container = document.getElementById('articles-container');
+                container.innerHTML = '';
+                
+                snapshot.forEach((docSnap) => {
+                    const art = docSnap.data();
+                    const id = docSnap.id;
+                    const date = art.timestamp ? art.timestamp.toDate().toLocaleDateString('fr-FR') : 'Récemment';
+
+                    const card = document.createElement('div');
+                    card.className = "bg-white rounded-2xl shadow-md overflow-hidden border border-gray-100";
+                    card.innerHTML = `
+                        <img src="${art.imageUrl}" class="w-full h-56 object-cover" onerror="this.src='https://placehold.co/600x300?text=Droit+Décodé'">
+                        <div class="p-6">
+                            <h2 class="text-2xl font-bold text-gray-800 mb-2">${art.title}</h2>
+                            <p class="text-xs font-bold text-primary-red uppercase tracking-widest mb-4">Publié le ${date}</p>
+                            <p id="text-${id}" class="text-gray-600 leading-relaxed line-clamp-3 mb-4">${art.content}</p>
+                            <button onclick="window.toggleText('${id}')" id="btn-${id}" class="text-primary-blue font-black hover:underline">Lire la suite</button>
+                            
+                            ${isAdmin ? `
+                                <div class="mt-6 pt-4 border-t flex space-x-6">
+                                    <button onclick="window.prepareEdit('${id}', '${art.title.replace(/'/g, "\\'")}', '${art.imageUrl}', '${art.content.replace(/'/g, "\\'")}')" class="text-blue-500 font-bold text-sm">MODIFIER</button>
+                                    <button onclick="window.deleteArt('${id}')" class="text-red-500 font-bold text-sm">SUPPRIMER</button>
+                                </div>
+                            ` : ''}
+                        </div>
+                    `;
+                    container.appendChild(card);
+                });
+            });
+        }
+
+        // --- ACTIONS ARTICLES ---
+        const articleForm = document.getElementById('article-form');
         articleForm.addEventListener('submit', async (e) => {
             e.preventDefault();
             const id = document.getElementById('article-id').value;
@@ -115,96 +165,49 @@
                 timestamp: serverTimestamp()
             };
 
-            try {
-                if (id) {
-                    await updateDoc(doc(db, "Articles", id), data);
-                    alert("Article modifié !");
-                } else {
-                    await addDoc(collection(db, "Articles"), data);
-                    alert("Article publié !");
-                }
-                articleForm.reset();
-                resetForm();
-            } catch (err) { alert("Erreur : " + err.message); }
+            if(id) {
+                await updateDoc(doc(db, "Articles", id), data);
+            } else {
+                await addDoc(collection(db, "Articles"), data);
+            }
+            articleForm.reset();
+            window.cancelEditAction();
         });
 
-        // 3. Charger les articles en temps réel
-        function loadArticles(isAdmin) {
-            const q = query(collection(db, "Articles"), orderBy("timestamp", "desc"));
-            onSnapshot(q, (snapshot) => {
-                articlesContainer.innerHTML = '';
-                if (snapshot.empty) {
-                    articlesContainer.innerHTML = '<p class="text-center text-gray-500">Aucun article pour le moment.</p>';
-                    return;
-                }
-                snapshot.forEach((doc) => {
-                    const art = doc.data();
-                    const card = document.createElement('div');
-                    card.className = "bg-white rounded-xl shadow-lg overflow-hidden border-l-4 border-primary-blue";
-                    
-                    card.innerHTML = `
-                        <img src="${art.imageUrl}" class="w-full h-48 object-cover" onerror="this.src='https://placehold.co/600x400?text=Image+indisponible'">
-                        <div class="p-6">
-                            <h2 class="text-2xl font-bold text-primary-blue mb-2">${art.title}</h2>
-                            <p class="text-xs text-gray-400 mb-4">Publié le ${art.timestamp?.toDate().toLocaleDateString('fr-FR') || 'récemment'}</p>
-                            
-                            <div class="article-body">
-                                <p class="text-gray-700 line-clamp-3 mb-4" id="text-${doc.id}">${art.content}</p>
-                                <button onclick="window.toggleText('${doc.id}')" id="btn-${doc.id}" class="text-primary-red font-bold hover:underline">Lire la suite</button>
-                            </div>
-
-                            ${isAdmin ? `
-                                <div class="mt-6 pt-4 border-t flex space-x-4">
-                                    <button onclick="window.editArticle('${doc.id}', '${art.title.replace(/'/g, "\\'")}', '${art.imageUrl}', '${art.content.replace(/'/g, "\\'")}')" class="text-blue-600 text-sm font-bold">Modifier</button>
-                                    <button onclick="window.deleteArticle('${doc.id}')" class="text-red-600 text-sm font-bold">Supprimer</button>
-                                </div>
-                            ` : ''}
-                        </div>
-                    `;
-                    articlesContainer.appendChild(card);
-                });
-            });
-        }
-
-        // Fonctions globales pour les boutons (Modifier / Supprimer / Lire la suite)
         window.toggleText = (id) => {
             const p = document.getElementById(`text-${id}`);
             const btn = document.getElementById(`btn-${id}`);
             if (p.classList.contains('line-clamp-3')) {
                 p.classList.remove('line-clamp-3');
-                btn.textContent = "Réduire";
+                btn.textContent = "Réduire le texte";
             } else {
                 p.classList.add('line-clamp-3');
                 btn.textContent = "Lire la suite";
             }
         };
 
-        window.deleteArticle = async (id) => {
-            if (confirm("Supprimer cet article ?")) {
-                await deleteDoc(doc(db, "Articles", id));
-            }
+        window.deleteArt = async (id) => {
+            if(confirm("Supprimer définitivement cet article ?")) await deleteDoc(doc(db, "Articles", id));
         };
 
-        window.editArticle = (id, title, img, content) => {
+        window.prepareEdit = (id, title, img, content) => {
             document.getElementById('article-id').value = id;
             document.getElementById('title').value = title;
             document.getElementById('image-url').value = img;
             document.getElementById('content').value = content;
             document.getElementById('submit-btn').textContent = "Enregistrer les modifications";
             document.getElementById('cancel-edit').classList.remove('hidden');
-            window.scrollTo(0, 0);
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         };
 
-        function resetForm() {
+        window.cancelEditAction = () => {
             document.getElementById('article-id').value = "";
-            document.getElementById('submit-btn').textContent = "Publier l'article";
+            document.getElementById('submit-btn').textContent = "Publier maintenant";
             document.getElementById('cancel-edit').classList.add('hidden');
-        }
-
-        document.getElementById('cancel-edit').addEventListener('click', () => {
             articleForm.reset();
-            resetForm();
-        });
+        };
+
+        document.getElementById('cancel-edit').addEventListener('click', window.cancelEditAction);
 
     </script>
 </body>
