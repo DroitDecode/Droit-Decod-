@@ -5,25 +5,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Droit Décodé - Connexion / Inscription</title>
 
-    <!-- Intégration de Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Utilisation de la police Inter pour la cohérence -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
-    
+
     <style>
-        /* Définition des couleurs personnalisées basées sur votre style.css */
         :root {
             --primary-red: #E84D3D;
             --primary-blue: #3498DB;
             --text-dark: #2c3e50;
             --background-light: #F4F4F4;
         }
-
-        .text-primary-red { color: var(--primary-red); }
-        .bg-primary-red { background-color: var(--primary-red); }
-        .text-primary-blue { color: var(--primary-blue); }
-        .bg-primary-blue { background-color: var(--primary-blue); }
-        .border-primary-red { border-color: var(--primary-red); }
 
         body {
             font-family: 'Inter', sans-serif;
@@ -33,13 +24,7 @@
             align-items: center;
             min-height: 100vh;
         }
-        
-        /* Transition pour le switch d'interface */
-        .auth-card {
-            transition: height 0.3s ease-in-out;
-        }
 
-        /* Styles pour l'icône de chargement */
         .loader {
             border-top-color: #f3f3f3;
             border-right-color: #f3f3f3;
@@ -52,95 +37,63 @@
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
         }
-
-        /* Styles pour le modal de message personnalisé */
-        .message-modal {
-            z-index: 100;
-        }
     </style>
 </head>
 <body>
 
-    <!-- Conteneur d'Authentification Principal -->
     <div class="p-4 md:p-8 w-full max-w-sm mx-auto">
-        
-        <!-- Logo et Titre -->
         <div class="text-center mb-8">
-            <img src="logo1.jpeg" alt="Logo Droit Décodé" class="mx-auto h-16 w-auto rounded-xl shadow-lg border-2 border-primary-blue" onerror="this.onerror=null;this.src='https://placehold.co/64x64/3498DB/FFFFFF?text=DD'">
+            <img src="logo1.jpeg" alt="Logo" class="mx-auto h-16 w-auto rounded-xl shadow-lg border-2 border-primary-blue" onerror="this.onerror=null;this.src='https://placehold.co/64x64/3498DB/FFFFFF?text=DD'">
             <h1 class="mt-4 text-3xl font-extrabold text-text-dark">Droit Décodé</h1>
             <p class="text-sm text-gray-500 mt-1" id="mode-subtitle">Connectez-vous pour accéder au contenu.</p>
         </div>
 
-        <!-- Carte d'Authentification -->
-        <div class="auth-card bg-white p-6 md:p-8 rounded-xl shadow-2xl border-t-8 border-primary-red">
-            
+        <div class="bg-white p-6 md:p-8 rounded-xl shadow-2xl border-t-8 border-primary-red">
             <form id="auth-form" class="space-y-6">
-                <!-- Champ Nom/Prénom (Visible uniquement pour l'inscription) -->
                 <div id="name-field" class="hidden">
-                    <label for="name" class="block text-sm font-medium text-gray-700">Nom / Prénom</label>
-                    <input type="text" id="name" name="name" placeholder="Ex: Jean Dupont" required 
-                           class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary-red focus:border-primary-red">
-                </div>
-                
-                <!-- Champ Email -->
-                <div>
-                    <label for="email" class="block text-sm font-medium text-gray-700">Adresse Email</label>
-                    <input type="email" id="email" name="email" placeholder="utilisateur@exemple.com" required 
-                           class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary-red focus:border-primary-red">
-                </div>
-                
-                <!-- Champ Mot de passe -->
-                <div>
-                    <label for="password" class="block text-sm font-medium text-gray-700">Mot de Passe</label>
-                    <input type="password" id="password" name="password" placeholder="Min. 6 caractères" required 
-                           class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary-red focus:border-primary-red">
+                    <label class="block text-sm font-medium text-gray-700">Nom / Prénom</label>
+                    <input type="text" id="name" placeholder="Ex: Jean Dupont" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-primary-red focus:border-primary-red">
                 </div>
 
-                <!-- Bouton d'Action -->
                 <div>
-                    <button type="submit" id="auth-button" 
-                            class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-lg font-medium text-white bg-primary-red hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-red transition duration-150 ease-in-out">
-                        Connexion
-                    </button>
+                    <label class="block text-sm font-medium text-gray-700">Adresse Email</label>
+                    <input type="email" id="email" required placeholder="utilisateur@exemple.com" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-primary-red focus:border-primary-red">
                 </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">Mot de Passe</label>
+                    <input type="password" id="password" required placeholder="Min. 6 caractères" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-primary-red focus:border-primary-red">
+                </div>
+
+                <button type="submit" id="auth-button" class="w-full py-2 px-4 rounded-md text-white bg-primary-red hover:bg-red-600 font-medium transition">
+                    Connexion
+                </button>
             </form>
 
-            <!-- Bascule de Mode -->
             <div class="mt-6 text-center">
                 <p class="text-sm text-gray-600">
                     <span id="toggle-text">Pas encore de compte?</span>
-                    <button type="button" id="toggle-mode" class="font-bold text-primary-blue hover:text-primary-red transition duration-150">
-                        S'inscrire
-                    </button>
+                    <button type="button" id="toggle-mode" class="font-bold text-primary-blue">S'inscrire</button>
                 </p>
             </div>
-            
         </div>
-        
     </div>
 
-    <!-- Modal de Message Personnalisé (Remplace alert()) -->
-    <div id="message-modal" class="message-modal fixed inset-0 bg-gray-600 bg-opacity-75 hidden flex items-center justify-center p-4" aria-modal="true" role="dialog">
-        <div class="bg-white rounded-lg p-6 shadow-2xl w-full max-w-sm transform transition-all">
-            <h3 id="modal-title" class="text-xl font-bold mb-3 text-text-dark">Message</h3>
+    <div id="message-modal" class="fixed inset-0 bg-gray-600 bg-opacity-75 hidden flex items-center justify-center p-4 z-50">
+        <div class="bg-white rounded-lg p-6 shadow-2xl w-full max-w-sm border-t-8 border-primary-blue">
+            <h3 id="modal-title" class="text-xl font-bold mb-3">Message</h3>
             <p id="modal-content" class="text-gray-700 mb-6"></p>
             <div class="flex justify-end">
-                <button id="modal-close-btn" class="py-2 px-4 bg-primary-red text-white font-medium rounded-md hover:bg-red-600">
-                    Fermer
-                </button>
+                <button id="modal-close-btn" class="py-2 px-4 bg-primary-red text-white rounded-md">Fermer</button>
             </div>
         </div>
     </div>
 
-
     <script type="module">
-        // --- Configuration et Imports Firebase ---
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
-        import { getAuth, signInAnonymously, signInWithCustomToken, createUserWithEmailAndPassword, signInWithEmailAndPassword, updateProfile } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, updateProfile } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
         import { getFirestore, doc, setDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
-        import { setLogLevel } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
-        // Configuration Firebase (fournie par l'utilisateur)
         const firebaseConfig = {
             apiKey: "AIzaSyDpNtHXiZK3bIyLwAUlTNAiWRrg2vhPYeE",
             authDomain: "droitdecode-9aa4d.firebaseapp.com",
@@ -150,248 +103,77 @@
             appId: "1:219930978240:web:886c40e47d276c75548a25",
             measurementId: "G-D619J4YSQL"
         };
-        
-        // Les variables globales du Canvas sont utilisées pour l'ID et le token initial, 
-        // sinon nous utilisons des valeurs par défaut/intégrées.
-        const appId = typeof __app_id !== 'undefined' ? __app_id : firebaseConfig.projectId;
-        const initialAuthToken = typeof __initial_auth_token !== 'undefined' ? __initial_auth_token : null;
 
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
 
-        // Initialisation de Firebase
-        let app;
-        let auth;
-        let db;
-
-        try {
-            app = initializeApp(firebaseConfig);
-            auth = getAuth(app);
-            db = getFirestore(app);
-            setLogLevel('Debug');
-            console.log("Firebase initialisé.");
-        } catch (e) {
-            console.error("Erreur d'initialisation Firebase:", e);
-        }
-
-        // --- Authentification Initiale (Vérification du jeton ou anonyme) ---
-
-        /**
-         * Tente de se connecter avec le jeton personnalisé ou anonymement, 
-         * puis redirige si l'utilisateur est déjà authentifié.
-         */
-        async function initializeAuth() {
-            if (!auth) return; // Si Firebase n'a pas pu être initialisé
-
-            try {
-                if (initialAuthToken) {
-                    await signInWithCustomToken(auth, initialAuthToken);
-                } else {
-                    await signInAnonymously(auth);
-                }
-                
-                // Redirection si l'utilisateur est déjà connecté et n'est pas anonyme
-                if (auth.currentUser && !auth.currentUser.isAnonymous) {
-                    console.log("Utilisateur déjà connecté. Redirection vers index.html.");
-                    window.location.href = 'index.html';
-                    return true;
-                }
-
-            } catch (error) {
-                // Échec de l'authentification initiale, on laisse l'utilisateur utiliser le formulaire.
-                console.warn("Échec de l'authentification initiale, affichage du formulaire:", error.code);
-            }
-            return false;
-        }
-
-        // --- Système de Message Personnalisé (Custom Modal) ---
-        const modal = document.getElementById('message-modal');
-        const modalTitle = document.getElementById('modal-title');
-        const modalContent = document.getElementById('modal-content');
-        const modalCloseBtn = document.getElementById('modal-close-btn');
-
-        /**
-         * Affiche un message d'erreur ou de succès dans un modal personnalisé.
-         * @param {string} message Le contenu du message.
-         * @param {('success'|'error'|'info')} type Le type de message.
-         */
-        window.alertMessage = function(message, type = 'info') {
-            modalContent.textContent = message;
-            
-            // Mise à jour du titre et du style en fonction du type
-            let titleText = 'Information';
-            let titleColor = 'text-text-dark';
-            let borderColor = 'border-t-primary-blue';
-            
-            if (type === 'error') {
-                titleText = 'Erreur d\'Authentification';
-                titleColor = 'text-primary-red';
-                borderColor = 'border-t-primary-red';
-            } else if (type === 'success') {
-                titleText = 'Succès !';
-                titleColor = 'text-green-600';
-                borderColor = 'border-t-green-600';
-            }
-
-            modalTitle.textContent = titleText;
-            modalTitle.className = `text-xl font-bold mb-3 ${titleColor}`;
-            modal.querySelector('.bg-white').classList.remove('border-t-primary-red', 'border-t-primary-blue', 'border-t-green-600');
-            modal.querySelector('.bg-white').classList.add(borderColor, 'border-t-8');
-
-            modal.classList.remove('hidden');
-        };
-
-        modalCloseBtn.addEventListener('click', () => {
-            modal.classList.add('hidden');
-        });
-
-        // --- Logique du Formulaire ---
-        let isLoginMode = true; // True = Connexion, False = Inscription
         const authForm = document.getElementById('auth-form');
         const authButton = document.getElementById('auth-button');
         const toggleModeBtn = document.getElementById('toggle-mode');
-        const toggleTextSpan = document.getElementById('toggle-text');
         const nameFieldDiv = document.getElementById('name-field');
-        const modeSubtitle = document.getElementById('mode-subtitle');
         const nameInput = document.getElementById('name');
         const emailInput = document.getElementById('email');
         const passwordInput = document.getElementById('password');
 
-        /**
-         * Met à jour l'interface utilisateur en fonction du mode (Connexion ou Inscription).
-         */
-        function updateUIForMode() {
-            if (isLoginMode) {
-                // Mode Connexion
-                authButton.textContent = "Connexion";
-                modeSubtitle.textContent = "Connectez-vous pour accéder au contenu.";
-                toggleTextSpan.textContent = "Pas encore de compte?";
-                toggleModeBtn.textContent = "S'inscrire";
-                nameFieldDiv.classList.add('hidden');
-                nameInput.removeAttribute('required');
-                
-            } else {
-                // Mode Inscription
-                authButton.textContent = "S'inscrire";
-                modeSubtitle.textContent = "Créez un compte rapidement et gratuitement.";
-                toggleTextSpan.textContent = "Déjà un compte?";
-                toggleModeBtn.textContent = "Se connecter";
-                nameFieldDiv.classList.remove('hidden');
-                nameInput.setAttribute('required', 'required');
-            }
-        }
+        let isLoginMode = true;
 
-        // Gestion du clic sur le bouton de bascule
+        // Basculer entre Connexion et Inscription
         toggleModeBtn.addEventListener('click', () => {
             isLoginMode = !isLoginMode;
-            updateUIForMode();
+            authButton.textContent = isLoginMode ? "Connexion" : "S'inscrire";
+            nameFieldDiv.classList.toggle('hidden', isLoginMode);
+            nameInput.required = !isLoginMode;
+            document.getElementById('toggle-text').textContent = isLoginMode ? "Pas encore de compte?" : "Déjà un compte?";
+            toggleModeBtn.textContent = isLoginMode ? "S'inscrire" : "Se connecter";
         });
 
-
-        /**
-         * Gère la soumission du formulaire d'authentification.
-         * @param {Event} e L'événement de soumission.
-         */
+        // Gestion de la soumission
         authForm.addEventListener('submit', async (e) => {
             e.preventDefault();
-
-            if (!auth) {
-                window.alertMessage("Le service d'authentification est indisponible.", 'error');
-                return;
-            }
-
-            const email = emailInput.value;
-            const password = passwordInput.value;
-            const name = nameInput.value;
-
             authButton.disabled = true;
-            authButton.innerHTML = `<svg class="loader inline w-6 h-6 mr-3 border-4 border-gray-200 border-t-4 rounded-full" viewBox="0 0 24 24"></svg> Chargement...`;
-            
+            authButton.textContent = "Chargement...";
+
             try {
                 if (isLoginMode) {
-                    // --- Logique de Connexion (Sign In) ---
-                    const userCredential = await signInWithEmailAndPassword(auth, email, password);
-                    console.log("Connexion réussie:", userCredential.user.uid);
-                    window.alertMessage("Connexion réussie! Redirection...", 'success');
-                    
+                    await signInWithEmailAndPassword(auth, emailInput.value, passwordInput.value);
+                    alertMsg("Connexion réussie !", "success");
                 } else {
-                    // --- Logique d'Inscription (Sign Up) ---
-                    if (!name) {
-                        throw { code: 'custom/name-missing', message: 'Veuillez entrer votre nom/prénom pour l\'inscription.' };
-                    }
-                    
-                    const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+                    // 1. Création compte
+                    const userCredential = await createUserWithEmailAndPassword(auth, emailInput.value, passwordInput.value);
                     const user = userCredential.user;
-                    
-                    // 1. Mettre à jour le profil Auth (Nom affiché)
-                    await updateProfile(user, { displayName: name });
-                    
-                    const profileData = {
-                        name: name,
-                        email: email,
+
+                    // 2. Nom dans le profil
+                    await updateProfile(user, { displayName: nameInput.value });
+
+                    // 3. Sauvegarde dans Firestore (Création de la collection)
+                    await setDoc(doc(db, 'UserProfiles', user.uid), {
+                        name: nameInput.value,
+                        email: emailInput.value,
                         createdAt: new Date().toISOString()
-                    };
+                    });
 
-                    // --- Bloc de sauvegarde simplifié ---
-const profileData = {
-    name: name,
-    email: email,
-    createdAt: new Date().toISOString()
-};
-
-// On enregistre directement dans UserProfiles
-// Cela créera la collection automatiquement au premier clic
-await setDoc(doc(db, 'UserProfiles', user.uid), profileData);
-
-console.log("Données enregistrées avec succès !");
-                    // CECI EST CRUCIAL POUR LE TABLEAU DE BORD ADMINISTRATEUR
-                    const publicProfileDocRef = doc(db, 'UserProfiles', user.uid);
-                    await setDoc(publicProfileDocRef, profileData);
-
-                    console.log("Inscription réussie:", user.uid);
-                    window.alertMessage("Compte créé avec succès! Redirection...", 'success');
+                    alertMsg("Compte créé avec succès !", "success");
                 }
 
-                // Redirection après succès, avec un léger délai pour que le message soit visible
-                setTimeout(() => {
-                    window.location.href = 'index.html'; // Redirige vers la page d'accueil
-                }, 1500);
+                setTimeout(() => { window.location.href = 'index.html'; }, 1500);
 
             } catch (error) {
-                console.error("Erreur d'authentification:", error);
-                
-                // Traduction et affichage des erreurs
-                let errorMessage = "Une erreur inconnue s'est produite. Veuillez réessayer.";
-                
-                if (error.code === 'auth/email-already-in-use') {
-                    errorMessage = "Cet email est déjà utilisé. Veuillez vous connecter ou utiliser un autre email.";
-                } else if (error.code === 'auth/invalid-email') {
-                    errorMessage = "Format d'email invalide.";
-                } else if (error.code === 'auth/user-not-found' || error.code === 'auth/wrong-password') {
-                    errorMessage = "Email ou mot de passe incorrect.";
-                } else if (error.code === 'auth/weak-password') {
-                    errorMessage = "Mot de passe trop faible (doit contenir au moins 6 caractères).";
-                } else if (error.code === 'custom/name-missing') {
-                    errorMessage = error.message;
-                } else {
-                    // Tente d'afficher un message plus générique pour les erreurs non gérées
-                    errorMessage = `Erreur: ${error.message.split(' (auth/')[0].trim()}.`;
-                }
-                
-                window.alertMessage(errorMessage, 'error');
-
-            } finally {
+                console.error(error);
+                alertMsg("Erreur : " + error.message, "error");
                 authButton.disabled = false;
                 authButton.textContent = isLoginMode ? "Connexion" : "S'inscrire";
             }
         });
 
-        // --- Initialisation au chargement ---
-        document.addEventListener('DOMContentLoaded', async () => {
-            const redirected = await initializeAuth(); // Tente l'auth initiale et redirige si OK
-            if (!redirected) {
-                updateUIForMode(); // Configure l'UI si l'utilisateur doit se connecter manuellement
-            }
+        function alertMsg(msg, type) {
+            document.getElementById('modal-content').textContent = msg;
+            document.getElementById('message-modal').classList.remove('hidden');
+        }
+
+        document.getElementById('modal-close-btn').addEventListener('click', () => {
+            document.getElementById('message-modal').classList.add('hidden');
         });
     </script>
 </body>
 </html>
-
