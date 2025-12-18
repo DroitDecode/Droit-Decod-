@@ -14,11 +14,32 @@
         body { font-family: 'Inter', sans-serif; background-color: var(--color-secondary-bg); min-height: 100vh; display: flex; flex-direction: column; }
 
         header { display: flex; justify-content: space-between; align-items: center; padding: 1rem 2rem; background-color: white; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05); position: sticky; top: 0; z-index: 1000; }
+        
+        /* Conteneur pour aligner Logo - Initiales - Menu Toggle */
+        .header-left { display: flex; align-items: center; gap: 15px; }
+
         .logo-container a { display: flex; align-items: center; text-decoration: none; }
         .logo-container img { height: 40px; width: 40px; border-radius: 50%; margin-right: 10px; }
         .logo-text { font-size: 1.5rem; line-height: 1; font-weight: 300; }
         .logo-text strong { color: var(--color-primary-blue); font-weight: 700; }
         .logo-text span { color: var(--color-primary-red); font-weight: 700; }
+
+        /* Style du cercle des initiales */
+        #user-initials {
+            width: 35px;
+            height: 35px;
+            background-color: var(--color-primary-blue);
+            color: white;
+            border-radius: 50%;
+            display: none; /* Caché par défaut, affiché si connecté */
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            border: 2px solid white;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
 
         header nav ul { display: flex; list-style: none; gap: 1.5rem; margin: 0; padding: 0; align-items: center; }
         header nav ul li a { color: #4B5563; text-decoration: none; padding: 0.5rem 0; transition: color 0.3s; font-weight: 600; }
@@ -41,16 +62,23 @@
         @media (max-width: 768px) {
             header nav ul { display: none; flex-direction: column; position: absolute; top: 64px; right: 0; width: 100%; background-color: white; padding: 1rem 0; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
             header nav ul.open { display: flex; }
-            .menu-toggle { display: block; font-size: 1.8rem; cursor: pointer; color: var(--color-primary-blue); border:none; background:none; }
+            .menu-toggle { display: block; font-size: 1.8rem; cursor: pointer; color: var(--color-primary-blue); border:none; background:none; order: 3; }
         }
     </style>
 </head>
 <body>
 
     <header>
-        <div class="logo-container">
-            <a href="index.html"><img src="logo1.jpeg" alt="Logo"><div class="logo-text"><strong>DROIT</strong> <span>DÉCODÉ</span></div></a>
+        <div class="header-left">
+            <div class="logo-container">
+                <a href="index.html">
+                    <img src="logo1.jpeg" alt="Logo">
+                    <div class="logo-text md:block hidden"><strong>DROIT</strong> <span>DÉCODÉ</span></div>
+                </a>
+            </div>
+            <div id="user-initials" title="Mon Profil"></div>
         </div>
+
         <nav>
             <ul id="main-navigation">
                 <li><a href="index.html">Accueil</a></li>
@@ -66,7 +94,6 @@
     </header>
 
     <main class="max-w-4xl mx-auto p-6">
-
         <section id="admin-editor" class="hidden bg-white p-6 rounded-xl border-2 border-primary-blue mb-10 shadow-lg">
             <h2 id="form-title" class="text-2xl font-bold text-primary-blue mb-4">Publier/Modifier un article</h2>
             <input type="hidden" id="edit-id">
@@ -82,7 +109,6 @@
         </section>
 
         <h1 class="text-3xl font-black text-primary-blue border-b-2 border-primary-red pb-2 mb-8 inline-block">Articles & Explications</h1>
-
         <div id="articles-list">
             <p class="text-center text-gray-500">Chargement des articles...</p>
         </div>
@@ -106,17 +132,40 @@
         const db = firebase.firestore();
         const ADMIN_UID = "v4086Cxmi9PMI31GUBZzY8rHyIA3";
 
+        // FONCTION POUR OBTENIR LES INITIALES
+        function getInitials(name) {
+            if (!name) return "U"; // "U" pour User si pas de nom
+            const names = name.split(' ');
+            let initials = names[0].substring(0, 1).toUpperCase();
+            if (names.length > 1) {
+                initials += names[names.length - 1].substring(0, 1).toUpperCase();
+            }
+            return initials;
+        }
+
         auth.onAuthStateChanged(user => {
+            const initialsDiv = document.getElementById('user-initials');
             if (user) {
+                // Afficher et remplir les initiales
+                initialsDiv.style.display = "flex";
+                initialsDiv.textContent = getInitials(user.displayName);
+
                 document.getElementById('auth-link').textContent = "Déconnexion";
-                document.getElementById('auth-link').onclick = (e) => { e.preventDefault(); auth.signOut().then(() => location.reload()); };
+                document.getElementById('auth-link').onclick = (e) => { 
+                    e.preventDefault(); 
+                    auth.signOut().then(() => location.reload()); 
+                };
+                
                 if (user.uid === ADMIN_UID) {
                     document.getElementById('admin-editor').classList.remove('hidden');
                     document.getElementById('admin-link-container').classList.remove('hidden');
                 }
+            } else {
+                initialsDiv.style.display = "none";
             }
         });
 
+        // ... Le reste de votre code (publish-btn, Firestore snapshot, etc.) est identique
         document.getElementById('publish-btn').onclick = async () => {
             const id = document.getElementById('edit-id').value;
             const btn = document.getElementById('publish-btn');
@@ -145,7 +194,7 @@
                 const art = doc.data();
                 const isVideo = art.media && art.media.toLowerCase().endsWith('.mp4');
                 const hasLiked = user && art.likedBy && art.likedBy.includes(user.uid);
-                
+
                 const card = document.createElement('div');
                 card.className = 'article-card-old';
                 card.innerHTML = `
@@ -164,7 +213,6 @@
                                 </svg>
                                 <span>${art.likes || 0}</span>
                             </button>
-
                             <button onclick="shareArticle('${art.title.replace(/'/g, "\\'")}', '${doc.id}')" class="flex items-center gap-1 text-gray-500 hover:text-primary-blue transition text-sm font-semibold">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 100-2.684 3 3 0 000 2.684zm0 9.316a3 3 0 100-2.684 3 3 0 000 2.684z" />
