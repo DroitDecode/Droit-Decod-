@@ -5,794 +5,199 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Droit Décodé - Accueil</title>
 
-    <!-- Open Graph Protocol (pour prévisualisation WhatsApp/Réseaux Sociaux) -->
     <meta property="og:title" content="Droit Décodé | Le Droit, Enfin Clair et Accessible">
-    <meta property="og:description" content="Accédez à des explications claires et précises pour comprendre les lois qui régissent votre quotidien. Simplifions le droit ensemble.">
+    <meta property="og:description" content="Accédez à des explications claires et précises pour comprendre les lois qui régissent votre quotidien.">
     <meta property="og:image" content="logo1.jpeg">
     <meta property="og:url" content="https://droitdecode.github.io/Droit-Decod-/index.html">
     <meta property="og:type" content="website">
-    <meta name="twitter:card" content="summary_large_image">
-    <!-- Fin des balises Open Graph -->
 
-    <!-- Utilisation de Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
 
-    <!-- Feuille de style globale (simulée ici) -->
     <style>
-        /* Définitions des variables de couleur pour la cohérence */
         :root {
             --color-primary-red: #E84D3D;
-            --color-primary-blue: #3E4B7A; /* Deep, professional blue */
+            --color-primary-blue: #3E4B7A;
             --color-secondary-bg: #F8F9FA;
         }
 
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: var(--color-secondary-bg);
-            min-height: 100vh;
-        }
-
-        /* Styles Header/Footer critiques */
-        header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 1rem 2rem;
-            background-color: white;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-        }
-        .logo-container a {
-            display: flex;
-            align-items: center;
-            text-decoration: none;
-        }
-        .logo-container img {
-            height: 40px;
-            width: 40px;
-            border-radius: 50%;
-            margin-right: 10px;
-        }
-        .logo-text {
-            font-size: 1.5rem;
-            line-height: 1;
-            font-weight: 300;
-        }
+        body { font-family: 'Inter', sans-serif; background-color: var(--color-secondary-bg); min-height: 100vh; display: flex; flex-direction: column; }
+        
+        /* HEADER */
+        header { display: flex; justify-content: space-between; align-items: center; padding: 1rem 2rem; background-color: white; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05); position: sticky; top: 0; z-index: 1000; }
+        .logo-container a { display: flex; align-items: center; text-decoration: none; }
+        .logo-container img { height: 40px; width: 40px; border-radius: 50%; margin-right: 10px; }
+        .logo-text { font-size: 1.5rem; font-weight: 300; }
         .logo-text strong { color: var(--color-primary-blue); font-weight: 700; }
         .logo-text span { color: var(--color-primary-red); font-weight: 700; }
-        
-        header nav ul {
-            display: flex;
-            list-style: none;
-            gap: 1.5rem;
-            margin: 0;
-            padding: 0;
-        }
-        header nav ul li a {
-            color: #4B5563;
-            text-decoration: none;
-            padding: 0.5rem 0;
-            transition: color 0.3s;
-        }
-        header nav ul li a:hover {
-            color: var(--color-primary-red);
-        }
-        .contact-btn, .log-btn {
-            padding: 0.5rem 1rem;
-            border-radius: 0.5rem;
-            font-weight: 600;
-        }
-        .contact-btn {
-            background-color: var(--color-primary-red);
-            color: white !important;
-        }
-        .log-btn {
-            border: 1px solid var(--color-primary-blue);
-            color: var(--color-primary-blue) !important;
-        }
-        .menu-toggle { display: none; }
-        
-        /* Footer Styles */
-        footer {
-            background-color: var(--color-primary-blue);
-            color: white;
-            padding: 2rem;
-            text-align: center;
-        }
-        .footer-content {
-            max-width: 1280px;
-            margin: 0 auto;
-        }
-        .footer-links a {
-            color: #b3c0e3;
-            text-decoration: none;
-            margin: 0 10px;
-        }
-        .footer-links a:hover {
-            text-decoration: underline;
-        }
 
-        /* Définitions de couleurs restantes */
-        .text-primary-red { color: var(--color-primary-red); }
-        .bg-primary-red { background-color: var(--color-primary-red); }
-        .text-primary-blue { color: var(--color-primary-blue); }
-        .bg-primary-blue { background-color: var(--color-primary-blue); }
-        .border-primary-red { border-color: var(--color-primary-red); }
-        .border-primary-blue { border-color: var(--color-primary-blue); }
+        header nav ul { display: flex; list-style: none; gap: 1.5rem; align-items: center; }
+        header nav ul li a { color: #4B5563; text-decoration: none; font-weight: 600; transition: 0.3s; }
+        header nav ul li a.active { color: var(--color-primary-red); border-bottom: 2px solid var(--color-primary-red); }
+        .contact-btn { background-color: var(--color-primary-red); color: white !important; padding: 0.5rem 1rem; border-radius: 0.5rem; }
+        .log-btn { border: 1px solid var(--color-primary-blue); color: var(--color-primary-blue) !important; padding: 0.5rem 1rem; border-radius: 0.5rem; }
 
-        /* Active Link Styling */
-        header nav ul li a.active {
-            color: var(--color-primary-red);
-            font-weight: 700;
-            border-bottom: 2px solid var(--color-primary-red);
-        }
+        /* HERO VIDEO */
+        #hero-banner { min-height: 550px; display: flex; align-items: center; position: relative; overflow: hidden; }
+        #hero-video { position: absolute; top: 50%; left: 50%; width: 100%; height: 100%; object-fit: cover; transform: translate(-50%, -50%); z-index: 0; }
+        #hero-banner::before { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0.7) 100%); z-index: 1; }
+        #hero-content { z-index: 2; text-align: center; width: 100%; padding: 2rem; color: white; }
 
-        /* Styles spécifiques pour le bouton Admin */
-        .admin-btn {
-            background-color: var(--color-primary-blue);
-            color: white !important;
-            padding: 0.5rem 1rem;
-            border-radius: 0.5rem;
-            font-weight: 600;
-            transition: background-color 0.3s;
-        }
-        .admin-btn:hover {
-            background-color: #313c63;
-        }
+        /* CARDS HOVER */
+        .feed-card { transition: transform 0.3s ease, box-shadow 0.3s ease; }
+        .feed-card:hover { transform: translateY(-5px); box-shadow: 0 15px 30px rgba(0,0,0,0.1); }
 
+        /* MOBILE MENU */
+        @media (max-width: 768px) {
+            header nav ul { display: none; flex-direction: column; position: absolute; top: 64px; left: 0; width: 100%; background: white; padding: 1rem; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+            header nav ul.open { display: flex; }
+            .menu-toggle { display: block; background: none; border: none; font-size: 1.5rem; color: var(--color-primary-blue); }
+        } else { .menu-toggle { display: none; } }
 
-        /* -------------------------------------------
-        MODIFICATIONS DE LA SECTION HÉRO AVEC VIDÉO
-        -------------------------------------------
-        */
-        #hero-banner {
-            min-height: 500px;
-            display: flex;
-            align-items: center;
-            position: relative;
-            z-index: 10;
-            overflow: hidden;
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1);
-        }
-
-        #hero-video {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 100%;
-            height: 100%;
-            object-fit: cover; 
-            transform: translate(-50%, -50%);
-            z-index: 0;
-        }
-
-        #hero-banner::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            right: 0;
-            bottom: 0;
-            left: 0;
-            background: linear-gradient(180deg, rgba(0, 0, 0, 0.4) 0%, rgba(0, 0, 0, 0.7) 100%);
-            z-index: 1;
-        }
-
-        #hero-content {
-            z-index: 2; 
-            max-width: 900px;
-            margin: 0 auto;
-            text-align: center;
-            padding: 2rem;
-        }
-
-        .hero-button {
-            font-size: 1.125rem;
-            padding: 0.75rem 2rem;
-            border-radius: 0.5rem;
-            font-weight: 700;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        /* -------------------------------------------
-        STYLE DU BOUTON FLOTTANT (FAB) ET MODAL
-        -------------------------------------------
-        */
-        #notification-fab {
-            position: fixed;
-            bottom: 2rem;
-            right: 2rem;
-            width: 56px;
-            height: 56px;
-            border-radius: 50%;
-            background-color: var(--color-primary-red);
-            color: white;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
-            transition: transform 0.3s ease, background-color 0.3s ease;
-            cursor: pointer; 
-            z-index: 1000; 
-            border: none;
-        }
-
-        #notification-fab:hover {
-            background-color: #c73a30; 
-            transform: scale(1.05); 
-        }
-
-        #notification-fab .notification-dot {
-            position: absolute;
-            top: 4px;
-            right: 4px;
-            width: 12px;
-            height: 12px;
-            background-color: #FFD700; 
-            border: 2px solid white;
-            border-radius: 50%;
-            animation: pulse-dot 1.5s infinite;
-        }
-
-        #notification-fab[data-unread="0"] .notification-dot {
-            display: none;
-        }
-
-        #notification-badge {
-            position: absolute;
-            top: -5px;
-            right: -5px;
-            min-width: 20px;
-            padding: 2px 4px;
-            background-color: var(--color-primary-blue);
-            color: white;
-            border-radius: 9999px; 
-            font-size: 0.75rem;
-            font-weight: bold;
-            text-align: center;
-            line-height: 1;
-            pointer-events: none;
-            border: 1px solid white;
-            display: none; 
-        }
-        #notification-fab[data-unread]:not([data-unread="0"]) #notification-badge {
-            display: block;
-        }
-
-
-        @keyframes pulse-dot {
-            0% { transform: scale(1); opacity: 1; }
-            50% { transform: scale(1.2); opacity: 0.7; }
-            100% { transform: scale(1); opacity: 1; }
-        }
-
-        #notification-panel {
-            position: fixed;
-            bottom: 80px; 
-            right: 2rem;
-            width: 90%;
-            max-width: 380px;
-            max-height: 450px;
-            background-color: white;
-            border-radius: 12px;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
-            z-index: 999;
-            overflow: hidden;
-            display: none; 
-            transform: translateY(20px);
-            opacity: 0;
-            transition: opacity 0.3s ease, transform 0.3s ease;
-        }
-
-        #notification-panel.open {
-            display: block;
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        /* Mobile Adjustments for Panel */
-        @media (max-width: 640px) {
-            #notification-panel {
-                bottom: 1rem;
-                right: 1rem;
-                left: 1rem;
-                max-width: none;
-                max-height: 70vh;
-            }
-            #notification-fab {
-                bottom: 1rem;
-                right: 1rem;
-            }
-            /* Menu responsive */
-            header nav ul {
-                display: none;
-                flex-direction: column;
-                position: absolute;
-                top: 60px;
-                right: 0;
-                width: 100%;
-                background-color: white;
-                box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-                padding: 1rem 0;
-                z-index: 50;
-            }
-            header nav ul.open {
-                display: flex;
-            }
-            header nav ul li {
-                width: 100%;
-                text-align: center;
-                padding: 0.5rem 0;
-                border-bottom: 1px solid #eee;
-            }
-            header nav ul li:last-child {
-                border-bottom: none;
-            }
-            .menu-toggle { 
-                display: block; 
-                background: none; 
-                border: none; 
-                font-size: 1.5rem; 
-                cursor: pointer;
-                color: var(--color-primary-blue);
-            }
-        }
+        /* NOTIFICATIONS */
+        #notification-fab { position: fixed; bottom: 2rem; right: 2rem; width: 56px; height: 56px; border-radius: 50%; background: var(--color-primary-red); color: white; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 10px rgba(0,0,0,0.3); z-index: 1000; cursor: pointer; border: none; }
+        #notification-panel { position: fixed; bottom: 85px; right: 2rem; width: 350px; background: white; border-radius: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.2); z-index: 999; display: none; overflow: hidden; }
+        #notification-panel.open { display: block; }
     </style>
 </head>
 <body>
 
-    <!-- --- Header (En-tête) - Uniform on all pages --- -->
-    <header role="banner">
+    <header>
         <div class="logo-container">
             <a href="index.html">
-                <img src="logo1.jpeg" alt="Logo Droit Décodé">
+                <img src="logo1.jpeg" alt="Logo">
                 <div class="logo-text"><strong>DROIT</strong> <span>DÉCODÉ</span></div>
             </a>
         </div>
-
-        <nav role="navigation" aria-label="Menu principal du site">
+        <nav>
             <ul id="main-navigation">
-                <!-- 'active' class on Accueil -->
-                <li><a href="index.html" class="active" aria-current="page">Accueil</a></li>
-                <li><a href="articles.html">Articles & Explications</a></li>
-                <!-- Point d'insertion pour le bouton Admin -->
-                <li id="admin-link-container" class="hidden">
-                    <a href="admin_dashboard.html" class="admin-btn" id="admin-link">Tableau de bord</a>
-                </li>
-                <!-- Fin du point d'insertion Admin -->
-                <li><a href="tiktok.html">TikTok Publications</a></li>
+                <li><a href="index.html" class="active">Accueil</a></li>
+                <li><a href="articles.html">Articles</a></li>
+                <li><a href="tiktok.html">TikTok</a></li>
                 <li><a href="about.html">À Propos</a></li>
+                <li id="admin-link-container" class="hidden"><a href="admin_dashboard.html" class="log-btn">Admin</a></li>
                 <li><a href="contact.html" class="contact-btn">Contact</a></li>
-                <!-- Le lien de connexion/déconnexion sera mis à jour par JavaScript -->
-                <li id="auth-link-container">
-                    <a href="login.html" class="log-btn" id="auth-link">Se connecter</a>
-                </li>
+                <li><a href="login.html" class="log-btn" id="auth-link">Connexion</a></li>
             </ul>
         </nav>
-
-        <button class="menu-toggle" aria-expanded="false" aria-controls="main-navigation">
-            &#9776; <!-- Burger Icon -->
-            <span class="sr-only">Ouvrir le menu</span>
-        </button>
+        <button class="menu-toggle" onclick="document.getElementById('main-navigation').classList.toggle('open')">&#9776;</button>
     </header>
 
-    <!-- --- Section Héro (Bannière d'accueil avec VRAI fond Vidéo) --- -->
-    <section id="hero-banner" role="banner">
-        <video id="hero-video" 
-               autoplay 
-               loop 
-               muted 
-               playsinline 
-               poster="assets/75651.png" 
-               aria-hidden="true">
+    <section id="hero-banner">
+        <video id="hero-video" autoplay loop muted playsinline aria-hidden="true">
             <source src="2a9e64a54ea773182b0cd8309803c268.mp4" type="video/mp4">
-            Votre navigateur ne supporte pas les vidéos HTML5.
         </video>
-
-        <div id="hero-content" class="container mx-auto text-white">
-            <h1 class="text-4xl md:text-6xl font-extrabold mb-4 uppercase tracking-tight text-white">
-                Le Droit, Enfin Décodé.
-            </h1>
-            <p class="text-xl md:text-2xl mb-8 font-light max-w-2xl mx-auto">
-                Accédez à des explications claires et précises pour comprendre les lois qui régissent votre quotidien.
-            </p>
-
-            <div class="flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-6">
-                <a href="articles.html" 
-                   class="hero-button bg-primary-red hover:bg-red-700 text-white">
-                    Explorer les Articles
-                </a>
-                <a href="contact.html" 
-                   class="hero-button bg-white text-primary-blue hover:bg-gray-200">
-                    Nous Contacter
-                </a>
+        <div id="hero-content">
+            <h1 class="text-4xl md:text-6xl font-black mb-4 uppercase tracking-tighter">Le Droit, Enfin Décodé.</h1>
+            <p class="text-xl md:text-2xl mb-8 font-light max-w-2xl mx-auto">Comprenez vos droits grâce à des explications claires et modernes.</p>
+            <div class="flex flex-col sm:flex-row justify-center gap-4">
+                <a href="articles.html" class="bg-red-600 hover:bg-red-700 text-white font-bold py-3 px-8 rounded-lg transition">Explorer les Articles</a>
+                <a href="tiktok.html" class="bg-white text-blue-900 hover:bg-gray-100 font-bold py-3 px-8 rounded-lg transition">Vidéos TikTok</a>
             </div>
         </div>
     </section>
 
-    <!-- --- Section Articles Récents --- -->
-    <section class="py-12 md:py-16 px-4 bg-secondary-bg" role="region" aria-labelledby="recent-articles-heading">
-        <div class="max-w-7xl mx-auto">
-            <h2 id="recent-articles-heading" class="text-3xl font-extrabold text-primary-blue mb-10 text-center border-b-2 border-primary-red pb-2 inline-block mx-auto">
-                Les Derniers Décryptages
-            </h2>
-
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-
-                <!-- Article 1 : Le Contrat (Original) -->
-                <div class="bg-white p-6 rounded-xl shadow-xl hover:shadow-2xl transition duration-300 border-l-4 border-primary-blue">
-                    <h3 class="text-xl font-bold text-primary-blue mb-2">Le Contrat: Les 3 piliers essentiels</h3>
-                    <p class="text-sm text-gray-500 mb-4 font-medium">Article - Droit Civil</p>
-                    <p class="text-gray-700">Analyse simplifiée des conditions de validité du contrat: consentement, capacité et contenu licite et certain.</p>
-                    <a href="articles.html" class="mt-4 inline-flex items-center text-primary-red font-semibold hover:underline">Lire la suite &rarr;</a>
-                </div>
-
-                <!-- Article 2 : Droit Numérique (RGPD) -->
-                <div class="bg-white p-6 rounded-xl shadow-xl hover:shadow-2xl transition duration-300 border-l-4 border-primary-blue">
-                    <h3 class="text-xl font-bold text-primary-blue mb-2">Le RGPD et vos données</h3>
-                    <p class="text-sm text-gray-500 mb-4 font-medium">Article - Droit Numérique</p>
-                    <p class="text-gray-700">Comprendre vos droits et obligations face à la collecte et l'utilisation de vos données personnelles en ligne.</p>
-                    <a href="articles.html" class="mt-4 inline-flex items-center text-primary-red font-semibold hover:underline">Lire la suite &rarr;</a>
-                </div>
-
-                <!-- Article 3 : Droit de la Famille (Pension Alimentaire) -->
-                <div class="bg-white p-6 rounded-xl shadow-xl hover:shadow-2xl transition duration-300 border-l-4 border-primary-blue">
-                    <h3 class="text-xl font-bold text-primary-blue mb-2">Pension Alimentaire: Les critères</h3>
-                    <p class="text-sm text-gray-500 mb-4 font-medium">Article - Droit de la Famille</p>
-                    <p class="text-gray-700">Les critères d'établissement, de révision et de suppression de la pension alimentaire pour les enfants et le conjoint.</p>
-                    <a href="articles.html" class="mt-4 inline-flex items-center text-primary-red font-semibold hover:underline">Lire la suite &rarr;</a>
-                </div>
-
-                <!-- Article 4 : Droit Pénal (Garde à Vue) -->
-                <div class="bg-white p-6 rounded-xl shadow-xl hover:shadow-2xl transition duration-300 border-l-4 border-primary-blue">
-                    <h3 class="text-xl font-bold text-primary-blue mb-2">Garde à Vue: Vos droits</h3>
-                    <p class="text-sm text-gray-500 mb-4 font-medium">Article - Droit Pénal</p>
-                    <p class="text-gray-700">Un guide rapide sur les droits fondamentaux de toute personne placée en garde à vue, de l'avocat au silence.</p>
-                    <a href="articles.html" class="mt-4 inline-flex items-center text-primary-red font-semibold hover:underline">Lire la suite &rarr;</a>
-                </div>
-
-            </div>
-
-            <div class="text-center mt-10">
-                <a href="articles.html" 
-                   class="inline-block bg-primary-blue text-white font-bold py-3 px-8 rounded-full hover:bg-primary-red transition duration-300 shadow-md">
-                    Voir Tous les Articles
-                </a>
-            </div>
-
-        </div>
-    </section>
-
-    <!-- --- Section Prestation / Pourquoi Nous Choisir (Placeholder pour l'engagement) --- -->
-    <section class="py-12 md:py-16 px-4 bg-white border-t border-gray-200" role="region" aria-labelledby="why-us-heading">
+    <section class="py-16 px-4">
         <div class="max-w-7xl mx-auto text-center">
-            <h2 id="why-us-heading" class="text-3xl font-extrabold text-primary-blue mb-8">
-                Notre Engagement
-            </h2>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-gray-700">
-                <div class="p-4">
-                    <div class="text-primary-red text-4xl mb-3">⚖️</div>
-                    <h3 class="text-xl font-semibold mb-2">Clarté Juridique</h3>
-                    <p>Nous transformons le jargon légal en un langage accessible à tous.</p>
-                </div>
-                <div class="p-4">
-                    <div class="text-primary-red text-4xl mb-3">📱</div>
-                    <h3 class="text-xl font-semibold mb-2">Contenu Moderne</h3>
-                    <p>Des explications dynamiques sur notre blog et nos publications TikTok.</p>
-                </div>
-                <div class="p-4">
-                    <div class="text-primary-red text-4xl mb-3">🤝</div>
-                    <h3 class="text-xl font-semibold mb-2">Toujours à Jour</h3>
-                    <p>Veille constante des dernières lois et jurisprudences pour une information fiable.</p>
-                </div>
+            <h2 class="text-3xl font-extrabold text-blue-900 border-b-4 border-red-500 inline-block pb-2 mb-12">Dernières Publications</h2>
+            
+            <div id="mixed-feed" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <p class="text-center col-span-full py-10 text-gray-400 italic">Chargement des actualités...</p>
             </div>
         </div>
     </section>
 
-    <!-- --- Footer (Bas de page) - Uniform on all pages --- -->
-    <footer role="contentinfo">
-        <div class="footer-content">
-            <p>&copy; 2025 Droit Décodé. Tous droits réservés.</p>
-            <div class="footer-links">
-                <a href="about.html">À Propos</a> | 
-                <a href="contact.html">Contact</a> | 
-                <a href="mentions.html">Mentions Légales</a>
+    <footer class="bg-slate-900 text-white py-10 text-center">
+        <div class="max-w-7xl mx-auto px-4">
+            <p class="mb-4">&copy; 2025 Droit Décodé. Tous droits réservés.</p>
+            <div class="space-x-4 text-sm text-gray-400">
+                <a href="about.html" class="hover:text-white">À Propos</a>
+                <a href="contact.html" class="hover:text-white">Contact</a>
+                <a href="mentions.html" class="hover:text-white">Mentions Légales</a>
             </div>
-            <p>Email: droitdecode@gmail.com</p>
         </div>
     </footer>
 
-    <!-- --- BOUTON FLOTTANT DE NOTIFICATION (FAB) --- -->
-    <button id="notification-fab" aria-label="Notifications et annonces">
-        <!-- Icône de cloche -->
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6">
-            <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
-            <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
-        </svg>
-
-        <!-- Point de notification/Badge (Contient le nombre de notifications non lues) -->
-        <span class="notification-dot" title="Nouvelles annonces"></span>
-        <span id="notification-badge" data-count="2">2</span>
-    </button>
-    <!-- -------------------------------------------------------- -->
-    <!-- --- MODAL DE NOTIFICATION --- -->
-    <div id="notification-panel" role="dialog" aria-modal="true" aria-labelledby="notification-title">
-        <div class="p-4 border-b border-gray-100 flex justify-between items-center bg-gray-50">
-            <h3 id="notification-title" class="text-xl font-bold text-primary-blue">Annonces Droit Décodé</h3>
-            <button id="close-panel" aria-label="Fermer le panneau de notifications" class="text-gray-500 hover:text-gray-800">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line>
-                </svg>
-            </button>
-        </div>
-
-        <!-- Liste des notifications -->
-        <div id="notification-list" class="p-2 space-y-2 overflow-y-auto max-h-[380px]">
-            <!-- Les notifications seront générées ici par le script -->
-        </div>
-
-        <div id="no-notifications" class="text-center p-6 text-gray-500 hidden">
-            Aucune nouvelle annonce pour le moment.
-        </div>
+    <button id="notification-fab"><svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9M13.73 21a2 2 0 0 1-3.46 0"></path></svg></button>
+    <div id="notification-panel">
+        <div class="p-4 bg-gray-100 font-bold border-b">Annonces</div>
+        <div class="p-4 text-sm text-gray-600">Bienvenue sur la nouvelle version de Droit Décodé !</div>
     </div>
 
-    <!-- -------------------------------------------------------------------------------------- -->
-    <!-- --- SCRIPTS JS & FIREBASE (Début de la section des scripts) --- -->
-    <!-- -------------------------------------------------------------------------------------- -->
-
-    <!-- 1. Charger les SDK Firebase (App, Analytics ET AUTH) -->
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-analytics-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
 
     <script>
-        // --- CONSTANTE ADMIN ---
-        const ADMIN_UID = "v4086Cxmi9PMI31GUBZzY8rHyIA3"; 
-
-        // --- JAVASCRIPT FIREBASE ---
-
-        // Votre configuration Firebase (Utilisé pour initialiser l'application)
         const firebaseConfig = {
             apiKey: "AIzaSyDpNtHXiZK3bIyLwAUlTNAiWRrg2vhPYeE",
             authDomain: "droitdecode-9aa4d.firebaseapp.com",
             projectId: "droitdecode-9aa4d",
             storageBucket: "droitdecode-9aa4d.firebasestorage.app",
             messagingSenderId: "219930978240",
-            appId: "1:219930978240:web:886c40e47d276c75548a25",
-            measurementId: "G-D619J4YSQL"
+            appId: "1:219930978240:web:886c40e47d276c75548a25"
         };
+        firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+        const db = firebase.firestore();
+        const ADMIN_UID = "v4086Cxmi9PMI31GUBZzY8rHyIA3";
 
-        let auth; // Variable globale pour l'instance d'authentification
-        let app;
-
-        // Initialisation de Firebase
-        try {
-            app = firebase.initializeApp(firebaseConfig);
-            auth = firebase.auth();
-            
-            // Log de confirmation pour le développeur
-            if (typeof firebase.analytics === 'function') {
-                 firebase.analytics();
-                 console.log("Firebase, Analytics, et Auth initialisés avec succès.");
-            } else {
-                 console.log("Firebase initialisé, mais Google Analytics non disponible ou désactivé.");
-            }
-        } catch (error) {
-            console.error("Erreur lors de l'initialisation de Firebase:", error);
-        }
-
-        /**
-         * Gère la visibilité du bouton Admin.
-         * @param {firebase.User | null} user - L'utilisateur actuellement connecté.
-         */
-        function updateAdminUI(user) {
-            const adminContainer = document.getElementById('admin-link-container');
-            if (!adminContainer) return;
-
-            if (user && user.uid === ADMIN_UID) {
-                // L'utilisateur est l'administrateur
-                adminContainer.classList.remove('hidden');
-                console.log("UID Administrateur détecté. Affichage du Tableau de bord.");
-            } else {
-                // L'utilisateur n'est pas l'administrateur ou est déconnecté
-                adminContainer.classList.add('hidden');
-            }
-        }
-
-        /**
-         * Met à jour le bouton de navigation (Se connecter / Déconnexion)
-         * en fonction de l'état d'authentification de l'utilisateur.
-         * @param {firebase.User | null} user - L'utilisateur actuellement connecté.
-         */
-        function updateAuthUI(user) {
-            const authLink = document.getElementById('auth-link');
-            if (!authLink) return;
-
-            if (user) {
-                // Utilisateur connecté
-                authLink.textContent = 'Déconnexion';
-                authLink.href = '#'; 
-                authLink.classList.remove('log-btn');
-                authLink.classList.add('bg-primary-red', 'text-white', 'hover:bg-red-700', 'border-transparent'); 
-                authLink.style.borderColor = 'transparent';
-                
-                // Ajouter un gestionnaire d'événement de déconnexion
-                authLink.onclick = async (e) => {
-                    e.preventDefault();
-                    try {
-                        await auth.signOut();
-                        console.log("Déconnexion réussie. Rafraîchissement de la page.");
-                        window.location.reload(); 
-                    } catch (error) {
-                        console.error("Erreur lors de la déconnexion:", error.message);
-                    }
-                };
-
-            } else {
-                // Utilisateur déconnecté
-                authLink.textContent = 'Se connecter';
-                authLink.href = 'login.html';
-                authLink.classList.add('log-btn');
-                authLink.classList.remove('bg-primary-red', 'text-white', 'hover:bg-red-700', 'border-transparent');
-                authLink.onclick = null; 
-            }
-        }
-        
-        // ----------------------------------------------------------------
-        // 2. ÉCOUTEUR D'ÉTAT D'AUTHENTIFICATION (C'EST LA CLÉ)
-        // ----------------------------------------------------------------
+        // Auth UI
         auth.onAuthStateChanged(user => {
-            console.log("Changement d'état d'authentification détecté. Utilisateur:", user ? user.uid : "Déconnecté");
-            
-            // 1. Mise à jour du bouton Connexion/Déconnexion
-            updateAuthUI(user);
-            
-            // 2. Mise à jour du bouton Admin
-            updateAdminUI(user);
+            const authBtn = document.getElementById('auth-link');
+            if(user) {
+                authBtn.innerText = "Déconnexion";
+                authBtn.onclick = (e) => { e.preventDefault(); auth.signOut().then(() => location.reload()); };
+                if(user.uid === ADMIN_UID) document.getElementById('admin-link-container').classList.remove('hidden');
+            }
         });
 
+        // CHARGEMENT FLUX MIXTE
+        async function loadFeed() {
+            const feed = document.getElementById('mixed-feed');
+            try {
+                const artSnap = await db.collection("Articles").orderBy("timestamp", "desc").limit(4).get();
+                const tkSnap = await db.collection("TikToks").orderBy("timestamp", "desc").limit(2).get();
 
-        // --- Global JavaScript (Gestion de l'interrupteur du menu mobile) ---
-        const menuToggle = document.querySelector('.menu-toggle');
-        const mainNavigation = document.getElementById('main-navigation');
+                let data = [];
+                artSnap.forEach(doc => data.push({ id: doc.id, ...doc.data(), type: 'art' }));
+                tkSnap.forEach(doc => data.push({ id: doc.id, ...doc.data(), type: 'tk' }));
 
-        menuToggle.addEventListener('click', () => {
-            const isExpanded = menuToggle.getAttribute('aria-expanded') === 'true' || false;
-            menuToggle.setAttribute('aria-expanded', !isExpanded);
-            mainNavigation.classList.toggle('open');
-        });
-        
-        // --- JAVASCRIPT POUR LA CLOCHE DE NOTIFICATION ---
+                // Tri par date
+                data.sort((a, b) => (b.timestamp?.seconds || 0) - (a.timestamp?.seconds || 0));
 
-        // 1. Définition des notifications 
-        const NOTIFICATIONS_DATA = [
-            {
-                id: 1,
-                title: "🚨 Nouvelle Section : Mentions Légales",
-                content: "La page 'Mentions Légales' est maintenant en ligne ! Consultez-la via le pied de page pour plus de transparence.",
-                date: "Aujourd'hui",
-                link: "mentions.html",
-                read: false 
-            },
-            {
-                id: 2,
-                title: "📚 Mise à jour des Articles Clés",
-                content: "Tous les articles de 'Droit Civil' ont été revus et mis à jour avec les dernières réformes législatives. Bonne lecture !",
-                date: "Hier",
-                link: "articles.html",
-                read: false
-            },
-            {
-                id: 3,
-                title: "🎉 Lancement du Site Officiel",
-                content: "Bienvenue sur le site officiel de Droit Décodé ! Plus de contenu, plus de clarté. N'hésitez pas à nous contacter.",
-                date: "Il y a 3 jours",
-                link: "contact.html",
-                read: true
-            }
-        ];
-
-        // 2. Éléments DOM pour les notifications
-        const fab = document.getElementById('notification-fab');
-        const panel = document.getElementById('notification-panel');
-        const badge = document.getElementById('notification-badge');
-        const dot = document.querySelector('#notification-fab .notification-dot');
-        const closeBtn = document.getElementById('close-panel');
-        const list = document.getElementById('notification-list');
-        const noNotifications = document.getElementById('no-notifications');
-
-
-        // 3. Fonction pour générer l'HTML des notifications
-        function renderNotifications() {
-            list.innerHTML = ''; 
-
-            if (NOTIFICATIONS_DATA.length === 0) {
-                noNotifications.classList.remove('hidden');
-                badge.style.display = 'none';
-                dot.style.display = 'none';
-                fab.setAttribute('data-unread', 0);
-                return;
-            } else {
-                noNotifications.classList.add('hidden');
-            }
-
-            let unreadCount = 0;
-
-            NOTIFICATIONS_DATA.forEach(notif => {
-                if (!notif.read) {
-                    unreadCount++;
-                }
-
-                const item = document.createElement('a');
-                item.href = notif.link || '#';
-                item.className = `block p-3 rounded-lg transition duration-200 ${notif.read ? 'bg-white hover:bg-gray-100 border-l-2 border-transparent' : 'bg-secondary-bg hover:bg-gray-200 border-l-2 border-primary-red'}`;
-                item.innerHTML = `
-                    <p class="text-sm font-semibold ${notif.read ? 'text-gray-800' : 'text-primary-blue'}">${notif.title}</p>
-                    <p class="text-xs text-gray-500 mt-1">${notif.content}</p>
-                    <p class="text-xs text-gray-400 mt-1">${notif.date}</p>
-                `;
-                list.appendChild(item);
-            });
-
-            // Mettre à jour le badge et le dot avec le compte réel
-            badge.textContent = unreadCount;
-            fab.setAttribute('data-unread', unreadCount);
-
-            // Gérer l'affichage du dot/badge
-            if (unreadCount > 0) {
-                dot.style.display = 'block';
-                badge.style.display = 'block';
-            } else {
-                dot.style.display = 'none';
-                badge.style.display = 'none';
-                dot.style.animation = 'none';
-            }
+                feed.innerHTML = '';
+                data.forEach(item => {
+                    const card = document.createElement('div');
+                    card.className = "feed-card bg-white rounded-xl shadow-md overflow-hidden text-left flex flex-col h-full border-t-4 " + (item.type === 'art' ? 'border-blue-800' : 'border-red-500');
+                    
+                    if(item.type === 'art') {
+                        card.innerHTML = `
+                            <div class="p-6 flex-grow">
+                                <span class="text-[10px] font-bold text-blue-800 uppercase tracking-widest">Article</span>
+                                <h3 class="text-xl font-bold text-slate-800 mt-2 line-clamp-2">${item.title}</h3>
+                                <p class="text-gray-500 text-sm mt-3 line-clamp-3">${item.content}</p>
+                            </div>
+                            <div class="p-6 pt-0"><a href="articles.html#${item.id}" class="text-red-500 font-bold text-sm">Lire la suite →</a></div>
+                        `;
+                    } else {
+                        card.innerHTML = `
+                            <div class="p-6 flex-grow">
+                                <span class="text-[10px] font-bold text-red-500 uppercase tracking-widest">TikTok</span>
+                                <h3 class="text-xl font-bold text-slate-800 mt-2 line-clamp-2">${item.title}</h3>
+                                <div class="mt-4 aspect-video bg-slate-900 rounded-lg flex items-center justify-center">
+                                    <a href="tiktok.html" class="text-white text-xs font-bold bg-red-600 px-4 py-2 rounded-full">Regarder sur TikTok</a>
+                                </div>
+                            </div>
+                            <div class="p-6 pt-0"><span class="text-gray-400 text-xs italic">${item.theme || 'Droit'}</span></div>
+                        `;
+                    }
+                    feed.appendChild(card);
+                });
+            } catch (e) { feed.innerHTML = "Erreur de chargement."; }
         }
 
-
-        // 4. Gestionnaire d'événement pour le clic sur le FAB
-        fab.addEventListener('click', (e) => {
-            e.preventDefault();
-            const isPanelOpen = panel.classList.contains('open');
-
-            if (!isPanelOpen) {
-                panel.classList.add('open');
-                let unreadExists = false;
-                NOTIFICATIONS_DATA.forEach(notif => {
-                    if (!notif.read) {
-                        notif.read = true; 
-                        unreadExists = true;
-                    }
-                });
-                if (unreadExists) {
-                    renderNotifications();
-                }
-
-            } else {
-                panel.classList.remove('open');
-            }
-        });
-
-        // 5. Gestionnaire pour le bouton de fermeture
-        closeBtn.addEventListener('click', () => {
-            panel.classList.remove('open');
-        });
-
-        // 6. Fermer le panneau si l'utilisateur clique en dehors
-        document.addEventListener('click', (event) => {
-            if (panel.classList.contains('open') && 
-                !panel.contains(event.target) && 
-                !fab.contains(event.target)) {
-
-                panel.classList.remove('open');
-            }
-        });
-
-        // Initialiser au chargement de la page
-        document.addEventListener('DOMContentLoaded', renderNotifications);
-
+        document.getElementById('notification-fab').onclick = () => document.getElementById('notification-panel').classList.toggle('open');
+        window.onload = loadFeed;
     </script>
 </body>
 </html>
