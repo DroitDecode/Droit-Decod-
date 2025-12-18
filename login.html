@@ -42,7 +42,7 @@
 </head>
 <body>
 
-    <div class="p-4 w-full max-w-sm mx-auto">
+    <div class="p-4 w-full max-sm mx-auto">
         <div class="text-center mb-8">
             <img src="logo1.jpeg" alt="Logo" class="mx-auto h-16 w-auto rounded-xl shadow-lg border-2 border-primary-blue">
             <h1 class="mt-4 text-3xl font-extrabold text-gray-800">Droit Décodé</h1>
@@ -95,7 +95,16 @@
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-app.js";
-        import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, updateProfile, GoogleAuthProvider, signInWithPopup } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-auth.js";
+        import { 
+            getAuth, 
+            createUserWithEmailAndPassword, 
+            signInWithEmailAndPassword, 
+            updateProfile, 
+            GoogleAuthProvider, 
+            signInWithPopup,
+            setPersistence,
+            browserSessionPersistence 
+        } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-auth.js";
         import { getFirestore, doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-firestore.js";
 
         const firebaseConfig = {
@@ -119,13 +128,15 @@
         // --- GOOGLE SIGN IN ---
         googleBtn.onclick = async () => {
             try {
+                // Set persistence to session only (log out on close)
+                await setPersistence(auth, browserSessionPersistence);
+                
                 const result = await signInWithPopup(auth, provider);
                 const user = result.user;
-                
-                // Create profile if it doesn't exist
+
                 const docRef = doc(db, 'UserProfiles', user.uid);
                 const docSnap = await getDoc(docRef);
-                
+
                 if (!docSnap.exists()) {
                     await setDoc(docRef, {
                         name: user.displayName,
@@ -133,9 +144,9 @@
                         createdAt: new Date().toISOString()
                     });
                 }
-                
-                alertMsg("Connexion Google réussie !", "success");
-                setTimeout(() => window.location.replace('index.html'), 1000);
+
+                alertMsg("Connexion réussie ! Vous serez déconnecté à la fermeture du navigateur.", "success");
+                setTimeout(() => window.location.replace('index.html'), 1500);
             } catch (error) {
                 alertMsg("Erreur Google : " + error.message, "error");
             }
@@ -149,6 +160,9 @@
             const name = document.getElementById('name').value;
 
             try {
+                // Set persistence to session only (log out on close)
+                await setPersistence(auth, browserSessionPersistence);
+
                 if (isLoginMode) {
                     await signInWithEmailAndPassword(auth, email, password);
                 } else {
@@ -172,13 +186,17 @@
             document.getElementById('name-field').classList.toggle('hidden');
             document.getElementById('auth-button').textContent = isLoginMode ? "Se connecter" : "S'inscrire";
             document.getElementById('toggle-mode').textContent = isLoginMode ? "S'inscrire" : "Se connecter";
+            document.getElementById('toggle-text').textContent = isLoginMode ? "Pas de compte?" : "Déjà un compte?";
         };
 
         function alertMsg(msg, type) {
             document.getElementById('modal-content').textContent = msg;
             document.getElementById('message-modal').classList.remove('hidden');
         }
-        document.getElementById('modal-close-btn').onclick = () => document.getElementById('message-modal').classList.add('hidden');
+        
+        document.getElementById('modal-close-btn').onclick = () => {
+            document.getElementById('message-modal').classList.add('hidden');
+        };
     </script>
 </body>
 </html>
