@@ -3,113 +3,56 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Droit Décodé - TikTok Publications</title>
-    
+    <title>Droit Décodé - TikTok</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script async src="https://www.tiktok.com/embed.js"></script> 
 
     <style>
-        :root {
-            --color-primary-red: #E84D3D;
-            --color-primary-blue: #3E4B7A;
-            --color-secondary-bg: #F8F9FA;
-        }
-
-        body { background-color: var(--color-secondary-bg); min-height: 100vh; font-family: 'Inter', sans-serif; display: flex; flex-direction: column; }
-        
-        header { 
-            display: flex; justify-content: space-between; align-items: center; 
-            padding: 1rem 1.5rem; background: white; box-shadow: 0 2px 10px rgba(0,0,0,0.1); 
-            position: sticky; top: 0; z-index: 1000; 
-        }
-        
-        .logo-container a { display: flex; align-items: center; text-decoration: none; }
-        .logo-container img { height: 40px; width: 40px; border-radius: 50%; margin-right: 10px; object-fit: cover; }
-        .logo-text { font-size: 1.2rem; line-height: 1; }
+        :root { --color-primary-red: #E84D3D; --color-primary-blue: #3E4B7A; --color-secondary-bg: #F8F9FA; }
+        body { background-color: var(--color-secondary-bg); min-height: 100vh; font-family: 'Inter', sans-serif; }
+        header { display: flex; justify-content: space-between; align-items: center; padding: 1rem 1.5rem; background: white; box-shadow: 0 2px 10px rgba(0,0,0,0.1); position: sticky; top: 0; z-index: 1000; }
         .logo-text strong { color: var(--color-primary-blue); font-weight: 800; }
         .logo-text span { color: var(--color-primary-red); font-weight: 800; }
-
-        nav ul { display: flex; list-style: none; gap: 1.5rem; align-items: center; }
-        nav ul li a { color: #4B5563; font-weight: 600; transition: 0.3s; }
-        nav ul li a:hover, nav ul li a.active { color: var(--color-primary-red); }
-
+        nav ul { display: flex; list-style: none; gap: 1.5rem; }
         @media (max-width: 768px) {
-            nav ul {
-                display: none;
-                flex-direction: column;
-                position: absolute;
-                top: 100%; left: 0; width: 100%;
-                background: white;
-                padding: 1.5rem;
-                gap: 1rem;
-                box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-            }
+            nav ul { display: none; flex-direction: column; position: absolute; top: 100%; left: 0; width: 100%; background: white; padding: 1rem; }
             nav ul.open { display: flex; }
-            .menu-toggle { display: block; font-size: 1.5rem; cursor: pointer; color: var(--color-primary-blue); border:none; background:none; }
         }
-
-        .btn-follow {
-            background: linear-gradient(45deg, #ee0979, #ff6a00);
-            transition: transform 0.3s ease;
-        }
-        .btn-follow:hover { transform: scale(1.05); }
-
-        .tiktok-card { 
-            background: white; padding: 1rem; border-radius: 1rem; 
-            box-shadow: 0 4px 15px rgba(0,0,0,0.05); 
-            border-top: 5px solid var(--color-primary-red);
-            width: 100%;
-            max-width: 350px;
-            margin: auto;
-        }
+        .tiktok-card { background: white; padding: 1rem; border-radius: 1rem; box-shadow: 0 4px 15px rgba(0,0,0,0.05); border-top: 5px solid var(--color-primary-red); margin: auto; width: 100%; max-width: 325px; }
     </style>
 </head>
 <body>
 
     <header>
-        <div class="logo-container">
-            <a href="index.html">
-                <img src="logo1.jpeg" alt="Logo">
-                <div class="logo-text"><strong>DROIT</strong> <span>DÉCODÉ</span></div>
-            </a>
-        </div>
-        <nav>
-            <ul id="nav-menu">
-                <li><a href="index.html">Accueil</a></li>
-                <li><a href="articles.html">Articles</a></li>
-                <li><a href="tiktok.html" class="active">TikTok</a></li>
-                <li><a href="about.html">À Propos</a></li>
-                <li id="admin-link-container" class="hidden"><a href="admin_dashboard.html" class="font-bold text-blue-800">Dashboard</a></li>
-                <li><a href="contact.html" class="bg-red-500 text-white px-4 py-2 rounded-lg">Contact</a></li>
-            </ul>
-        </nav>
-        <button class="menu-toggle" onclick="document.getElementById('nav-menu').classList.toggle('open')">&#9776;</button>
+        <div class="logo-container"><a href="index.html" class="flex items-center"><img src="logo1.jpeg" class="h-10 w-10 rounded-full mr-2" alt="Logo"><div class="logo-text"><strong>DROIT</strong> <span>DÉCODÉ</span></div></a></div>
+        <nav><ul id="nav-menu">
+            <li><a href="index.html">Accueil</a></li>
+            <li><a href="articles.html">Articles</a></li>
+            <li><a href="tiktok.html" class="font-bold text-red-500">TikTok</a></li>
+            <li><a href="about.html">À Propos</a></li>
+            <li id="admin-link-container" class="hidden"><a href="admin_dashboard.html" class="text-blue-700 font-bold">Admin</a></li>
+        </ul></nav>
+        <button class="md:hidden text-2xl" onclick="document.getElementById('nav-menu').classList.toggle('open')">&#9776;</button>
     </header>
 
-    <main class="max-w-6xl mx-auto p-4 md:p-8 w-full">
-        
-        <section id="admin-tiktok-form" class="hidden bg-white p-6 rounded-xl border-2 border-blue-800 mb-10 shadow-lg">
-            <h2 class="text-xl font-bold mb-4 text-blue-800">Ajouter une vidéo TikTok (Admin)</h2>
-            <div class="flex flex-col gap-4">
-                <input type="text" id="tk-title" placeholder="Titre de la vidéo" class="p-3 border rounded-lg outline-none focus:ring-2 focus:ring-red-500">
-                <input type="text" id="tk-url" placeholder="Lien TikTok (https://www.tiktok.com/...)" class="p-3 border rounded-lg outline-none focus:ring-2 focus:ring-red-500">
-                <input type="text" id="tk-theme" placeholder="Thème (ex: Droit pénal)" class="p-3 border rounded-lg outline-none focus:ring-2 focus:ring-red-500">
-                <button id="btn-publish-tk" class="bg-red-500 text-white font-bold py-3 rounded-lg hover:bg-red-600 transition">PUBLIER</button>
-                <p class="text-xs text-gray-500 italic">Astuce : Si le lien vm.tiktok ne fonctionne pas, utilisez le lien complet depuis un navigateur.</p>
+    <main class="max-w-6xl mx-auto p-4">
+        <section id="admin-tiktok-form" class="hidden bg-white p-6 rounded-xl border-2 border-blue-800 mb-8 shadow-lg">
+            <h2 class="text-lg font-bold mb-4">Ajouter une vidéo</h2>
+            <div class="flex flex-col gap-3">
+                <input type="text" id="tk-title" placeholder="Titre (ex: Le licenciement)" class="p-2 border rounded">
+                <input type="text" id="tk-url" placeholder="Lien TikTok (Utilisez le lien LONG si possible)" class="p-2 border rounded">
+                <p class="text-[10px] text-red-500">Note: Si vous utilisez un lien 'vm.tiktok', la vidéo peut mettre du temps à charger ou échouer.</p>
+                <button id="btn-publish-tk" class="bg-red-500 text-white font-bold py-2 rounded">PUBLIER SUR LE SITE</button>
             </div>
         </section>
 
-        <div class="text-center mb-12">
-            <h1 class="text-3xl md:text-5xl font-black text-blue-900 border-b-4 border-red-500 inline-block pb-2 mb-6">Vidéos TikTok</h1>
-            <br>
-            <a href="https://www.tiktok.com/@droit_decode" target="_blank" class="btn-follow inline-flex items-center gap-2 text-white font-bold py-3 px-8 rounded-full shadow-lg">
-                SUIVEZ-NOUS SUR TIKTOK
-            </a>
+        <div class="text-center mb-10">
+            <h1 class="text-3xl font-black text-blue-900 mb-4">Flux TikTok</h1>
+            <a href="https://www.tiktok.com/@droit_decode" target="_blank" class="bg-black text-white px-6 py-2 rounded-full font-bold">@droit_decode</a>
         </div>
 
-        <div id="tiktok-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
-            <p class="text-center col-span-full py-10 text-gray-400">Chargement des vidéos...</p>
-        </div>
+        <div id="tiktok-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            </div>
     </main>
 
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
@@ -126,8 +69,8 @@
             appId: "1:219930978240:web:886c40e47d276c75548a25"
         };
         firebase.initializeApp(firebaseConfig);
-        const auth = firebase.auth();
         const db = firebase.firestore();
+        const auth = firebase.auth();
         const ADMIN_UID = "v4086Cxmi9PMI31GUBZzY8rHyIA3";
 
         auth.onAuthStateChanged(user => {
@@ -137,35 +80,25 @@
             }
         });
 
-        // LOGIQUE DE PUBLICATION MISE À JOUR
         document.getElementById('btn-publish-tk').onclick = async () => {
             const title = document.getElementById('tk-title').value;
-            let url = document.getElementById('tk-url').value.trim();
-            const theme = document.getElementById('tk-theme').value;
+            const rawUrl = document.getElementById('tk-url').value.trim();
+            
+            // Try to extract ID from long link
+            let videoId = rawUrl.split('/video/')[1]?.split('?')[0];
 
-            if (!title || !url) return alert("Le titre et le lien sont obligatoires !");
-
-            let videoId = "";
-
-            if (url.includes("/video/")) {
-                videoId = url.split('/video/')[1]?.split('?')[0];
-            } else if (url.includes("vm.tiktok.com") || url.includes("t.tiktok.com")) {
-                // Pour les liens courts, on essaie d'extraire la partie finale
-                videoId = url.split('/').filter(part => part.length > 0).pop();
+            if (!videoId && rawUrl.includes("vm.tiktok.com")) {
+                alert("Les liens 'vm.tiktok' sont difficiles à lire. Essayez de copier le lien depuis un navigateur PC pour avoir le lien LONG.");
+                return;
             }
 
-            if (!videoId || videoId.length < 5) {
-                return alert("ID de vidéo introuvable. Si possible, copiez le lien depuis un navigateur (PC).");
-            }
+            if (!title || !videoId) return alert("Titre manquant ou lien non supporté. Utilisez un lien long.");
 
-            try {
-                await db.collection("TikToks").add({
-                    title, url, videoId, theme: theme || "Général",
-                    timestamp: firebase.firestore.FieldValue.serverTimestamp()
-                });
-                alert("Vidéo publiée !");
-                location.reload();
-            } catch (e) { alert(e.message); }
+            await db.collection("TikToks").add({
+                title, url: rawUrl, videoId,
+                timestamp: firebase.firestore.FieldValue.serverTimestamp()
+            });
+            location.reload();
         };
 
         db.collection("TikToks").orderBy("timestamp", "desc").onSnapshot(snap => {
@@ -173,24 +106,20 @@
             grid.innerHTML = '';
             snap.forEach(doc => {
                 const data = doc.data();
-                const card = document.createElement('div');
-                card.className = "tiktok-card";
-                card.innerHTML = `
-                    <h3 class="text-sm font-bold mb-3 text-blue-900 text-center uppercase">${data.title}</h3>
-                    <blockquote class="tiktok-embed" cite="${data.url}" data-video-id="${data.videoId}" style="width: 100%;">
-                        <section><a target="_blank" href="${data.url}">@droit_decode</a></section>
-                    </blockquote>
-                    <div class="flex justify-between items-center mt-4">
-                        <span class="text-[10px] bg-gray-100 px-2 py-1 rounded text-gray-600">${data.theme || 'Droit'}</span>
-                        ${auth.currentUser && auth.currentUser.uid === ADMIN_UID ? `<button onclick="deleteTk('${doc.id}')" class="text-red-500 text-[10px] font-bold uppercase">Supprimer</button>` : ''}
-                    </div>
+                const div = document.createElement('div');
+                div.className = "tiktok-card";
+                div.innerHTML = `
+                    <h3 class="font-bold text-center mb-2 text-sm">${data.title}</h3>
+                    <blockquote class="tiktok-embed" cite="${data.url}" data-video-id="${data.videoId}" style="max-width: 605px;min-width: 325px;" > <section> </section> </blockquote>
                 `;
-                grid.appendChild(card);
+                grid.appendChild(div);
             });
-            if (window.TiktokPresence) { window.TiktokPresence.init(); }
+            // Trigger TikTok reload
+            if (window.twttr) { } 
+            const s = document.createElement('script');
+            s.src = "https://www.tiktok.com/embed.js";
+            document.body.appendChild(s);
         });
-
-        window.deleteTk = (id) => { if(confirm("Supprimer ?")) db.collection("TikToks").doc(id).delete(); };
     </script>
 </body>
 </html>
