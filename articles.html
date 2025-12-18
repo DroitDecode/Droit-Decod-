@@ -106,7 +106,6 @@
         const db = firebase.firestore();
         const ADMIN_UID = "v4086Cxmi9PMI31GUBZzY8rHyIA3";
 
-        // Admin Detection and Auth State
         auth.onAuthStateChanged(user => {
             if (user) {
                 document.getElementById('auth-link').textContent = "Déconnexion";
@@ -118,7 +117,6 @@
             }
         });
 
-        // Publish or Update Function
         document.getElementById('publish-btn').onclick = async () => {
             const id = document.getElementById('edit-id').value;
             const btn = document.getElementById('publish-btn');
@@ -128,40 +126,28 @@
                 content: document.getElementById('art-content').value,
                 timestamp: firebase.firestore.FieldValue.serverTimestamp()
             };
-
-            if(!data.title || !data.content) return alert("Veuillez remplir le titre et le contenu.");
-
+            if(!data.title || !data.content) return alert("Remplissez tout !");
             btn.disabled = true;
-            btn.innerText = "Chargement...";
-
             try {
-                if(id) {
-                    await db.collection("Articles").doc(id).update(data);
-                    alert("Article mis à jour !");
-                } else {
-                    await db.collection("Articles").add(data);
-                    alert("Article publié !");
-                }
+                if(id) await db.collection("Articles").doc(id).update(data);
+                else await db.collection("Articles").add({...data, likes: 0, likedBy: []});
                 resetForm();
-            } catch (e) {
-                alert("Erreur : " + e.message);
-            } finally {
-                btn.disabled = false;
-                btn.innerText = "PUBLIER L'ARTICLE";
-            }
+            } catch (e) { alert(e.message); }
+            btn.disabled = false;
         };
 
-        // Load Articles with Likes & Share buttons
         db.collection("Articles").orderBy("timestamp", "desc").onSnapshot(snap => {
             const list = document.getElementById('articles-list');
             list.innerHTML = '';
+            const user = auth.currentUser;
+
             snap.forEach(doc => {
                 const art = doc.data();
                 const isVideo = art.media && art.media.toLowerCase().endsWith('.mp4');
+                const hasLiked = user && art.likedBy && art.likedBy.includes(user.uid);
+                
                 const card = document.createElement('div');
                 card.className = 'article-card-old';
-                card.id = doc.id;
-
                 card.innerHTML = `
                     <div class="media-container">
                         ${art.media ? (isVideo ? `<video src="${art.media}" controls></video>` : `<img src="${art.media}">`) : ''}
@@ -172,96 +158,68 @@
                         <div class="flex gap-4 items-center">
                             <button onclick="toggleRead('${doc.id}', this)" class="text-primary-red font-bold hover:underline">Lire la suite &rarr;</button>
                             
-                            <button onclick="likeArticle('${doc.id}')" class="flex items-center gap-1 text-gray-500 hover:text-red-500 transition text-sm font-semibold">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" id="heart-${doc.id}">
+                            <button onclick="likeArticle('${doc.id}')" class="flex items-center gap-1 transition text-sm font-semibold ${hasLiked ? 'text-red-500' : 'text-gray-500'}">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="${hasLiked ? 'currentColor' : 'none'}" viewBox="0 0 24 24" stroke="currentColor">
                                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
                                 </svg>
-                                <span id="likes-count-${doc.id}">${art.likes || 0}</span>
+                                <span>${art.likes || 0}</span>
                             </button>
 
                             <button onclick="shareArticle('${art.title.replace(/'/g, "\\'")}', '${doc.id}')" class="flex items-center gap-1 text-gray-500 hover:text-primary-blue transition text-sm font-semibold">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 100-2.684 3 3 0 000 2.684zm0 9.316a3 3 0 100-2.684 3 3 0 000 2.684z" />
-                                </svg>
-                                Partager 
+                                </svg> Partager
                             </button>
                         </div>
                         <div class="admin-only hidden flex gap-4">
-                            <button class="edit-trigger text-blue-500 text-sm font-bold uppercase" data-id="${doc.id}">Modifier</button>
+                            <button class="edit-trigger text-blue-500 text-sm font-bold uppercase">Modifier</button>
                             <button onclick="deleteArt('${doc.id}')" class="text-red-500 text-sm font-bold uppercase">Supprimer</button>
                         </div>
                     </div>
                 `;
 
-                // Edit Logic
                 card.querySelector('.edit-trigger').onclick = () => {
                     document.getElementById('edit-id').value = doc.id;
                     document.getElementById('art-title').value = art.title;
                     document.getElementById('art-media').value = art.media || '';
                     document.getElementById('art-content').value = art.content;
                     document.getElementById('form-title').innerText = "Modifier l'article";
-                    document.getElementById('publish-btn').innerText = "ENREGISTRER LES MODIFICATIONS";
+                    document.getElementById('publish-btn').innerText = "ENREGISTRER";
                     document.getElementById('cancel-btn').classList.remove('hidden');
                     window.scrollTo({top: 0, behavior: 'smooth'});
                 };
 
                 list.appendChild(card);
-                if(auth.currentUser && auth.currentUser.uid === ADMIN_UID) {
-                    card.querySelector('.admin-only').classList.remove('hidden');
-                }
+                if(user && user.uid === ADMIN_UID) card.querySelector('.admin-only').classList.remove('hidden');
             });
         });
 
-        // LIKE FUNCTION
         window.likeArticle = async (id) => {
             const user = auth.currentUser;
-            if (!user) {
-                alert("Vous devez être connecté pour liker un article !");
-                window.location.href = "login.html";
-                return;
-            }
-
-            const articleRef = db.collection("Articles").doc(id);
-            const heartSvg = document.getElementById(`heart-${id}`);
-
+            if (!user) return alert("Connectez-vous pour liker !");
+            const ref = db.collection("Articles").doc(id);
             try {
-                await db.runTransaction(async (transaction) => {
-                    const docSnap = await transaction.get(articleRef);
-                    if (!docSnap.exists) return;
-                    let newLikes = (docSnap.data().likes || 0) + 1;
-                    transaction.update(articleRef, { likes: newLikes });
+                await db.runTransaction(async (t) => {
+                    const doc = await t.get(ref);
+                    let likedBy = doc.data().likedBy || [];
+                    if (likedBy.includes(user.uid)) likedBy = likedBy.filter(u => u !== user.uid);
+                    else likedBy.push(user.uid);
+                    t.update(ref, { likedBy: likedBy, likes: likedBy.length });
                 });
-                heartSvg.setAttribute('fill', '#E84D3D');
-                heartSvg.style.color = '#E84D3D';
-            } catch (err) { console.error(err); }
-        };
-
-        // SHARE FUNCTION
-        window.shareArticle = async (title, id) => {
-            const shareData = {
-                title: title,
-                text: "Découvrez cet article sur Droit Décodé : " + title,
-                url: window.location.origin + window.location.pathname + '#' + id
-            };
-            try {
-                if (navigator.share) await navigator.share(shareData);
-                else {
-                    await navigator.clipboard.writeText(shareData.url);
-                    alert("Lien copié !");
-                }
             } catch (err) { console.log(err); }
         };
 
-        // READ MORE TOGGLE
+        window.shareArticle = async (title, id) => {
+            const url = window.location.origin + window.location.pathname + '#' + id;
+            if (navigator.share) await navigator.share({title, url});
+            else { await navigator.clipboard.writeText(url); alert("Lien copié !"); }
+        };
+
         window.toggleRead = (id, btn) => {
-            const textDiv = document.getElementById(`text-${id}`);
-            if(textDiv.classList.contains('content-hidden')) {
-                textDiv.classList.remove('content-hidden');
-                btn.innerHTML = "Réduire &uarr;";
-            } else {
-                textDiv.classList.add('content-hidden');
-                btn.innerHTML = "Lire la suite &rarr;";
-            }
+            const div = document.getElementById(`text-${id}`);
+            const isHidden = div.classList.contains('content-hidden');
+            div.classList.toggle('content-hidden');
+            btn.innerHTML = isHidden ? "Réduire &uarr;" : "Lire la suite &rarr;";
         };
 
         window.deleteArt = (id) => { if(confirm("Supprimer ?")) db.collection("Articles").doc(id).delete(); };
