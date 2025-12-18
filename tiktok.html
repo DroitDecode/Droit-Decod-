@@ -17,7 +17,6 @@
 
         body { background-color: var(--color-secondary-bg); min-height: 100vh; font-family: 'Inter', sans-serif; display: flex; flex-direction: column; }
         
-        /* HEADER & NAVIGATION FIX */
         header { 
             display: flex; justify-content: space-between; align-items: center; 
             padding: 1rem 1.5rem; background: white; box-shadow: 0 2px 10px rgba(0,0,0,0.1); 
@@ -30,15 +29,13 @@
         .logo-text strong { color: var(--color-primary-blue); font-weight: 800; }
         .logo-text span { color: var(--color-primary-red); font-weight: 800; }
 
-        /* Desktop Menu */
         nav ul { display: flex; list-style: none; gap: 1.5rem; align-items: center; }
         nav ul li a { color: #4B5563; font-weight: 600; transition: 0.3s; }
         nav ul li a:hover, nav ul li a.active { color: var(--color-primary-red); }
 
-        /* Mobile Menu Styling */
         @media (max-width: 768px) {
             nav ul {
-                display: none; /* Hidden by default */
+                display: none;
                 flex-direction: column;
                 position: absolute;
                 top: 100%; left: 0; width: 100%;
@@ -46,17 +43,25 @@
                 padding: 1.5rem;
                 gap: 1rem;
                 box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-                border-top: 1px solid #eee;
             }
             nav ul.open { display: flex; }
-            .menu-toggle { display: block; font-size: 1.5rem; cursor: pointer; color: var(--color-primary-blue); }
+            .menu-toggle { display: block; font-size: 1.5rem; cursor: pointer; color: var(--color-primary-blue); border:none; background:none; }
         }
 
         @media (min-width: 769px) { .menu-toggle { display: none; } }
 
         .contact-btn { background-color: var(--color-primary-red); color: white !important; padding: 0.5rem 1rem; border-radius: 0.5rem; }
 
-        /* TikTok Card Fix */
+        /* Animation du bouton Suivre */
+        .btn-follow {
+            background: linear-gradient(45deg, #ee0979, #ff6a00);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .btn-follow:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 20px rgba(238, 9, 121, 0.3);
+        }
+
         .tiktok-card { 
             background: white; padding: 1rem; border-radius: 1rem; 
             box-shadow: 0 4px 15px rgba(0,0,0,0.05); 
@@ -94,34 +99,48 @@
         <section id="admin-tiktok-form" class="hidden bg-white p-6 rounded-xl border-2 border-blue-800 mb-10 shadow-lg">
             <h2 class="text-xl font-bold mb-4 text-blue-800">Ajouter une vidéo TikTok (Admin)</h2>
             <div class="flex flex-col gap-4">
-                <input type="text" id="tk-title" placeholder="Titre de la vidéo" class="p-3 border rounded-lg focus:ring-2 focus:ring-red-500 outline-none">
-                <input type="text" id="tk-url" placeholder="Lien TikTok (https://www.tiktok.com/...)" class="p-3 border rounded-lg focus:ring-2 focus:ring-red-500 outline-none">
-                <input type="text" id="tk-theme" placeholder="Thème (ex: Droit de la famille)" class="p-3 border rounded-lg focus:ring-2 focus:ring-red-500 outline-none">
-                <button id="btn-publish-tk" class="bg-red-500 text-white font-bold py-3 rounded-lg hover:bg-red-600 transition">PUBLIER MAINTENANT</button>
+                <input type="text" id="tk-title" placeholder="Titre de la vidéo" class="p-3 border rounded-lg outline-none focus:ring-2 focus:ring-red-500">
+                <input type="text" id="tk-url" placeholder="Lien TikTok (https://www.tiktok.com/...)" class="p-3 border rounded-lg outline-none focus:ring-2 focus:ring-red-500">
+                <input type="text" id="tk-theme" placeholder="Thème (ex: Droit du travail)" class="p-3 border rounded-lg outline-none focus:ring-2 focus:ring-red-500">
+                <button id="btn-publish-tk" class="bg-red-500 text-white font-bold py-3 rounded-lg hover:bg-red-600 transition">PUBLIER</button>
             </div>
         </section>
 
         <div class="text-center mb-12">
-            <h1 class="text-3xl md:text-5xl font-black text-blue-900 border-b-4 border-red-500 inline-block pb-2">Vidéos TikTok</h1>
-            <p class="mt-4 text-gray-600">Le droit expliqué simplement en moins d'une minute.</p>
+            <h1 class="text-3xl md:text-5xl font-black text-blue-900 border-b-4 border-red-500 inline-block pb-2 mb-6">Vidéos TikTok</h1>
+            
+            <br>
+            
+            <a href="https://www.tiktok.com/@droit_decode" target="_blank" class="btn-follow inline-flex items-center gap-2 text-white font-bold py-3 px-8 rounded-full shadow-lg text-lg">
+                <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.17-2.89-.6-4.13-1.46-.07 3.48-.03 6.94-.04 10.41-.02 1.35-.32 2.73-1.07 3.85-.74 1.12-1.9 1.95-3.2 2.31-1.32.36-2.74.31-4.04-.13-1.3-.44-2.42-1.34-3.13-2.52-.73-1.22-1-2.65-.83-4.06.16-1.41.87-2.73 2-3.56 1.14-.84 2.58-1.25 3.99-1.16.14.02.28.03.42.06v4.07c-.43-.08-.88-.1-1.33-.04-.84.12-1.61.59-2.09 1.28-.48.69-.64 1.57-.44 2.4.2.83.8 1.52 1.57 1.86.77.34 1.66.31 2.4-.1.74-.41 1.25-1.16 1.4-2.01.06-.35.07-.71.07-1.07V0h-.02z"/></svg>
+                SUIVEZ-NOUS SUR TIKTOK
+            </a>
         </div>
 
         <div id="tiktok-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
-            <p class="text-center col-span-full py-10 text-gray-400">Chargement du flux TikTok...</p>
+            <p class="text-center col-span-full py-10 text-gray-400 font-medium italic">Chargement des vidéos en cours...</p>
+        </div>
+
+        <div class="mt-20 text-center bg-white p-8 rounded-2xl shadow-sm border border-gray-100">
+            <h2 class="text-2xl font-bold text-blue-900 mb-4">Vous aimez nos explications ?</h2>
+            <p class="text-gray-600 mb-6">Rejoignez nos milliers d'abonnés pour ne rater aucune actualité juridique !</p>
+            <a href="https://www.tiktok.com/@droit_decode" target="_blank" class="text-red-500 font-black hover:underline text-xl uppercase tracking-widest">
+                @droit_decode
+            </a>
         </div>
     </main>
+
+    <footer class="mt-auto bg-white border-t p-6 text-center text-gray-500 text-sm">
+        &copy; 2025 Droit Décodé. Tous droits réservés.
+    </footer>
 
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
 
     <script>
-        // --- UI LOGIC ---
-        function toggleMenu() {
-            document.getElementById('nav-menu').classList.toggle('open');
-        }
+        function toggleMenu() { document.getElementById('nav-menu').classList.toggle('open'); }
 
-        // --- FIREBASE LOGIC ---
         const firebaseConfig = {
             apiKey: "AIzaSyDpNtHXiZK3bIyLwAUlTNAiWRrg2vhPYeE",
             authDomain: "droitdecode-9aa4d.firebaseapp.com",
@@ -148,14 +167,14 @@
             const theme = document.getElementById('tk-theme').value;
             const videoId = url.split('/video/')[1]?.split('?')[0];
 
-            if(!title || !videoId) return alert("Lien invalide ou titre manquant !");
+            if(!title || !videoId) return alert("Données manquantes !");
 
             try {
                 await db.collection("TikToks").add({
                     title, url, videoId, theme,
                     timestamp: firebase.firestore.FieldValue.serverTimestamp()
                 });
-                alert("Vidéo ajoutée avec succès !");
+                alert("Publié !");
                 location.reload();
             } catch (e) { alert(e.message); }
         };
@@ -163,27 +182,22 @@
         db.collection("TikToks").orderBy("timestamp", "desc").onSnapshot(snap => {
             const grid = document.getElementById('tiktok-grid');
             grid.innerHTML = '';
-            
             snap.forEach(doc => {
                 const data = doc.data();
                 const card = document.createElement('div');
                 card.className = "tiktok-card";
-                
                 card.innerHTML = `
-                    <h3 class="text-md font-bold mb-3 text-blue-900 text-center">${data.title}</h3>
+                    <h3 class="text-sm font-bold mb-3 text-blue-900 text-center uppercase tracking-tight">${data.title}</h3>
                     <blockquote class="tiktok-embed" cite="${data.url}" data-video-id="${data.videoId}" style="width: 100%;">
                         <section><a target="_blank" href="${data.url}">@droit_decode</a></section>
                     </blockquote>
                     <div class="flex justify-between items-center mt-4">
-                        <span class="text-xs bg-gray-100 px-2 py-1 rounded text-gray-600">${data.theme || 'Général'}</span>
-                        ${auth.currentUser && auth.currentUser.uid === ADMIN_UID ? 
-                          `<button onclick="deleteTk('${doc.id}')" class="text-red-500 text-xs font-bold uppercase">Supprimer</button>` : ''}
+                        <span class="text-[10px] bg-red-50 text-red-500 font-bold px-2 py-1 rounded uppercase">${data.theme || 'Droit'}</span>
+                        ${auth.currentUser && auth.currentUser.uid === ADMIN_UID ? `<button onclick="deleteTk('${doc.id}')" class="text-red-500 text-[10px] font-black uppercase">Supprimer</button>` : ''}
                     </div>
                 `;
                 grid.appendChild(card);
             });
-            // Reload TikTok widgets
-            if (window.twttr) { } 
             if (typeof window.TiktokPresence !== 'undefined') { window.TiktokPresence.init(); }
         });
 
