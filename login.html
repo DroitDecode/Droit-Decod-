@@ -22,6 +22,7 @@
             align-items: center;
             min-height: 100vh;
             margin: 0;
+            position: relative;
         }
         .google-btn {
             background-color: white; color: #757575; border: 1px solid #ddd;
@@ -30,9 +31,36 @@
             font-weight: 600; transition: all 0.2s;
         }
         .google-btn:hover { background-color: #f1f1f1; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        
+        /* Bouton Retour */
+        .back-home {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--primary-blue);
+            font-weight: 600;
+            text-decoration: none;
+            transition: 0.3s;
+            background: white;
+            padding: 8px 16px;
+            border-radius: 50px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .back-home:hover {
+            color: var(--primary-red);
+            transform: translateX(-5px);
+        }
     </style>
 </head>
 <body>
+
+    <a href="index.html" class="back-home">
+        <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"></path></svg>
+        Retour
+    </a>
 
     <div class="p-4 w-full max-w-sm mx-auto">
         <div class="text-center mb-8">
@@ -84,7 +112,7 @@
 
     <div id="message-modal" class="fixed inset-0 bg-black/50 hidden flex items-center justify-center p-4 z-50">
         <div class="bg-white rounded-lg p-6 w-full max-w-sm text-center">
-            <h3 id="modal-title" class="font-bold text-lg mb-2">Notification</h3>
+            <h3 id="modal-title" class="font-bold text-lg mb-2 text-gray-800">Notification</h3>
             <p id="modal-content" class="text-gray-600 mb-4 text-sm"></p>
             <button id="modal-close-btn" class="w-full bg-gray-800 text-white py-2 rounded font-bold">OK</button>
         </div>
@@ -112,24 +140,32 @@
         const auth = getAuth(app);
         const db = getFirestore(app);
         const provider = new GoogleAuthProvider();
+        const ADMIN_UID = "v4086Cxmi9PMI31GUBZzY8rHyIA3";
 
         const authForm = document.getElementById('auth-form');
         const googleBtn = document.getElementById('google-auth-btn');
         let isLoginMode = true;
 
-        // --- MOT DE PASSE OUBLIÉ ---
+        function alertMsg(msg) {
+            document.getElementById('modal-content').textContent = msg;
+            document.getElementById('message-modal').classList.remove('hidden');
+        }
+
+        document.getElementById('modal-close-btn').onclick = () => {
+            document.getElementById('message-modal').classList.add('hidden');
+        };
+
         document.getElementById('btn-forgot').onclick = async () => {
             const email = document.getElementById('email').value;
-            if(!email) return alertMsg("Veuillez entrer votre adresse email d'abord.", "error");
+            if(!email) return alertMsg("Veuillez entrer votre adresse email d'abord.");
             try {
                 await sendPasswordResetEmail(auth, email);
-                alertMsg("Email de réinitialisation envoyé ! Vérifiez vos spams.", "success");
+                alertMsg("Email de réinitialisation envoyé ! Vérifiez vos spams.");
             } catch (err) {
-                alertMsg("Erreur : " + err.message, "error");
+                alertMsg("Erreur : " + err.message);
             }
         };
 
-        // --- GOOGLE AUTH ---
         googleBtn.onclick = async () => {
             try {
                 await setPersistence(auth, browserSessionPersistence);
@@ -141,13 +177,12 @@
                         name: user.displayName, email: user.email, createdAt: new Date().toISOString()
                     });
                 }
-                window.location.replace('index.html');
+                window.location.href = 'index.html';
             } catch (error) {
-                alertMsg("Erreur Google : " + error.message, "error");
+                alertMsg("Erreur Google : " + error.message);
             }
         };
 
-        // --- EMAIL AUTH (AVEC VÉRIFICATION) ---
         authForm.onsubmit = async (e) => {
             e.preventDefault();
             const email = document.getElementById('email').value;
@@ -159,43 +194,41 @@
 
                 if (isLoginMode) {
                     const userCredential = await signInWithEmailAndPassword(auth, email, password);
-                    // Vérifier si l'email est validé
-                    if (!userCredential.user.emailVerified) {
-                        alertMsg("Veuillez valider votre adresse email avant de vous connecter. Vérifiez vos spams.", "error");
+                    const user = userCredential.user;
+
+                    if (user.uid !== ADMIN_UID && !user.emailVerified) {
+                        alertMsg("Veuillez valider votre adresse email avant de vous connecter.");
                         await auth.signOut();
                         return;
                     }
-                    window.location.replace('index.html');
+                    
+                    alertMsg("Connexion réussie ! Redirection...");
+                    setTimeout(() => {
+                        window.location.href = 'index.html';
+                    }, 1000);
+
                 } else {
-                    // OBLIGATION NOM & PRENOM
-                    if(name.trim().length < 3) {
-                        return alertMsg("Le nom et le prénom sont obligatoires pour créer un compte.", "error");
-                    }
+                    if(name.trim().length < 3) return alertMsg("Le nom et le prénom sont obligatoires.");
 
                     const res = await createUserWithEmailAndPassword(auth, email, password);
                     await updateProfile(res.user, { displayName: name });
-                    
-                    // Envoi de l'email de vérification
                     await sendEmailVerification(res.user);
                     
                     await setDoc(doc(db, 'UserProfiles', res.user.uid), {
                         name: name, email: email, createdAt: new Date().toISOString()
                     });
 
-                    alertMsg("Compte créé ! Un email de vérification vous a été envoyé. Validez-le pour vous connecter.", "success");
-                    
-                    // On repasse en mode connexion et on vide le formulaire
+                    alertMsg("Compte créé ! Un email de vérification vous a été envoyé.");
                     setTimeout(() => location.reload(), 3000);
                 }
             } catch (err) {
                 let message = "Une erreur est survenue.";
                 if(err.code === "auth/email-already-in-use") message = "Cet email est déjà utilisé.";
-                if(err.code === "auth/weak-password") message = "Le mot de passe doit faire au moins 6 caractères.";
-                alertMsg(message, "error");
+                if(err.code === "auth/invalid-credential" || err.code === "auth/wrong-password") message = "Email ou mot de passe incorrect.";
+                alertMsg(message);
             }
         };
 
-        // Toggle UI
         document.getElementById('toggle-mode').onclick = () => {
             isLoginMode = !isLoginMode;
             document.getElementById('name-field').classList.toggle('hidden');
@@ -203,15 +236,6 @@
             document.getElementById('auth-button').textContent = isLoginMode ? "Se connecter" : "S'inscrire";
             document.getElementById('toggle-mode').textContent = isLoginMode ? "S'inscrire" : "Se connecter";
             document.getElementById('toggle-text').textContent = isLoginMode ? "Pas de compte?" : "Déjà un compte?";
-        };
-
-        function alertMsg(msg) {
-            document.getElementById('modal-content').textContent = msg;
-            document.getElementById('message-modal').classList.remove('hidden');
-        }
-
-        document.getElementById('modal-close-btn').onclick = () => {
-            document.getElementById('message-modal').classList.add('hidden');
         };
     </script>
 </body>
