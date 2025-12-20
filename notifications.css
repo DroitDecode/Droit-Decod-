@@ -1,0 +1,134 @@
+/* Style du bouton flottant (FAB) */
+#notification-fab {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 60px;
+    height: 60px;
+    background-color: #E84D3D;
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 99999;
+    box-shadow: 0 4px 15px rgba(232, 77, 61, 0.4);
+    border: none;
+    transition: transform 0.2s ease;
+}
+
+#notification-fab:active {
+    transform: scale(0.9);
+}
+
+/* Badge rouge sur la cloche */
+#notification-badge {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    background: white;
+    color: #E84D3D;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    font-size: 12px;
+    display: none; /* Géré par JS */
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    border: 2px solid #E84D3D;
+}
+
+/* Le Panneau de notifications */
+#notification-panel {
+    position: fixed;
+    bottom: 90px;
+    right: 20px;
+    width: 320px;
+    max-height: 450px;
+    background: white;
+    border-radius: 16px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+    display: none; /* Caché par défaut */
+    flex-direction: column;
+    z-index: 99998;
+    overflow: hidden;
+    border: 1px solid rgba(0,0,0,0.1);
+    animation: slideUp 0.3s ease-out;
+}
+
+/* Classe activée par le clic en JS */
+#notification-panel.active {
+    display: flex !important;
+}
+
+/* En-tête du panneau */
+.notif-header {
+    padding: 15px;
+    background: #f8f9fa;
+    border-bottom: 1px solid #eee;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.notif-header span {
+    font-weight: bold;
+    color: #3E4B7A;
+    text-transform: uppercase;
+    font-size: 14px;
+}
+
+#close-panel {
+    background: none;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    color: #999;
+    line-height: 1;
+}
+
+/* Liste des notifications */
+#notification-list {
+    overflow-y: auto;
+    flex-grow: 1;
+    background: white;
+}
+
+.notification-item {
+    padding: 15px;
+    border-bottom: 1px solid #f0f0f0;
+    transition: background 0.2s;
+}
+
+.notification-item:hover {
+    background: #f9f9f9;
+}
+
+.notif-title {
+    font-weight: 700;
+    color: #3E4B7A;
+    font-size: 14px;
+    margin-bottom: 4px;
+}
+
+.notif-desc {
+    color: #666;
+    font-size: 13px;
+    line-height: 1.4;
+}
+
+@keyframes slideUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Adaptabilité mobile */
+@media (max-width: 480px) {
+    #notification-panel {
+        width: calc(100% - 40px);
+        right: 20px;
+        bottom: 90px;
+    }
+}
