@@ -5,164 +5,173 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Droit Décodé - Mentions Légales</title>
 
-    <link rel="stylesheet" href="style.css">
-    <link rel="manifest" href="manifest.json">
-    <meta name="theme-color" content="#E84D3D"> 
+    <link rel="stylesheet" href="notifications.css">
     <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
 
-    <!-- Custom CSS for colors and layout adjustments -->
     <style>
-        /* Define color variables for consistency across pages */
         :root {
             --color-primary-red: #E84D3D;
-            --color-primary-blue: #3E4B7A; /* Deep, professional blue */
-            --color-secondary-bg: #F8F9FA; /* Subtle light gray for background */
+            --color-primary-blue: #3E4B7A;
+            --color-secondary-bg: #F8F9FA;
+            --footer-bg: #1A202C;
         }
 
-        /* 1. Page background and font */
-        body {
-            background-color: var(--color-secondary-bg); 
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            font-family: 'Inter', sans-serif;
-        }
+        html, body { height: 100%; margin: 0; }
+        body { font-family: 'Inter', sans-serif; background-color: var(--color-secondary-bg); display: flex; flex-direction: column; }
+        main { flex: 1 0 auto; }
 
-        /* Ensure main content takes remaining space */
-        main {
-            flex-grow: 1; 
-            max-width: 1200px;
-            margin: 2rem auto; /* Vertical spacing */
-            padding-left: 1rem;
-            padding-right: 1rem;
-        }
+        /* HEADER UNIFIÉ */
+        header { display: flex; justify-content: space-between; align-items: center; padding: 1rem 2rem; background-color: white; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05); position: sticky; top: 0; z-index: 1000; }
+        .logo-container a { display: flex; align-items: center; text-decoration: none; }
+        .logo-container img { height: 40px; width: 40px; border-radius: 50%; margin-right: 10px; }
+        .logo-text { font-size: 1.5rem; line-height: 1; }
+        .logo-text strong { color: var(--color-primary-blue); font-weight: 800; }
+        .logo-text span { color: var(--color-primary-red); font-weight: 800; }
 
-        /* Custom Tailwind Color Classes */
-        .text-primary-red { color: var(--color-primary-red); }
-        .bg-primary-red { background-color: var(--color-primary-red); }
-        .text-primary-blue { color: var(--color-primary-blue); }
-        .bg-primary-blue { background-color: var(--color-primary-blue); }
-        .border-primary-red { border-color: var(--color-primary-red); }
-        .border-primary-blue { border-color: var(--color-primary-blue); }
+        header nav ul { display: flex; list-style: none; gap: 1.5rem; align-items: center; }
+        header nav ul li a { color: #4B5563; text-decoration: none; font-weight: 600; transition: 0.3s; padding: 0.5rem 1rem; border-radius: 0.5rem; }
+        header nav ul li a.active { background-color: var(--color-primary-red); color: white !important; }
+        .log-btn { border: 1px solid var(--color-primary-blue); color: var(--color-primary-blue) !important; padding: 0.5rem 1rem; border-radius: 0.5rem; }
 
-        /* Header logo colors (consistent with style.css intent) */
-        .logo-text strong { color: var(--color-primary-blue); }
-        .logo-text span { color: var(--color-primary-red); }
-        
-        /* Active Link Styling (Manually added for mentions.html) */
-        header nav ul li a.active {
-            color: var(--color-primary-red);
-            font-weight: 700;
-            border-bottom: 2px solid var(--color-primary-red);
+        /* FOOTER OFFICIEL */
+        footer { flex-shrink: 0; background-color: var(--footer-bg); color: #EDF2F7; padding: 4rem 2rem 1.5rem 2rem; text-align: center; }
+        .footer-container { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 3rem; justify-items: center; }
+        .footer-section h4 { color: white; font-size: 1.1rem; font-weight: 700; margin-bottom: 1.5rem; position: relative; text-transform: uppercase; }
+        .footer-section h4::after { content: ''; position: absolute; left: 50%; transform: translateX(-50%); bottom: -8px; width: 40px; height: 3px; background-color: var(--color-primary-red); }
+        .footer-section ul { list-style: none; padding: 0; }
+        .footer-section ul li { margin-bottom: 0.8rem; }
+        .footer-section ul li a { color: #A0AEC0; text-decoration: none; transition: 0.3s; }
+        .social-icons { display: flex; gap: 1rem; margin-top: 1.5rem; justify-content: center; }
+        .social-icons a { background: #2D3748; color: white; width: 35px; height: 35px; border-radius: 50%; display: flex; align-items: center; justify-content: center; text-decoration: none; }
+        .footer-bottom { max-width: 1200px; margin: 3rem auto 0 auto; padding-top: 1.5rem; border-top: 1px solid #2D3748; color: #718096; font-size: 0.85rem; }
+
+        @media (max-width: 768px) {
+            header nav ul { display: none; flex-direction: column; position: absolute; top: 64px; left: 0; width: 100%; background: white; padding: 1rem; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+            header nav ul.open { display: flex; }
         }
     </style>
 </head>
 <body>
 
-    <!-- --- Header (En-tête) - Uniform on all pages --- -->
-    <header role="banner">
+    <header>
         <div class="logo-container">
-            <!-- Le lien href="index.html" englobe tout le logo -->
             <a href="index.html">
-                <img src="logo1.jpeg" alt="Droit Décodé Logo">
+                <img src="logo1.jpeg" alt="Logo">
                 <div class="logo-text"><strong>DROIT</strong> <span>DÉCODÉ</span></div>
             </a>
         </div>
-
-        <nav role="navigation" aria-label="Menu principal du site">
-            <ul>
+        <nav>
+            <ul id="main-navigation">
                 <li><a href="index.html">Accueil</a></li>
-                <li><a href="articles.html">Articles & Explications</a></li>
-                <li><a href="tiktok.html">TikTok Publications</a></li>
+                <li><a href="articles.html">Articles</a></li>
+                <li><a href="tiktok.html">TikTok</a></li>
                 <li><a href="about.html">À Propos</a></li>
-                <li><a href="contact.html" class="contact-btn">Contact</a></li>
+                <li id="admin-link-container" class="hidden"><a href="admin_dashboard.html" class="log-btn">Admin</a></li>
+                <li><a href="contact.html">Contact</a></li>
+                <li><a href="login.html" class="log-btn" id="auth-link">Connexion</a></li>
             </ul>
         </nav>
-
-        <button class="menu-toggle" aria-expanded="false" aria-controls="main-navigation">
-            &#9776;
-            <span class="sr-only">Ouvrir le menu</span>
-        </button>
+        <button class="menu-toggle md:hidden" onclick="document.getElementById('main-navigation').classList.toggle('open')">&#9776;</button>
     </header>
 
-    <!-- --- Main Content: Mentions Légales --- -->
-    <main class="container">
-        <h1 class="text-4xl md:text-5xl font-extrabold mb-10 text-center text-primary-blue border-b-4 pb-3 border-primary-red">
-            Mentions Légales
-        </h1>
-
-        <section class="bg-white p-8 rounded-xl shadow-2xl space-y-8 text-gray-700">
-            
-            <!-- 1. Informations Générales / Éditeur du Site -->
+    <main class="max-w-4xl mx-auto p-6 py-12">
+        <h1 class="text-4xl font-black text-blue-900 border-b-4 border-red-500 inline-block pb-2 mb-10 uppercase">Mentions Légales</h1>
+        
+        <section class="bg-white p-8 rounded-2xl shadow-sm space-y-8 text-gray-700 leading-relaxed border border-gray-100">
             <div>
-                <h2 class="text-2xl font-semibold mb-4 text-primary-red border-b pb-2">1. Informations sur l'Éditeur du Site</h2>
+                <h2 class="text-xl font-bold text-blue-900 mb-3 border-l-4 border-red-500 pl-3">1. Édition du site</h2>
                 <p><strong>Nom du site :</strong> Droit Décodé</p>
-                <p><strong>Forme juridique :</strong> Projet éducatif en ligne</p>
-                <p><strong>Représentant légal :</strong> [Nom du fondateur ou responsable]</p>
-                <p><strong>Contact email :</strong> droitdecode@gmail.com</p>
-                <p><strong>Téléphone :</strong> +228 70 07 28 07 </p>
+                <p><strong>Responsable :</strong> Équipe Droit Décodé</p>
+                <p><strong>Contact :</strong> droitdecode@gmail.com</p>
+                <p><strong>Localisation :</strong> Lomé, Togo</p>
             </div>
 
-            <!-- 2. Hébergement -->
             <div>
-                <h2 class="text-2xl font-semibold mb-4 text-primary-blue border-b pb-2">2. Hébergement du Site</h2>
-                <p><strong>Hébergeur :</strong>GitHub </p>
-                <p><strong>Adresse :</strong> Atikoumé-Lomé, TOGO</p>
-                <p><strong>Contact :</strong> Peut être contacté via les canaux de support Google Cloud.</p>
+                <h2 class="text-xl font-bold text-blue-900 mb-3 border-l-4 border-red-500 pl-3">2. Hébergement</h2>
+                <p>Ce site est hébergé via GitHub Pages. Les services de base de données et d'authentification sont fournis par Google Firebase.</p>
             </div>
 
-            <!-- 3. Propriété Intellectuelle -->
             <div>
-                <h2 class="text-2xl font-semibold mb-4 text-primary-red border-b pb-2">3. Propriété Intellectuelle et Droit d'Auteur</h2>
-                <p>
-                    L'ensemble du contenu du site Droit Décodé, incluant les textes, images, graphismes, vidéos, et publications TikTok, est la propriété exclusive de Droit Décodé (sauf mention contraire). 
-                    Toute reproduction, distribution, modification, adaptation, retransmission ou publication, même partielle, de ces différents éléments est strictement interdite sans l'accord exprès par écrit de l'équipe Droit Décodé.
-                </p>
+                <h2 class="text-xl font-bold text-blue-900 mb-3 border-l-4 border-red-500 pl-3">3. Propriété Intellectuelle</h2>
+                <p>L'ensemble du contenu (textes, logos, vidéos) est la propriété de Droit Décodé. Toute utilisation sans accord préalable est interdite.</p>
             </div>
 
-            <!-- 4. Limites de Responsabilité -->
             <div>
-                <h2 class="text-2xl font-semibold mb-4 text-primary-blue border-b pb-2">4. Limitation de Responsabilité</h2>
-                <p>
-                    Les informations fournies sur le site Droit Décodé sont à titre purement informatif et ne sauraient se substituer à une consultation juridique professionnelle. 
-                    L'utilisateur reconnaît utiliser ces informations sous sa seule et unique responsabilité. Droit Décodé ne saurait être tenu responsable des erreurs, omissions, ou manque de mise à jour des informations diffusées.
-                </p>
+                <h2 class="text-xl font-bold text-blue-900 mb-3 border-l-4 border-red-500 pl-3">4. Responsabilité</h2>
+                <p>Le contenu est fourni à titre informatif pour la vulgarisation du droit au Togo et ne remplace en aucun cas une consultation juridique auprès d'un professionnel.</p>
             </div>
 
-            <!-- 5. Données Personnelles (CNIL / GDPR) -->
-            <div>
-                <h2 class="text-2xl font-semibold mb-4 text-primary-red border-b pb-2">5. Gestion des Données Personnelles</h2>
-                <p>
-                    Le site Droit Décodé ne collecte aucune donnée personnelle sans le consentement de l'utilisateur (à l'exception des données transmises via le formulaire de contact, gérées par Formspree, qui ne sont utilisées que pour répondre à la demande).
-                </p>
-                <p class="mt-2 text-sm italic">
-                    Pour toute question relative à la gestion de vos données personnelles, veuillez nous contacter à droitdecode@gmail.com.
-                </p>
-            </div>
-            
-            <p class="text-sm pt-4 text-center text-gray-500">
-                Dernière mise à jour : Décembre 2025
-            </p>
-
+            <p class="text-sm text-gray-400 italic pt-6">Mis à jour le 20 Décembre 2025</p>
         </section>
-
     </main>
-    <!-- -------------------------------------------------------- -->
 
-    <!-- --- Footer (Bas de page) - Uniform on all pages --- -->
-    <footer role="contentinfo">
-        <div class="footer-content">
-            <p>&copy; 2025 Droit Décodé. Tous droits réservés.</p>
-            <div class="footer-links">
-                <a href="about.html">À Propos</a> | 
-                <a href="contact.html">Contact</a> | 
-                <a href="mentions.html" class="active">Mentions Légales</a>
+    <footer>
+        <div class="footer-container">
+            <div class="footer-section">
+                <div class="logo-text mb-4"><strong class="text-white">DROIT</strong> <span class="text-red-500">DÉCODÉ</span></div>
+                <p class="text-gray-400 leading-relaxed max-w-xs mx-auto">Plateforme éducative dédiée à la vulgarisation du droit. Nous rendons la justice compréhensible pour tous.</p>
             </div>
-            <p>Email: droitdecode@gmail.com</p>
+            <div class="footer-section">
+                <h4>Explorer</h4>
+                <ul>
+                    <li><a href="index.html">Accueil</a></li>
+                    <li><a href="articles.html">Articles Juridiques</a></li>
+                    <li><a href="tiktok.html">Contenu Vidéo</a></li>
+                    <li><a href="about.html">Notre Équipe</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Support & Légal</h4>
+                <ul>
+                    <li><a href="contact.html">Contactez-nous</a></li>
+                    <li><a href="mentions.html" class="text-white font-bold">Mentions Légales</a></li>
+                    <li><a href="login.html">Espace Membre</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Contact</h4>
+                <ul class="text-gray-400">
+                    <li>📍 Lomé, Togo</li>
+                    <li>📧 droitdecode@gmail.com</li>
+                    <li>📞 +228 70 07 28 07</li>
+                </ul>
+                <div class="social-icons">
+                    <a href="#">♪</a><a href="#">in</a><a href="mailto:droitdecode@gmail.com">✉</a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 Droit Décodé. Tous droits réservés.</p>
+            <p>Le droit à la portée de tous.</p>
         </div>
     </footer>
 
-    <script src="script.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+    <script>
+        const firebaseConfig = {
+            apiKey: "AIzaSyDpNtHXiZK3bIyLwAUlTNAiWRrg2vhPYeE",
+            authDomain: "droitdecode-9aa4d.firebaseapp.com",
+            projectId: "droitdecode-9aa4d",
+            storageBucket: "droitdecode-9aa4d.firebasestorage.app",
+            messagingSenderId: "219930978240",
+            appId: "1:219930978240:web:886c40e47d276c75548a25"
+        };
+        firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+        const ADMIN_UID = "v4086Cxmi9PMI31GUBZzY8rHyIA3";
+
+        auth.onAuthStateChanged(user => {
+            const authLink = document.getElementById('auth-link');
+            if (user) {
+                authLink.textContent = "Déconnexion";
+                authLink.onclick = (e) => { e.preventDefault(); auth.signOut().then(() => location.reload()); };
+                if (user.uid === ADMIN_UID) {
+                    document.getElementById('admin-link-container').classList.remove('hidden');
+                }
+            }
+        });
+    </script>
 </body>
 </html>
-
