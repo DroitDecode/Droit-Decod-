@@ -5,12 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Droit Décodé - Accueil</title>
 
-    <meta property="og:title" content="Droit Décodé | Le Droit, Enfin Clair et Accessible">
-    <meta property="og:description" content="Accédez à des explications claires et précises pour comprendre les lois qui régissent votre quotidien.">
-    <meta property="og:image" content="logo1.jpeg">
-    <meta property="og:url" content="https://droitdecode.github.io/Droit-Decod-/index.html">
-    <meta property="og:type" content="website">
-
+    <link rel="stylesheet" href="notifications.css">
     <script src="https://cdn.tailwindcss.com"></script>
 
     <style>
@@ -18,10 +13,13 @@
             --color-primary-red: #E84D3D;
             --color-primary-blue: #3E4B7A;
             --color-secondary-bg: #F8F9FA;
+            --footer-bg: #1A202C;
         }
 
-        body { font-family: 'Inter', sans-serif; background-color: var(--color-secondary-bg); min-height: 100vh; display: flex; flex-direction: column; }
-        
+        html, body { height: 100%; margin: 0; }
+        body { font-family: 'Inter', sans-serif; background-color: var(--color-secondary-bg); display: flex; flex-direction: column; }
+        main { flex: 1 0 auto; }
+
         /* HEADER */
         header { display: flex; justify-content: space-between; align-items: center; padding: 1rem 2rem; background-color: white; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05); position: sticky; top: 0; z-index: 1000; }
         .logo-container a { display: flex; align-items: center; text-decoration: none; }
@@ -31,32 +29,57 @@
         .logo-text span { color: var(--color-primary-red); font-weight: 700; }
 
         header nav ul { display: flex; list-style: none; gap: 1.5rem; align-items: center; }
-        header nav ul li a { color: #4B5563; text-decoration: none; font-weight: 600; transition: 0.3s; }
-        header nav ul li a.active { color: var(--color-primary-red); border-bottom: 2px solid var(--color-primary-red); }
-        .contact-btn { background-color: var(--color-primary-red); color: white !important; padding: 0.5rem 1rem; border-radius: 0.5rem; }
+        header nav ul li a { color: #4B5563; text-decoration: none; font-weight: 600; transition: 0.3s; padding: 0.5rem 1rem; border-radius: 0.5rem; }
+        header nav ul li a.active { background-color: var(--color-primary-red); color: white !important; }
         .log-btn { border: 1px solid var(--color-primary-blue); color: var(--color-primary-blue) !important; padding: 0.5rem 1rem; border-radius: 0.5rem; }
 
         /* HERO VIDEO */
-        #hero-banner { min-height: 550px; display: flex; align-items: center; position: relative; overflow: hidden; }
-        #hero-video { position: absolute; top: 50%; left: 50%; width: 100%; height: 100%; object-fit: cover; transform: translate(-50%, -50%); z-index: 0; }
-        #hero-banner::before { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0.7) 100%); z-index: 1; }
-        #hero-content { z-index: 2; text-align: center; width: 100%; padding: 2rem; color: white; }
+        #hero-banner { min-height: 500px; display: flex; align-items: center; position: relative; overflow: hidden; background: #000; }
+        #hero-video { position: absolute; top: 50%; left: 50%; width: 100%; height: 100%; object-fit: cover; transform: translate(-50%, -50%); opacity: 0.6; }
+        #hero-content { z-index: 2; text-align: center; width: 100%; color: white; padding: 2rem; }
 
-        /* CARDS HOVER */
-        .feed-card { transition: transform 0.3s ease, box-shadow 0.3s ease; }
-        .feed-card:hover { transform: translateY(-5px); box-shadow: 0 15px 30px rgba(0,0,0,0.1); }
+        /* FOOTER PROFESSIONNEL CENTRÉ */
+        footer {
+            flex-shrink: 0;
+            background-color: var(--footer-bg);
+            color: #EDF2F7;
+            padding: 4rem 2rem 1.5rem 2rem;
+            text-align: center;
+        }
+        .footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 3rem;
+            justify-items: center;
+        }
+        .footer-section h4 {
+            color: white; font-size: 1.1rem; font-weight: 700; margin-bottom: 1.5rem; position: relative; text-transform: uppercase; letter-spacing: 1px;
+        }
+        .footer-section h4::after {
+            content: ''; position: absolute; left: 50%; transform: translateX(-50%); bottom: -8px; width: 40px; height: 3px; background-color: var(--color-primary-red);
+        }
+        .footer-section ul { list-style: none; padding: 0; }
+        .footer-section ul li { margin-bottom: 0.8rem; }
+        .footer-section ul li a { color: #A0AEC0; text-decoration: none; transition: 0.3s; }
+        .footer-section ul li a:hover { color: white; }
+        
+        .social-icons { display: flex; gap: 1rem; margin-top: 1.5rem; justify-content: center; }
+        .social-icons a { 
+            background: #2D3748; width: 35px; height: 35px; display: flex; align-items: center; justify-content: center; border-radius: 50%; transition: 0.3s; color: white; 
+        }
+        .social-icons a:hover { background: var(--color-primary-red); transform: translateY(-3px); }
 
-        /* MOBILE MENU */
+        .footer-bottom {
+            max-width: 1200px; margin: 3rem auto 0 auto; padding-top: 1.5rem; border-top: 1px solid #2D3748; display: flex; justify-content: center; gap: 2rem; flex-wrap: wrap; color: #718096; font-size: 0.85rem;
+        }
+
         @media (max-width: 768px) {
             header nav ul { display: none; flex-direction: column; position: absolute; top: 64px; left: 0; width: 100%; background: white; padding: 1rem; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
             header nav ul.open { display: flex; }
-            .menu-toggle { display: block; background: none; border: none; font-size: 1.5rem; color: var(--color-primary-blue); }
-        } else { .menu-toggle { display: none; } }
-
-        /* NOTIFICATIONS */
-        #notification-fab { position: fixed; bottom: 2rem; right: 2rem; width: 56px; height: 56px; border-radius: 50%; background: var(--color-primary-red); color: white; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 10px rgba(0,0,0,0.3); z-index: 1000; cursor: pointer; border: none; }
-        #notification-panel { position: fixed; bottom: 85px; right: 2rem; width: 350px; background: white; border-radius: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.2); z-index: 999; display: none; overflow: hidden; }
-        #notification-panel.open { display: block; }
+            .menu-toggle { display: block; font-size: 1.5rem; cursor: pointer; background: none; border: none; }
+        }
     </style>
 </head>
 <body>
@@ -72,60 +95,109 @@
             <ul id="main-navigation">
                 <li><a href="index.html" class="active">Accueil</a></li>
                 <li><a href="articles.html">Articles</a></li>
-                <li><a href="tiktok.html">TikTok</a></li>
+                <li><a href="#" onclick="checkAccess('tiktok.html')">TikTok</a></li>
                 <li><a href="about.html">À Propos</a></li>
                 <li id="admin-link-container" class="hidden"><a href="admin_dashboard.html" class="log-btn">Admin</a></li>
-                <li><a href="contact.html" class="contact-btn">Contact</a></li>
+                <li><a href="contact.html">Contact</a></li>
                 <li><a href="login.html" class="log-btn" id="auth-link">Connexion</a></li>
             </ul>
         </nav>
         <button class="menu-toggle" onclick="document.getElementById('main-navigation').classList.toggle('open')">&#9776;</button>
     </header>
 
-    <section id="hero-banner">
-        <video id="hero-video" autoplay loop muted playsinline aria-hidden="true">
-            <source src="2a9e64a54ea773182b0cd8309803c268.mp4" type="video/mp4">
-        </video>
-        <div id="hero-content">
-            <h1 class="text-4xl md:text-6xl font-black mb-4 uppercase tracking-tighter">Le Droit, Enfin Décodé.</h1>
-            <p class="text-xl md:text-2xl mb-8 font-light max-w-2xl mx-auto">Comprenez vos droits grâce à des explications claires et modernes.</p>
-            <div class="flex flex-col sm:flex-row justify-center gap-4">
-                <a href="articles.html" class="bg-red-600 hover:bg-red-700 text-white font-bold py-3 px-8 rounded-lg transition">Explorer les Articles</a>
-                <a href="tiktok.html" class="bg-white text-blue-900 hover:bg-gray-100 font-bold py-3 px-8 rounded-lg transition">Vidéos TikTok</a>
+    <main>
+        <section id="hero-banner">
+            <video id="hero-video" autoplay loop muted playsinline>
+                <source src="2a9e64a54ea773182b0cd8309803c268.mp4" type="video/mp4">
+            </video>
+            <div id="hero-content">
+                <h1 class="text-5xl font-black mb-4 uppercase">Le Droit Décodé</h1>
+                <p class="text-xl mb-8">Comprenez vos droits simplement, partout et tout le temps.</p>
+                <a href="articles.html" class="bg-red-600 hover:bg-red-700 text-white font-bold py-3 px-8 rounded-lg shadow-lg inline-block">Explorer le contenu</a>
+            </div>
+        </section>
+
+        <section class="py-16 px-4">
+            <div class="max-w-6xl mx-auto">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl font-black text-blue-900 border-b-4 border-red-500 inline-block pb-2 uppercase">Dernières Nouveautés</h2>
+                </div>
+                <div id="mixed-feed" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    </div>
+            </div>
+        </section>
+
+        <section id="user-settings" class="hidden py-12 bg-gray-50 border-t">
+            <div class="max-w-md mx-auto text-center p-8 bg-white rounded-2xl shadow-sm border border-red-100">
+                <h3 class="font-bold text-gray-800 text-xl mb-2">Espace Utilisateur</h3>
+                <p class="text-sm text-gray-500 mb-6">Gestion de votre compte et de vos données personnelles.</p>
+                <button id="delete-account-btn" class="text-red-600 border border-red-600 px-6 py-2 rounded-lg font-bold hover:bg-red-600 hover:text-white transition">Supprimer mon compte</button>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="footer-container">
+            <div class="footer-section">
+                <div class="logo-text mb-4">
+                    <strong class="text-white">DROIT</strong> <span class="text-red-500">DÉCODÉ</span>
+                </div>
+                <p class="text-gray-400 leading-relaxed max-w-xs mx-auto">
+                    Plateforme éducative dédiée à la vulgarisation du droit. Nous rendons la justice compréhensible pour tous.
+                </p>
+            </div>
+            <div class="footer-section">
+                <h4>Explorer</h4>
+                <ul>
+                    <li><a href="index.html">Accueil</a></li>
+                    <li><a href="articles.html">Articles Juridiques</a></li>
+                    <li><a href="tiktok.html">Contenu Vidéo</a></li>
+                    <li><a href="about.html">Notre Équipe</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Support & Légal</h4>
+                <ul>
+                    <li><a href="contact.html">Contactez-nous</a></li>
+                    <li><a href="mentions.html">Mentions Légales</a></li>
+                    <li><a href="login.html">Espace Membre</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Contact</h4>
+                <ul class="text-gray-400">
+                    <li>📍 Lomé, Togo</li>
+                    <li>📧 droitdecode@gmail.com</li>
+                    <li>📞 +228 70 07 28 07</li>
+                </ul>
+                <div class="social-icons">
+                    <a href="#">♪</a><a href="#">in</a><a href="mailto:droitdecode@gmail.com">✉</a>
+                </div>
             </div>
         </div>
-    </section>
-
-    <section class="py-16 px-4">
-        <div class="max-w-7xl mx-auto text-center">
-            <h2 class="text-3xl font-extrabold text-blue-900 border-b-4 border-red-500 inline-block pb-2 mb-12">Dernières Publications</h2>
-            
-            <div id="mixed-feed" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                <p class="text-center col-span-full py-10 text-gray-400 italic">Chargement des actualités...</p>
-            </div>
-        </div>
-    </section>
-
-    <footer class="bg-slate-900 text-white py-10 text-center">
-        <div class="max-w-7xl mx-auto px-4">
-            <p class="mb-4">&copy; 2025 Droit Décodé. Tous droits réservés.</p>
-            <div class="space-x-4 text-sm text-gray-400">
-                <a href="about.html" class="hover:text-white">À Propos</a>
-                <a href="contact.html" class="hover:text-white">Contact</a>
-                <a href="mentions.html" class="hover:text-white">Mentions Légales</a>
-            </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 Droit Décodé. Tous droits réservés.</p>
+            <p>Le droit à la portée de tous.</p>
         </div>
     </footer>
 
-    <button id="notification-fab"><svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9M13.73 21a2 2 0 0 1-3.46 0"></path></svg></button>
+    <button id="notification-fab" aria-label="Notifications">
+        <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
+        <span class="notification-dot"></span>
+        <span id="notification-badge">0</span>
+    </button>
     <div id="notification-panel">
-        <div class="p-4 bg-gray-100 font-bold border-b">Annonces</div>
-        <div class="p-4 text-sm text-gray-600">Bienvenue sur la nouvelle version de Droit Décodé !</div>
+        <div class="p-4 bg-gray-50 font-bold border-b flex justify-between items-center text-blue-900">
+            <span>Annonces</span>
+            <button id="close-panel" class="text-gray-400 hover:text-red-500">&times;</button>
+        </div>
+        <div id="notification-list" class="p-2 overflow-y-auto max-h-[350px]"></div>
     </div>
 
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+    <script src="notifications.js"></script>
 
     <script>
         const firebaseConfig = {
@@ -141,63 +213,93 @@
         const db = firebase.firestore();
         const ADMIN_UID = "v4086Cxmi9PMI31GUBZzY8rHyIA3";
 
-        // Auth UI
+        function checkAccess(page) {
+            if (auth.currentUser) {
+                window.location.href = page;
+            } else {
+                alert("Veuillez vous connecter pour accéder à ce contenu.");
+                window.location.href = "login.html";
+            }
+        }
+
         auth.onAuthStateChanged(user => {
             const authBtn = document.getElementById('auth-link');
+            const userSettings = document.getElementById('user-settings');
             if(user) {
                 authBtn.innerText = "Déconnexion";
                 authBtn.onclick = (e) => { e.preventDefault(); auth.signOut().then(() => location.reload()); };
+                userSettings.classList.remove('hidden');
                 if(user.uid === ADMIN_UID) document.getElementById('admin-link-container').classList.remove('hidden');
+            } else {
+                authBtn.innerText = "Connexion";
+                userSettings.classList.add('hidden');
             }
+            loadMixedFeed();
         });
 
-        // CHARGEMENT FLUX MIXTE
-        async function loadFeed() {
+        async function loadMixedFeed() {
             const feed = document.getElementById('mixed-feed');
             try {
-                const artSnap = await db.collection("Articles").orderBy("timestamp", "desc").limit(4).get();
-                const tkSnap = await db.collection("TikToks").orderBy("timestamp", "desc").limit(2).get();
+                const artSnap = await db.collection("Articles").orderBy("timestamp", "desc").limit(3).get();
+                const vidSnap = await db.collection("TikToks").orderBy("timestamp", "desc").limit(2).get();
 
-                let data = [];
-                artSnap.forEach(doc => data.push({ id: doc.id, ...doc.data(), type: 'art' }));
-                tkSnap.forEach(doc => data.push({ id: doc.id, ...doc.data(), type: 'tk' }));
-
-                // Tri par date
-                data.sort((a, b) => (b.timestamp?.seconds || 0) - (a.timestamp?.seconds || 0));
+                let items = [];
+                artSnap.forEach(doc => items.push({ id: doc.id, ...doc.data(), type: 'article' }));
+                vidSnap.forEach(doc => items.push({ id: doc.id, ...doc.data(), type: 'video' }));
 
                 feed.innerHTML = '';
-                data.forEach(item => {
+                items.forEach(item => {
                     const card = document.createElement('div');
-                    card.className = "feed-card bg-white rounded-xl shadow-md overflow-hidden text-left flex flex-col h-full border-t-4 " + (item.type === 'art' ? 'border-blue-800' : 'border-red-500');
-                    
-                    if(item.type === 'art') {
-                        card.innerHTML = `
-                            <div class="p-6 flex-grow">
-                                <span class="text-[10px] font-bold text-blue-800 uppercase tracking-widest">Article</span>
-                                <h3 class="text-xl font-bold text-slate-800 mt-2 line-clamp-2">${item.title}</h3>
-                                <p class="text-gray-500 text-sm mt-3 line-clamp-3">${item.content}</p>
-                            </div>
-                            <div class="p-6 pt-0"><a href="articles.html#${item.id}" class="text-red-500 font-bold text-sm">Lire la suite →</a></div>
-                        `;
-                    } else {
-                        card.innerHTML = `
-                            <div class="p-6 flex-grow">
-                                <span class="text-[10px] font-bold text-red-500 uppercase tracking-widest">TikTok</span>
-                                <h3 class="text-xl font-bold text-slate-800 mt-2 line-clamp-2">${item.title}</h3>
-                                <div class="mt-4 aspect-video bg-slate-900 rounded-lg flex items-center justify-center">
-                                    <a href="tiktok.html" class="text-white text-xs font-bold bg-red-600 px-4 py-2 rounded-full">Regarder sur TikTok</a>
-                                </div>
-                            </div>
-                            <div class="p-6 pt-0"><span class="text-gray-400 text-xs italic">${item.theme || 'Droit'}</span></div>
-                        `;
-                    }
+                    card.className = "bg-white p-6 rounded-xl shadow-md border-t-4 " + (item.type === 'article' ? "border-blue-900" : "border-red-500");
+                    const title = item.title || "Sans titre";
+                    const content = item.type === 'article' ? item.content.substring(0, 80) + "..." : "Découvrez notre nouvelle vidéo TikTok.";
+                    const link = item.type === 'article' ? `articles.html#${item.id}` : `tiktok.html#${item.id}`;
+
+                    card.innerHTML = `
+                        <span class="text-[10px] uppercase font-bold text-gray-400">${item.type}</span>
+                        <h3 class="font-bold text-lg mt-1 mb-2">${title}</h3>
+                        <p class="text-sm text-gray-600 mb-4">${content}</p>
+                        <button onclick="checkAccess('${link}')" class="text-blue-900 font-bold hover:underline">Accéder →</button>
+                    `;
                     feed.appendChild(card);
                 });
             } catch (e) { feed.innerHTML = "Erreur de chargement."; }
         }
 
-        document.getElementById('notification-fab').onclick = () => document.getElementById('notification-panel').classList.toggle('open');
-        window.onload = loadFeed;
+        document.getElementById('delete-account-btn').onclick = async function() {
+            const user = auth.currentUser;
+            if(!user) return;
+
+            if(confirm("Confirmez-vous la suppression définitive de votre compte ? Cette action est irréversible.")) {
+                const password = prompt("Pour valider la suppression, veuillez saisir votre mot de passe :");
+                
+                if(password) {
+                    const credential = firebase.auth.EmailAuthProvider.credential(user.email, password);
+                    
+                    try {
+                        // Réauthentification requise par Firebase pour les suppressions de compte
+                        await user.reauthenticateWithCredential(credential);
+                        
+                        // Suppression du profil dans Firestore
+                        await db.collection('UserProfiles').doc(user.uid).delete();
+                        
+                        // Suppression du compte Auth
+                        await user.delete();
+                        
+                        alert("Votre compte a été supprimé.");
+                        location.reload();
+                    } catch (err) {
+                        if(err.code === 'auth/wrong-password') {
+                            alert("Mot de passe incorrect. Action annulée.");
+                        } else {
+                            alert("Erreur : " + err.message);
+                        }
+                    }
+                } else {
+                    alert("Action annulée.");
+                }
+            }
+        };
     </script>
 </body>
 </html>
