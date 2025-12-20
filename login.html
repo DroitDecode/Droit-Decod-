@@ -24,25 +24,17 @@
             margin: 0;
         }
         .google-btn {
-            background-color: white;
-            color: #757575;
-            border: 1px solid #ddd;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            width: 100%;
-            padding: 10px;
-            border-radius: 8px;
-            font-weight: 600;
-            transition: all 0.2s;
+            background-color: white; color: #757575; border: 1px solid #ddd;
+            display: flex; align-items: center; justify-content: center;
+            gap: 10px; width: 100%; padding: 10px; border-radius: 8px;
+            font-weight: 600; transition: all 0.2s;
         }
         .google-btn:hover { background-color: #f1f1f1; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
     </style>
 </head>
 <body>
 
-    <div class="p-4 w-full max-sm mx-auto">
+    <div class="p-4 w-full max-w-sm mx-auto">
         <div class="text-center mb-8">
             <img src="logo1.jpeg" alt="Logo" class="mx-auto h-16 w-auto rounded-xl shadow-lg border-2 border-primary-blue">
             <h1 class="mt-4 text-3xl font-extrabold text-gray-800">Droit Décodé</h1>
@@ -62,17 +54,22 @@
 
             <form id="auth-form" class="space-y-4">
                 <div id="name-field" class="hidden">
-                    <label class="block text-sm font-medium text-gray-700">Nom / Prénom</label>
-                    <input type="text" id="name" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md">
+                    <label class="block text-sm font-medium text-gray-700">Nom & Prénom <span class="text-red-500">*</span></label>
+                    <input type="text" id="name" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md outline-none focus:ring-2 focus:ring-red-500">
                 </div>
                 <div>
                     <label class="block text-sm font-medium text-gray-700">Email</label>
-                    <input type="email" id="email" required class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md">
+                    <input type="email" id="email" required class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md outline-none focus:ring-2 focus:ring-red-500">
                 </div>
                 <div>
                     <label class="block text-sm font-medium text-gray-700">Mot de Passe</label>
-                    <input type="password" id="password" required class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md">
+                    <input type="password" id="password" required class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md outline-none focus:ring-2 focus:ring-red-500">
                 </div>
+                
+                <div id="forgot-password-area" class="text-right">
+                    <button type="button" id="btn-forgot" class="text-xs text-blue-600 hover:underline">Mot de passe oublié ?</button>
+                </div>
+
                 <button type="submit" id="auth-button" class="w-full bg-red-500 text-white py-3 rounded-md font-bold hover:bg-red-600 transition">
                     Se connecter
                 </button>
@@ -86,24 +83,19 @@
     </div>
 
     <div id="message-modal" class="fixed inset-0 bg-black/50 hidden flex items-center justify-center p-4 z-50">
-        <div class="bg-white rounded-lg p-6 w-full max-w-sm">
-            <h3 id="modal-title" class="font-bold text-lg mb-2">Message</h3>
-            <p id="modal-content" class="text-gray-600 mb-4"></p>
-            <button id="modal-close-btn" class="w-full bg-gray-800 text-white py-2 rounded">OK</button>
+        <div class="bg-white rounded-lg p-6 w-full max-w-sm text-center">
+            <h3 id="modal-title" class="font-bold text-lg mb-2">Notification</h3>
+            <p id="modal-content" class="text-gray-600 mb-4 text-sm"></p>
+            <button id="modal-close-btn" class="w-full bg-gray-800 text-white py-2 rounded font-bold">OK</button>
         </div>
     </div>
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-app.js";
         import { 
-            getAuth, 
-            createUserWithEmailAndPassword, 
-            signInWithEmailAndPassword, 
-            updateProfile, 
-            GoogleAuthProvider, 
-            signInWithPopup,
-            setPersistence,
-            browserSessionPersistence 
+            getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, 
+            updateProfile, GoogleAuthProvider, signInWithPopup, setPersistence, 
+            browserSessionPersistence, sendEmailVerification, sendPasswordResetEmail 
         } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-auth.js";
         import { getFirestore, doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-firestore.js";
 
@@ -125,34 +117,37 @@
         const googleBtn = document.getElementById('google-auth-btn');
         let isLoginMode = true;
 
-        // --- GOOGLE SIGN IN ---
+        // --- MOT DE PASSE OUBLIÉ ---
+        document.getElementById('btn-forgot').onclick = async () => {
+            const email = document.getElementById('email').value;
+            if(!email) return alertMsg("Veuillez entrer votre adresse email d'abord.", "error");
+            try {
+                await sendPasswordResetEmail(auth, email);
+                alertMsg("Email de réinitialisation envoyé ! Vérifiez vos spams.", "success");
+            } catch (err) {
+                alertMsg("Erreur : " + err.message, "error");
+            }
+        };
+
+        // --- GOOGLE AUTH ---
         googleBtn.onclick = async () => {
             try {
-                // Set persistence to session only (log out on close)
                 await setPersistence(auth, browserSessionPersistence);
-                
                 const result = await signInWithPopup(auth, provider);
                 const user = result.user;
-
-                const docRef = doc(db, 'UserProfiles', user.uid);
-                const docSnap = await getDoc(docRef);
-
+                const docSnap = await getDoc(doc(db, 'UserProfiles', user.uid));
                 if (!docSnap.exists()) {
-                    await setDoc(docRef, {
-                        name: user.displayName,
-                        email: user.email,
-                        createdAt: new Date().toISOString()
+                    await setDoc(doc(db, 'UserProfiles', user.uid), {
+                        name: user.displayName, email: user.email, createdAt: new Date().toISOString()
                     });
                 }
-
-                alertMsg("Connexion réussie ! Vous serez déconnecté à la fermeture du navigateur.", "success");
-                setTimeout(() => window.location.replace('index.html'), 1500);
+                window.location.replace('index.html');
             } catch (error) {
                 alertMsg("Erreur Google : " + error.message, "error");
             }
         };
 
-        // --- EMAIL SIGN IN/UP ---
+        // --- EMAIL AUTH (AVEC VÉRIFICATION) ---
         authForm.onsubmit = async (e) => {
             e.preventDefault();
             const email = document.getElementById('email').value;
@@ -160,23 +155,43 @@
             const name = document.getElementById('name').value;
 
             try {
-                // Set persistence to session only (log out on close)
                 await setPersistence(auth, browserSessionPersistence);
 
                 if (isLoginMode) {
-                    await signInWithEmailAndPassword(auth, email, password);
+                    const userCredential = await signInWithEmailAndPassword(auth, email, password);
+                    // Vérifier si l'email est validé
+                    if (!userCredential.user.emailVerified) {
+                        alertMsg("Veuillez valider votre adresse email avant de vous connecter. Vérifiez vos spams.", "error");
+                        await auth.signOut();
+                        return;
+                    }
+                    window.location.replace('index.html');
                 } else {
+                    // OBLIGATION NOM & PRENOM
+                    if(name.trim().length < 3) {
+                        return alertMsg("Le nom et le prénom sont obligatoires pour créer un compte.", "error");
+                    }
+
                     const res = await createUserWithEmailAndPassword(auth, email, password);
                     await updateProfile(res.user, { displayName: name });
+                    
+                    // Envoi de l'email de vérification
+                    await sendEmailVerification(res.user);
+                    
                     await setDoc(doc(db, 'UserProfiles', res.user.uid), {
-                        name: name,
-                        email: email,
-                        createdAt: new Date().toISOString()
+                        name: name, email: email, createdAt: new Date().toISOString()
                     });
+
+                    alertMsg("Compte créé ! Un email de vérification vous a été envoyé. Validez-le pour vous connecter.", "success");
+                    
+                    // On repasse en mode connexion et on vide le formulaire
+                    setTimeout(() => location.reload(), 3000);
                 }
-                window.location.replace('index.html');
             } catch (err) {
-                alertMsg("Erreur: " + err.code, "error");
+                let message = "Une erreur est survenue.";
+                if(err.code === "auth/email-already-in-use") message = "Cet email est déjà utilisé.";
+                if(err.code === "auth/weak-password") message = "Le mot de passe doit faire au moins 6 caractères.";
+                alertMsg(message, "error");
             }
         };
 
@@ -184,16 +199,17 @@
         document.getElementById('toggle-mode').onclick = () => {
             isLoginMode = !isLoginMode;
             document.getElementById('name-field').classList.toggle('hidden');
+            document.getElementById('forgot-password-area').classList.toggle('hidden');
             document.getElementById('auth-button').textContent = isLoginMode ? "Se connecter" : "S'inscrire";
             document.getElementById('toggle-mode').textContent = isLoginMode ? "S'inscrire" : "Se connecter";
             document.getElementById('toggle-text').textContent = isLoginMode ? "Pas de compte?" : "Déjà un compte?";
         };
 
-        function alertMsg(msg, type) {
+        function alertMsg(msg) {
             document.getElementById('modal-content').textContent = msg;
             document.getElementById('message-modal').classList.remove('hidden');
         }
-        
+
         document.getElementById('modal-close-btn').onclick = () => {
             document.getElementById('message-modal').classList.add('hidden');
         };
