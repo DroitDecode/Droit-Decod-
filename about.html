@@ -6,168 +6,185 @@
     <title>Droit Décodé - À Propos</title>
 
     <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="notifications.css">
 
     <style>
         :root {
             --color-primary-red: #E84D3D;
             --color-primary-blue: #3E4B7A;
             --color-secondary-bg: #F8F9FA;
+            --footer-bg: #1A202C;
         }
 
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: var(--color-secondary-bg);
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-        }
+        html, body { height: 100%; margin: 0; }
+        body { font-family: 'Inter', sans-serif; background-color: var(--color-secondary-bg); display: flex; flex-direction: column; }
+        main { flex: 1 0 auto; }
 
-        /* --- STYLES MENU (COPIÉS DE INDEX.HTML) --- */
-        header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 1rem 2rem;
-            background-color: white;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-        }
+        /* HEADER & MENU (Unified) */
+        header { display: flex; justify-content: space-between; align-items: center; padding: 1rem 2rem; background-color: white; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05); position: sticky; top: 0; z-index: 1000; }
+        .header-left { display: flex; align-items: center; gap: 15px; }
         .logo-container a { display: flex; align-items: center; text-decoration: none; }
         .logo-container img { height: 40px; width: 40px; border-radius: 50%; margin-right: 10px; }
-        .logo-text { font-size: 1.5rem; line-height: 1; font-weight: 300; }
-        .logo-text strong { color: var(--color-primary-blue); font-weight: 700; }
-        .logo-text span { color: var(--color-primary-red); font-weight: 700; }
+        .logo-text { font-size: 1.5rem; line-height: 1; }
+        .logo-text strong { color: var(--color-primary-blue); font-weight: 800; }
+        .logo-text span { color: var(--color-primary-red); font-weight: 800; }
 
-        header nav ul { display: flex; list-style: none; gap: 1.5rem; margin: 0; padding: 0; align-items: center; }
-        header nav ul li a { color: #4B5563; text-decoration: none; padding: 0.5rem 0; transition: color 0.3s; font-weight: 600; }
-        header nav ul li a:hover { color: var(--color-primary-red); }
-        header nav ul li a.active { color: var(--color-primary-red); border-bottom: 2px solid var(--color-primary-red); }
+        #user-initials { width: 35px; height: 35px; background-color: var(--color-primary-blue); color: white; border-radius: 50%; display: none; align-items: center; justify-content: center; font-weight: bold; font-size: 0.9rem; border: 2px solid white; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
 
-        .contact-btn { background-color: var(--color-primary-red); color: white !important; padding: 0.5rem 1rem; border-radius: 0.5rem; }
+        header nav ul { display: flex; list-style: none; gap: 1.5rem; align-items: center; }
+        header nav ul li a { color: #4B5563; text-decoration: none; font-weight: 600; transition: 0.3s; padding: 0.5rem 1rem; border-radius: 0.5rem; }
+        header nav ul li a.active { background-color: var(--color-primary-red); color: white !important; }
         .log-btn { border: 1px solid var(--color-primary-blue); color: var(--color-primary-blue) !important; padding: 0.5rem 1rem; border-radius: 0.5rem; }
-        .admin-btn { background-color: var(--color-primary-blue); color: white !important; padding: 0.5rem 1rem; border-radius: 0.5rem; font-weight: 600; }
 
-        /* Style spécifique pour le Crayon d'édition */
+        /* EDITABLE ZONES */
         .editable-zone[contenteditable="true"] {
-            border: 2px dashed var(--color-primary-red);
-            padding: 10px;
+            border: 2px dashed var(--color-primary-red) !important;
+            padding: 15px;
             background: #fffafa;
-            border-radius: 8px;
+            border-radius: 12px;
             cursor: text;
+            outline: none;
+            animation: pulse 2s infinite;
         }
+        @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.7; } 100% { opacity: 1; } }
 
         #edit-fab {
-            position: fixed;
-            bottom: 2rem;
-            left: 2rem;
-            width: 60px;
-            height: 60px;
-            background-color: var(--color-primary-blue);
-            color: white;
-            border-radius: 50%;
-            display: none; 
-            align-items: center;
-            justify-content: center;
+            position: fixed; bottom: 90px; left: 20px;
+            width: 55px; height: 55px; background-color: var(--color-primary-blue);
+            color: white; border-radius: 50%; display: none;
+            align-items: center; justify-content: center;
             box-shadow: 0 4px 15px rgba(0,0,0,0.3);
-            cursor: pointer;
-            z-index: 1001;
-            font-size: 1.5rem;
-            border: none;
+            cursor: pointer; z-index: 10001; font-size: 1.2rem; border: none;
         }
 
-        footer { background-color: var(--color-primary-blue); color: white; padding: 2rem; text-align: center; margin-top: auto; }
+        /* FOOTER */
+        footer { background-color: var(--footer-bg); color: #EDF2F7; padding: 4rem 2rem 1.5rem 2rem; text-align: center; }
+        .footer-container { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 3rem; }
+        .footer-section h4 { color: white; font-size: 1.1rem; font-weight: 700; margin-bottom: 1.5rem; position: relative; text-transform: uppercase; }
+        .footer-section h4::after { content: ''; position: absolute; left: 50%; transform: translateX(-50%); bottom: -8px; width: 40px; height: 3px; background-color: var(--color-primary-red); }
+        .footer-section ul { list-style: none; padding: 0; }
+        .footer-section ul li { margin-bottom: 0.8rem; }
+        .footer-section ul li a { color: #A0AEC0; text-decoration: none; }
+        .footer-bottom { margin-top: 3rem; padding-top: 1.5rem; border-top: 1px solid #2D3748; color: #718096; font-size: 0.85rem; }
+        .social-icons { display: flex; justify-content: center; gap: 1rem; margin-top: 1rem; }
+        .social-icons a { background: #2D3748; color: white; width: 35px; height: 35px; border-radius: 50%; display: flex; align-items: center; justify-content: center; text-decoration: none; }
 
-        /* --- RESPONSIVE MENU --- */
         @media (max-width: 768px) {
-            header nav ul {
-                display: none;
-                flex-direction: column;
-                position: absolute;
-                top: 64px;
-                right: 0;
-                width: 100%;
-                background-color: white;
-                box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-                padding: 1rem 0;
-            }
+            header nav ul { display: none; flex-direction: column; position: absolute; top: 64px; left: 0; width: 100%; background: white; padding: 1rem; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
             header nav ul.open { display: flex; }
-            header nav ul li { width: 100%; text-align: center; padding: 0.75rem 0; border-bottom: 1px solid #f3f4f6; }
-            .menu-toggle { display: block; background: none; border: none; font-size: 1.8rem; cursor: pointer; color: var(--color-primary-blue); }
+            .menu-toggle { display: block; font-size: 1.5rem; cursor: pointer; background: none; border: none; }
         }
-        @media (min-width: 769px) { .menu-toggle { display: none; } }
     </style>
 </head>
 <body>
 
-    <header role="banner">
-        <div class="logo-container">
-            <a href="index.html">
-                <img src="logo1.jpeg" alt="Logo">
-                <div class="logo-text"><strong>DROIT</strong> <span>DÉCODÉ</span></div>
-            </a>
+    <header>
+        <div class="header-left">
+            <div class="logo-container">
+                <a href="index.html">
+                    <img src="logo1.jpeg" alt="Logo">
+                    <div class="logo-text"><strong>DROIT</strong> <span>DÉCODÉ</span></div>
+                </a>
+            </div>
+            <div id="user-initials"></div>
         </div>
-
-        <nav role="navigation">
+        <nav>
             <ul id="main-navigation">
                 <li><a href="index.html">Accueil</a></li>
-                <li><a href="articles.html">Articles & Explications</a></li>
-                <li id="admin-link-container" class="hidden">
-                    <a href="admin_dashboard.html" class="admin-btn">Tableau de bord</a>
-                </li>
-                <li><a href="tiktok.html">TikTok Publications</a></li>
+                <li><a href="articles.html">Articles</a></li>
+                <li><a href="tiktok.html">TikTok</a></li>
                 <li><a href="about.html" class="active">À Propos</a></li>
-                <li><a href="contact.html" class="contact-btn">Contact</a></li>
-                <li id="auth-link-container">
-                    <a href="login.html" class="log-btn" id="auth-link">Se connecter</a>
-                </li>
+                <li id="admin-link-container" class="hidden"><a href="admin_dashboard.html" class="log-btn">Admin</a></li>
+                <li><a href="contact.html">Contact</a></li>
+                <li><a href="login.html" class="log-btn" id="auth-link">Connexion</a></li>
             </ul>
         </nav>
-
-        <button class="menu-toggle" aria-label="Menu" onclick="document.getElementById('main-navigation').classList.toggle('open')">
-            &#9776;
-        </button>
+        <button class="menu-toggle md:hidden" onclick="document.getElementById('main-navigation').classList.toggle('open')">&#9776;</button>
     </header>
 
     <main class="max-w-4xl mx-auto p-6 md:p-12">
-        <h1 class="text-3xl md:text-5xl font-extrabold text-primary-blue border-b-4 border-primary-red pb-4 mb-10 text-center">
-            À Propos de Droit Décodé
+        <h1 class="text-4xl md:text-5xl font-black text-blue-900 border-b-4 border-red-500 inline-block pb-2 mb-10 uppercase">
+            À Propos
         </h1>
 
-        <div class="bg-white rounded-2xl shadow-xl p-8 space-y-10">
+        <div class="bg-white rounded-3xl shadow-xl p-8 md:p-12 space-y-12">
             <section>
-                <h2 class="text-xl font-bold text-primary-red uppercase tracking-wider">Qui sommes-nous ?</h2>
-                <div id="about-desc" class="editable-zone text-gray-700 leading-relaxed text-lg mt-2">
-                    Chargement de la description...
+                <h2 class="text-xs font-black text-red-500 uppercase tracking-widest mb-4">Notre Mission</h2>
+                <div id="about-desc" class="editable-zone text-gray-700 leading-relaxed text-lg">
+                    Chargement de l'histoire de Droit Décodé...
                 </div>
             </section>
 
             <section>
-                <h2 class="text-xl font-bold text-primary-red uppercase tracking-wider">Public Cible</h2>
-                <div id="target-desc" class="editable-zone text-gray-700 leading-relaxed mt-2">
-                    Chargement...
+                <h2 class="text-xs font-black text-red-500 uppercase tracking-widest mb-4">Pourquoi nous ?</h2>
+                <div id="target-desc" class="editable-zone text-gray-700 leading-relaxed">
+                    Chargement de nos objectifs...
                 </div>
             </section>
 
-            <section class="bg-gray-50 p-6 rounded-xl border-l-4 border-primary-blue">
-                <h2 class="text-xl font-bold text-primary-blue mb-4">Informations de Contact</h2>
+            <section class="bg-blue-50 p-8 rounded-2xl border-l-8 border-blue-900">
+                <h2 class="text-xl font-bold text-blue-900 mb-4">Contact Direct</h2>
                 <div id="contact-info" class="editable-zone space-y-2 text-gray-700 italic">
-                    Chargement des contacts...
+                    Chargement des coordonnées...
                 </div>
             </section>
         </div>
     </main>
 
-    <button id="edit-fab" title="Modifier le contenu">✏️</button>
+    <button id="edit-fab" title="Modifier le texte">✏️</button>
 
     <footer>
-        <p>&copy; 2025 Droit Décodé. Tous droits réservés.</p>
+        <div class="footer-container">
+            <div class="footer-section">
+                <div class="logo-text mb-4"><strong class="text-white">DROIT</strong> <span class="text-red-500">DÉCODÉ</span></div>
+                <p class="text-gray-400 leading-relaxed max-w-xs mx-auto">Plateforme éducative dédiée à la vulgarisation du droit. Nous rendons la justice compréhensible pour tous.</p>
+            </div>
+            <div class="footer-section">
+                <h4>Explorer</h4>
+                <ul>
+                    <li><a href="index.html">Accueil</a></li>
+                    <li><a href="articles.html">Articles Juridiques</a></li>
+                    <li><a href="tiktok.html">Contenu Vidéo</a></li>
+                    <li><a href="about.html">Notre Équipe</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Support & Légal</h4>
+                <ul>
+                    <li><a href="contact.html">Contactez-nous</a></li>
+                    <li><a href="mentions.html">Mentions Légales</a></li>
+                    <li><a href="login.html">Espace Membre</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Contact</h4>
+                <ul class="text-gray-400">
+                    <li>📍 Lomé, Togo</li>
+                    <li>📧 droitdecode@gmail.com</li>
+                    <li>📞 +228 70 07 28 07</li>
+                </ul>
+                <div class="social-icons">
+                    <a href="#">♪</a><a href="#">in</a><a href="mailto:droitdecode@gmail.com">✉</a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 Droit Décodé. Tous droits réservés.</p>
+            <p>Le droit à la portée de tous.</p>
+        </div>
     </footer>
+
+    <button id="notification-fab"><svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9M13.73 21a2 2 0 0 1-3.46 0"></path></svg><span id="notification-badge">0</span></button>
+    <div id="notification-panel">
+        <div class="notif-header"><span>Annonces</span><button id="close-panel">&times;</button></div>
+        <div id="notification-list"></div>
+    </div>
 
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+    <script src="notifications.js"></script>
 
     <script>
         const firebaseConfig = {
@@ -178,7 +195,6 @@
             messagingSenderId: "219930978240",
             appId: "1:219930978240:web:886c40e47d276c75548a25"
         };
-
         firebase.initializeApp(firebaseConfig);
         const auth = firebase.auth();
         const db = firebase.firestore();
@@ -191,44 +207,41 @@
             contact: document.getElementById('contact-info')
         };
         const fab = document.getElementById('edit-fab');
-        const adminContainer = document.getElementById('admin-link-container');
-        const authLink = document.getElementById('auth-link');
         let isEditing = false;
 
-        // 1. ÉCOUTEUR D'ÉTAT D'AUTHENTIFICATION
         auth.onAuthStateChanged(user => {
+            const initialsDiv = document.getElementById('user-initials');
+            const authLink = document.getElementById('auth-link');
             if (user) {
-                authLink.textContent = 'Déconnexion';
-                authLink.onclick = (e) => { e.preventDefault(); auth.signOut().then(() => window.location.reload()); };
+                initialsDiv.style.display = "flex";
+                initialsDiv.textContent = (user.displayName || "U").substring(0,2).toUpperCase();
+                authLink.textContent = "Déconnexion";
+                authLink.onclick = () => auth.signOut().then(() => location.reload());
                 
                 if (user.uid === ADMIN_UID) {
-                    adminContainer.classList.remove('hidden');
+                    document.getElementById('admin-link-container').classList.remove('hidden');
                     fab.style.display = 'flex';
                 }
-            } else {
-                authLink.textContent = 'Se connecter';
-                authLink.href = 'login.html';
-                adminContainer.classList.add('hidden');
             }
         });
 
-        // 2. CHARGEMENT DES DONNÉES EN TEMPS RÉEL
+        // Real-time Load
         DOC_REF.onSnapshot(doc => {
             if (doc.exists && !isEditing) {
                 const data = doc.data();
-                zones.desc.innerHTML = data.desc || "Description ici...";
-                zones.target.innerHTML = data.target || "Public cible ici...";
-                zones.contact.innerHTML = data.contact || "Contacts ici...";
+                zones.desc.innerHTML = data.desc || "Description à remplir...";
+                zones.target.innerHTML = data.target || "Détails à remplir...";
+                zones.contact.innerHTML = data.contact || "Contacts à remplir...";
             }
         });
 
-        // 3. LOGIQUE D'ÉDITION (LE CRAYON)
+        // Admin Edit Logic (In-place editing)
         fab.onclick = async () => {
             if (!isEditing) {
                 isEditing = true;
                 Object.values(zones).forEach(z => z.contentEditable = "true");
-                fab.textContent = "💾";
-                fab.style.backgroundColor = "#10B981"; // Vert pour sauvegarder
+                fab.innerHTML = "💾";
+                fab.style.backgroundColor = "#10B981";
                 zones.desc.focus();
             } else {
                 try {
@@ -239,11 +252,11 @@
                     }, { merge: true });
                     isEditing = false;
                     Object.values(zones).forEach(z => z.contentEditable = "false");
-                    fab.textContent = "✏️";
-                    fab.style.backgroundColor = "#3E4B7A"; 
-                    alert("Informations mises à jour !");
+                    fab.innerHTML = "✏️";
+                    fab.style.backgroundColor = "#3E4B7A";
+                    alert("Informations mises à jour sur le site !");
                 } catch (e) {
-                    alert("Erreur lors de la sauvegarde : " + e.message);
+                    alert("Erreur : " + e.message);
                 }
             }
         };
