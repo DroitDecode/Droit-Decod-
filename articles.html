@@ -3,66 +3,86 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Droit Décodé - Articles</title>
+    <title>Droit Décodé - Articles & Explications</title>
+
+    <link rel="stylesheet" href="notifications.css">
     <script src="https://cdn.tailwindcss.com"></script>
+
     <style>
         :root {
             --color-primary-red: #E84D3D;
             --color-primary-blue: #3E4B7A;
             --color-secondary-bg: #F8F9FA;
+            --footer-bg: #1A202C;
         }
-        body { font-family: 'Inter', sans-serif; background-color: var(--color-secondary-bg); min-height: 100vh; display: flex; flex-direction: column; }
 
+        html, body { height: 100%; margin: 0; }
+        body { font-family: 'Inter', sans-serif; background-color: var(--color-secondary-bg); display: flex; flex-direction: column; }
+        main { flex: 1 0 auto; }
+
+        /* HEADER */
         header { display: flex; justify-content: space-between; align-items: center; padding: 1rem 2rem; background-color: white; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05); position: sticky; top: 0; z-index: 1000; }
-        
-        /* Conteneur pour aligner Logo - Initiales - Menu Toggle */
         .header-left { display: flex; align-items: center; gap: 15px; }
-
         .logo-container a { display: flex; align-items: center; text-decoration: none; }
         .logo-container img { height: 40px; width: 40px; border-radius: 50%; margin-right: 10px; }
-        .logo-text { font-size: 1.5rem; line-height: 1; font-weight: 300; }
+        .logo-text { font-size: 1.5rem; font-weight: 300; display: block !important; }
         .logo-text strong { color: var(--color-primary-blue); font-weight: 700; }
         .logo-text span { color: var(--color-primary-red); font-weight: 700; }
 
-        /* Style du cercle des initiales */
-        #user-initials {
-            width: 35px;
-            height: 35px;
-            background-color: var(--color-primary-blue);
-            color: white;
-            border-radius: 50%;
-            display: none; /* Caché par défaut, affiché si connecté */
-            align-items: center;
-            justify-content: center;
-            font-weight: bold;
-            font-size: 0.9rem;
-            text-transform: uppercase;
-            border: 2px solid white;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-        }
+        #user-initials { width: 35px; height: 35px; background-color: var(--color-primary-blue); color: white; border-radius: 50%; display: none; align-items: center; justify-content: center; font-weight: bold; font-size: 0.9rem; border: 2px solid white; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
 
-        header nav ul { display: flex; list-style: none; gap: 1.5rem; margin: 0; padding: 0; align-items: center; }
-        header nav ul li a { color: #4B5563; text-decoration: none; padding: 0.5rem 0; transition: color 0.3s; font-weight: 600; }
-        header nav ul li a.active { color: var(--color-primary-red); border-bottom: 2px solid var(--color-primary-red); }
-
-        .contact-btn { background-color: var(--color-primary-red); color: white !important; padding: 0.5rem 1rem; border-radius: 0.5rem; }
+        header nav ul { display: flex; list-style: none; gap: 1.5rem; align-items: center; }
+        header nav ul li a { color: #4B5563; text-decoration: none; font-weight: 600; transition: 0.3s; padding: 0.5rem 1rem; border-radius: 0.5rem; }
+        header nav ul li a.active { background-color: var(--color-primary-red); color: white !important; }
         .log-btn { border: 1px solid var(--color-primary-blue); color: var(--color-primary-blue) !important; padding: 0.5rem 1rem; border-radius: 0.5rem; }
 
-        .article-card-old {
-            background-color: white; padding: 1.5rem; border-radius: 0.75rem;
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
-            border-left: 4px solid var(--color-primary-blue);
-            margin-bottom: 2rem;
-        }
-        .media-container { width: 100%; max-height: 350px; overflow: hidden; border-radius: 0.5rem; margin-bottom: 1rem; background: #000; display: flex; justify-content: center; }
-        .media-container img, .media-container video { max-width: 100%; max-height: 350px; object-fit: contain; }
+        /* ARTICLES */
+        .article-card { background: white; border-radius: 1rem; overflow: hidden; box-shadow: 0 4px 6px rgba(0,0,0,0.05); border-left: 5px solid var(--color-primary-blue); margin-bottom: 2rem; }
+        .media-container { width: 100%; background: #000; display: flex; justify-content: center; max-height: 400px; overflow: hidden; }
+        .media-container img, .media-container video { width: 100%; object-fit: cover; }
+        .content-preview { display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
 
-        .content-hidden { display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+        /* FOOTER PROFESSIONNEL CENTRÉ */
+        footer {
+            flex-shrink: 0;
+            background-color: var(--footer-bg);
+            color: #EDF2F7;
+            padding: 4rem 2rem 1.5rem 2rem;
+            text-align: center;
+        }
+        .footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 3rem;
+            justify-items: center;
+        }
+        .footer-section h4 {
+            color: white; font-size: 1.1rem; font-weight: 700; margin-bottom: 1.5rem; position: relative; text-transform: uppercase; letter-spacing: 1px;
+        }
+        .footer-section h4::after {
+            content: ''; position: absolute; left: 50%; transform: translateX(-50%); bottom: -8px; width: 40px; height: 3px; background-color: var(--color-primary-red);
+        }
+        .footer-section ul { list-style: none; padding: 0; }
+        .footer-section ul li { margin-bottom: 0.8rem; }
+        .footer-section ul li a { color: #A0AEC0; text-decoration: none; transition: 0.3s; }
+        .footer-section ul li a:hover { color: white; }
+        
+        .social-icons { display: flex; gap: 1rem; margin-top: 1.5rem; justify-content: center; }
+        .social-icons a { 
+            background: #2D3748; width: 35px; height: 35px; display: flex; align-items: center; justify-content: center; border-radius: 50%; transition: 0.3s; color: white; 
+        }
+        .social-icons a:hover { background: var(--color-primary-red); transform: translateY(-3px); }
+
+        .footer-bottom {
+            max-width: 1200px; margin: 3rem auto 0 auto; padding-top: 1.5rem; border-top: 1px solid #2D3748; display: flex; justify-content: center; gap: 2rem; flex-wrap: wrap; color: #718096; font-size: 0.85rem;
+        }
 
         @media (max-width: 768px) {
-            header nav ul { display: none; flex-direction: column; position: absolute; top: 64px; right: 0; width: 100%; background-color: white; padding: 1rem 0; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+            header nav ul { display: none; flex-direction: column; position: absolute; top: 64px; left: 0; width: 100%; background: white; padding: 1rem; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
             header nav ul.open { display: flex; }
-            .menu-toggle { display: block; font-size: 1.8rem; cursor: pointer; color: var(--color-primary-blue); border:none; background:none; order: 3; }
+            .menu-toggle { display: block; font-size: 1.5rem; cursor: pointer; background: none; border: none; }
         }
     </style>
 </head>
@@ -73,52 +93,103 @@
             <div class="logo-container">
                 <a href="index.html">
                     <img src="logo1.jpeg" alt="Logo">
-                    <div class="logo-text md:block hidden"><strong>DROIT</strong> <span>DÉCODÉ</span></div>
+                    <div class="logo-text"><strong>DROIT</strong> <span>DÉCODÉ</span></div>
                 </a>
             </div>
-            <div id="user-initials" title="Mon Profil"></div>
+            <div id="user-initials"></div>
         </div>
-
         <nav>
             <ul id="main-navigation">
                 <li><a href="index.html">Accueil</a></li>
-                <li><a href="articles.html" class="active">Articles & Explications</a></li>
-                <li id="admin-link-container" class="hidden"><a href="admin_dashboard.html" class="log-btn">Dashboard</a></li>
-                <li><a href="tiktok.html">TikTok</a></li>
+                <li><a href="articles.html" class="active">Articles</a></li>
+                <li><a href="#" onclick="checkAccess('tiktok.html')">TikTok</a></li>
                 <li><a href="about.html">À Propos</a></li>
-                <li><a href="contact.html" class="contact-btn">Contact</a></li>
-                <li id="auth-link-container"><a href="login.html" class="log-btn" id="auth-link">Se connecter</a></li>
+                <li id="admin-link-container" class="hidden"><a href="admin_dashboard.html" class="log-btn">Admin</a></li>
+                <li><a href="contact.html">Contact</a></li>
+                <li><a href="login.html" class="log-btn" id="auth-link">Connexion</a></li>
             </ul>
         </nav>
         <button class="menu-toggle md:hidden" onclick="document.getElementById('main-navigation').classList.toggle('open')">&#9776;</button>
     </header>
 
-    <main class="max-w-4xl mx-auto p-6">
-        <section id="admin-editor" class="hidden bg-white p-6 rounded-xl border-2 border-primary-blue mb-10 shadow-lg">
-            <h2 id="form-title" class="text-2xl font-bold text-primary-blue mb-4">Publier/Modifier un article</h2>
+    <main class="py-12 px-4 max-w-5xl mx-auto">
+        <section id="admin-editor" class="hidden bg-white p-6 rounded-2xl border-2 border-blue-900 mb-12 shadow-xl">
+            <h2 id="form-title" class="text-2xl font-bold text-blue-900 mb-4 uppercase">Publier un article</h2>
             <input type="hidden" id="edit-id">
-            <div class="space-y-4 flex flex-col">
-                <input type="text" id="art-title" placeholder="Titre de l'article" class="p-3 border rounded-lg">
-                <input type="text" id="art-media" placeholder="Lien Photo ou Vidéo (.mp4)" class="p-3 border rounded-lg">
-                <textarea id="art-content" rows="8" placeholder="Contenu de l'article..." class="p-3 border rounded-lg"></textarea>
+            <div class="grid gap-4">
+                <input type="text" id="art-title" placeholder="Titre de l'article" class="p-3 border rounded-lg outline-none">
+                <input type="text" id="art-media" placeholder="Lien Image ou Vidéo (.mp4)" class="p-3 border rounded-lg outline-none">
+                <textarea id="art-content" rows="6" placeholder="Contenu juridique..." class="p-3 border rounded-lg outline-none"></textarea>
                 <div class="flex gap-2">
-                    <button id="publish-btn" class="flex-1 bg-primary-red text-white font-bold py-3 rounded-lg hover:bg-red-700 transition">PUBLIER L'ARTICLE</button>
-                    <button id="cancel-btn" class="hidden bg-gray-500 text-white font-bold py-3 px-6 rounded-lg" onclick="resetForm()">ANNULER</button>
+                    <button id="publish-btn" class="flex-1 bg-blue-900 text-white font-black py-4 rounded-lg hover:bg-red-600 transition uppercase">Enregistrer</button>
+                    <button id="cancel-btn" class="hidden bg-gray-500 text-white px-6 rounded-lg" onclick="resetForm()">Annuler</button>
                 </div>
             </div>
         </section>
 
-        <h1 class="text-3xl font-black text-primary-blue border-b-2 border-primary-red pb-2 mb-8 inline-block">Articles & Explications</h1>
-        <div id="articles-list">
-            <p class="text-center text-gray-500">Chargement des articles...</p>
-        </div>
+        <h1 class="text-4xl font-black text-blue-900 mb-10 border-b-4 border-red-500 inline-block pb-2">BIBLIOTHÈQUE JURIDIQUE</h1>
+        <div id="articles-list" class="space-y-12"></div>
     </main>
+
+<footer>
+        <div class="footer-container">
+            <div class="footer-section">
+                <div class="logo-text mb-4">
+                    <strong class="text-white">DROIT</strong> <span class="text-red-500">DÉCODÉ</span>
+                </div>
+                <p class="text-gray-400 leading-relaxed max-w-xs mx-auto">
+                    Plateforme éducative dédiée à la vulgarisation du droit. Nous rendons la justice compréhensible pour tous.
+                </p>
+            </div>
+            <div class="footer-section">
+                <h4>Explorer</h4>
+                <ul>
+                    <li><a href="index.html">Accueil</a></li>
+                    <li><a href="articles.html">Articles Juridiques</a></li>
+                    <li><a href="tiktok.html">Contenu Vidéo</a></li>
+                    <li><a href="about.html">Notre Équipe</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Support & Légal</h4>
+                <ul>
+                    <li><a href="contact.html">Contactez-nous</a></li>
+                    <li><a href="mentions.html">Mentions Légales</a></li>
+                    <li><a href="login.html">Espace Membre</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Contact</h4>
+                <ul class="text-gray-400">
+                    <li>📍 Lomé, Togo</li>
+                    <li>📧 droitdecode@gmail.com</li>
+                    <li>📞 +228 70 07 28 07</li>
+                </ul>
+                <div class="social-icons">
+                    <a href="#">♪</a><a href="#">in</a><a href="mailto:droitdecode@gmail.com">✉</a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 Droit Décodé. Tous droits réservés.</p>
+            <p>Le droit à la portée de tous.</p>
+        </div>
+    </footer>
+
+
+    <button id="notification-fab"><svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9M13.73 21a2 2 0 0 1-3.46 0"></path></svg><span id="notification-badge">0</span></button>
+    <div id="notification-panel">
+        <div class="p-4 bg-gray-100 font-bold border-b flex justify-between"><span>Annonces</span><button id="close-panel">&times;</button></div>
+        <div id="notification-list"></div>
+    </div>
+    <script src="notifications.js"></script>
 
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
 
     <script>
+        // Configuration Firebase
         const firebaseConfig = {
             apiKey: "AIzaSyDpNtHXiZK3bIyLwAUlTNAiWRrg2vhPYeE",
             authDomain: "droitdecode-9aa4d.firebaseapp.com",
@@ -132,154 +203,164 @@
         const db = firebase.firestore();
         const ADMIN_UID = "v4086Cxmi9PMI31GUBZzY8rHyIA3";
 
-        // FONCTION POUR OBTENIR LES INITIALES
-        function getInitials(name) {
-            if (!name) return "U"; // "U" pour User si pas de nom
-            const names = name.split(' ');
-            let initials = names[0].substring(0, 1).toUpperCase();
-            if (names.length > 1) {
-                initials += names[names.length - 1].substring(0, 1).toUpperCase();
-            }
-            return initials;
+        // Vérification d'accès pour les pages protégées
+        function checkAccess(page) {
+            if (auth.currentUser) window.location.href = page;
+            else { alert("Connexion requise pour accéder à cette page."); window.location.href = "login.html"; }
         }
 
+        // Gestion de l'état de connexion
         auth.onAuthStateChanged(user => {
             const initialsDiv = document.getElementById('user-initials');
+            const authLink = document.getElementById('auth-link');
             if (user) {
-                // Afficher et remplir les initiales
                 initialsDiv.style.display = "flex";
-                initialsDiv.textContent = getInitials(user.displayName);
-
-                document.getElementById('auth-link').textContent = "Déconnexion";
-                document.getElementById('auth-link').onclick = (e) => { 
-                    e.preventDefault(); 
-                    auth.signOut().then(() => location.reload()); 
-                };
-                
-                if (user.uid === ADMIN_UID) {
-                    document.getElementById('admin-editor').classList.remove('hidden');
-                    document.getElementById('admin-link-container').classList.remove('hidden');
-                }
-            } else {
-                initialsDiv.style.display = "none";
+                initialsDiv.textContent = (user.displayName || "U").substring(0,2).toUpperCase();
+                if (user.uid === ADMIN_UID) document.getElementById('admin-editor').classList.remove('hidden');
+                authLink.textContent = "Déconnexion";
+                authLink.onclick = () => auth.signOut().then(() => location.reload());
             }
+            loadArticles();
         });
 
-        // ... Le reste de votre code (publish-btn, Firestore snapshot, etc.) est identique
+        // Chargement des articles
+        async function loadArticles() {
+            const list = document.getElementById('articles-list');
+            db.collection("Articles").orderBy("timestamp", "desc").onSnapshot(snap => {
+                list.innerHTML = '';
+                snap.forEach(doc => {
+                    const art = doc.data();
+                    const artId = doc.id;
+                    const user = auth.currentUser;
+                    const isVideo = art.media?.toLowerCase().endsWith('.mp4');
+                    const hasLiked = user && art.likedBy?.includes(user.uid);
+
+                    const card = document.createElement('div');
+                    card.className = 'article-card';
+                    card.innerHTML = `
+                        <div class="media-container">${art.media ? (isVideo ? `<video src="${art.media}" controls></video>` : `<img src="${art.media}">`) : ''}</div>
+                        <div class="p-6">
+                            <h3 class="text-2xl font-bold text-blue-900 mb-3">${art.title}</h3>
+                            <div id="text-${artId}" class="text-gray-700 leading-relaxed content-preview mb-4" style="white-space: pre-wrap;">${art.content}</div>
+                            <div class="flex flex-wrap gap-4 items-center justify-between border-t pt-4">
+                                <div class="flex gap-4">
+                                    <button onclick="handleReadMore('${artId}')" class="text-red-600 font-bold hover:underline">Lire la suite</button>
+                                    <button onclick="likeArt('${artId}')" class="flex items-center gap-1 ${hasLiked?'text-red-500':'text-gray-400'}">
+                                        <svg class="h-5 w-5" fill="${hasLiked?'currentColor':'none'}" viewBox="0 0 24 24" stroke="currentColor"><path d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/></svg>
+                                        <span>${art.likes || 0}</span>
+                                    </button>
+                                    <button onclick="shareArt('${art.title.replace(/'/g," ")}', '${artId}')" class="text-gray-400 hover:text-blue-900 flex items-center gap-1">
+                                        <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 100-2.684 3 3 0 000 2.684zm0 9.316a3 3 0 100-2.684 3 3 0 000 2.684z"/></svg>
+                                        <span>${art.shares || 0}</span>
+                                    </button>
+                                </div>
+                                <div class="admin-only ${user?.uid === ADMIN_UID ? '' : 'hidden'} flex gap-3">
+                                    <button onclick="editArt('${artId}', '${art.title.replace(/'/g," ")}', '${art.media||""}', '${art.content.replace(/\n/g,"\\n")}')" class="text-blue-500 text-xs font-bold uppercase">Modifier</button>
+                                    <button onclick="deleteArt('${artId}')" class="text-red-500 text-xs font-bold uppercase">Supprimer</button>
+                                </div>
+                            </div>
+                            <div class="mt-6 border-t pt-4">
+                                <div id="comments-${artId}" class="space-y-2 mb-4"></div>
+                                <div class="flex gap-2">
+                                    <input type="text" id="input-${artId}" placeholder="Ajouter un commentaire..." class="flex-1 p-2 border rounded text-sm outline-none">
+                                    <button onclick="addComment('${artId}')" class="bg-blue-900 text-white px-4 py-2 rounded text-sm">OK</button>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                    list.appendChild(card);
+                    loadComments(artId);
+                });
+            });
+        }
+
+        // Système de partage avec enregistrement
+        window.shareArt = async (title, id) => {
+            const url = `${window.location.origin}${window.location.pathname}#${id}`;
+            if (navigator.share) {
+                try {
+                    await navigator.share({ title: title, text: "Consultez cet article sur Droit Décodé :", url: url });
+                    db.collection("Articles").doc(id).update({ shares: firebase.firestore.FieldValue.increment(1) });
+                } catch (e) { console.log("Partage annulé"); }
+            } else {
+                navigator.clipboard.writeText(url);
+                alert("Lien copié dans le presse-papier !");
+                db.collection("Articles").doc(id).update({ shares: firebase.firestore.FieldValue.increment(1) });
+            }
+        };
+
+        window.handleReadMore = (id) => {
+            if(!auth.currentUser) { alert("Veuillez vous connecter pour lire l'intégralité."); window.location.href = "login.html"; }
+            else { document.getElementById(`text-${id}`).classList.toggle('content-preview'); }
+        };
+
+        window.likeArt = async (id) => {
+            const user = auth.currentUser;
+            if(!user) return alert("Connectez-vous pour aimer !");
+            const ref = db.collection("Articles").doc(id);
+            const doc = await ref.get();
+            let likedBy = doc.data().likedBy || [];
+            if(likedBy.includes(user.uid)) likedBy = likedBy.filter(u => u !== user.uid);
+            else likedBy.push(user.uid);
+            await ref.update({likedBy, likes: likedBy.length});
+        };
+
+        async function addComment(artId) {
+            const user = auth.currentUser;
+            if(!user) return alert("Connectez-vous pour commenter !");
+            const input = document.getElementById(`input-${artId}`);
+            if(!input.value.trim()) return;
+            await db.collection("Articles").doc(artId).collection("Comments").add({
+                userId: user.uid, userName: user.displayName || "Membre", text: input.value, timestamp: firebase.firestore.FieldValue.serverTimestamp()
+            });
+            input.value = '';
+        }
+
+        function loadComments(artId) {
+            const container = document.getElementById(`comments-${artId}`);
+            db.collection("Articles").doc(artId).collection("Comments").orderBy("timestamp", "asc").onSnapshot(snap => {
+                container.innerHTML = '';
+                snap.forEach(doc => {
+                    const comm = doc.data();
+                    const isOwner = auth.currentUser?.uid === comm.userId;
+                    const isAdmin = auth.currentUser?.uid === ADMIN_UID;
+                    const div = document.createElement('div');
+                    div.className = 'bg-gray-100 p-2 rounded text-sm';
+                    div.innerHTML = `<div class="flex justify-between font-bold text-blue-900"><span>${comm.userName}</span>
+                        <div>${isOwner ? `<button onclick="editComment('${artId}','${doc.id}','${comm.text}')" class="text-blue-500 mr-2 text-xs">Éditer</button>` : ''}
+                        ${isOwner || isAdmin ? `<button onclick="deleteComment('${artId}','${doc.id}')" class="text-red-500 text-xs">Supprimer</button>` : ''}</div></div>
+                        <p>${comm.text}</p>`;
+                    container.appendChild(div);
+                });
+            });
+        }
+
+        window.deleteComment = (aId, cId) => { if(confirm("Supprimer ce commentaire ?")) db.collection("Articles").doc(aId).collection("Comments").doc(cId).delete(); };
+        window.editComment = (aId, cId, old) => { const n = prompt("Modifier le commentaire :", old); if(n) db.collection("Articles").doc(aId).collection("Comments").doc(cId).update({text: n}); };
+
+        // Fonctions Admin
+        window.editArt = (id, t, m, c) => {
+            document.getElementById('edit-id').value = id; document.getElementById('art-title').value = t;
+            document.getElementById('art-media').value = m; document.getElementById('art-content').value = c;
+            document.getElementById('form-title').innerText = "Modifier l'article";
+            document.getElementById('cancel-btn').classList.remove('hidden'); window.scrollTo({top: 0, behavior: 'smooth'});
+        };
+
+        window.deleteArt = (id) => { if(confirm("Supprimer cet article définitivement ?")) db.collection("Articles").doc(id).delete(); };
+
         document.getElementById('publish-btn').onclick = async () => {
             const id = document.getElementById('edit-id').value;
-            const btn = document.getElementById('publish-btn');
-            const data = {
-                title: document.getElementById('art-title').value,
-                media: document.getElementById('art-media').value,
-                content: document.getElementById('art-content').value,
-                timestamp: firebase.firestore.FieldValue.serverTimestamp()
-            };
-            if(!data.title || !data.content) return alert("Remplissez tout !");
-            btn.disabled = true;
-            try {
-                if(id) await db.collection("Articles").doc(id).update(data);
-                else await db.collection("Articles").add({...data, likes: 0, likedBy: []});
-                resetForm();
-            } catch (e) { alert(e.message); }
-            btn.disabled = false;
+            const data = { title: document.getElementById('art-title').value, media: document.getElementById('art-media').value, content: document.getElementById('art-content').value, timestamp: firebase.firestore.FieldValue.serverTimestamp() };
+            if(id) await db.collection("Articles").doc(id).update(data);
+            else await db.collection("Articles").add({...data, likes:0, likedBy:[], shares:0});
+            resetForm();
         };
 
-        db.collection("Articles").orderBy("timestamp", "desc").onSnapshot(snap => {
-            const list = document.getElementById('articles-list');
-            list.innerHTML = '';
-            const user = auth.currentUser;
-
-            snap.forEach(doc => {
-                const art = doc.data();
-                const isVideo = art.media && art.media.toLowerCase().endsWith('.mp4');
-                const hasLiked = user && art.likedBy && art.likedBy.includes(user.uid);
-
-                const card = document.createElement('div');
-                card.className = 'article-card-old';
-                card.innerHTML = `
-                    <div class="media-container">
-                        ${art.media ? (isVideo ? `<video src="${art.media}" controls></video>` : `<img src="${art.media}">`) : ''}
-                    </div>
-                    <h3 class="text-2xl font-bold text-primary-blue mb-2">${art.title}</h3>
-                    <div id="text-${doc.id}" class="text-gray-700 leading-relaxed content-hidden mb-4" style="white-space: pre-wrap;">${art.content}</div>
-                    <div class="flex justify-between items-center">
-                        <div class="flex gap-4 items-center">
-                            <button onclick="toggleRead('${doc.id}', this)" class="text-primary-red font-bold hover:underline">Lire la suite &rarr;</button>
-                            
-                            <button onclick="likeArticle('${doc.id}')" class="flex items-center gap-1 transition text-sm font-semibold ${hasLiked ? 'text-red-500' : 'text-gray-500'}">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="${hasLiked ? 'currentColor' : 'none'}" viewBox="0 0 24 24" stroke="currentColor">
-                                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
-                                </svg>
-                                <span>${art.likes || 0}</span>
-                            </button>
-                            <button onclick="shareArticle('${art.title.replace(/'/g, "\\'")}', '${doc.id}')" class="flex items-center gap-1 text-gray-500 hover:text-primary-blue transition text-sm font-semibold">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 100-2.684 3 3 0 000 2.684zm0 9.316a3 3 0 100-2.684 3 3 0 000 2.684z" />
-                                </svg> Partager
-                            </button>
-                        </div>
-                        <div class="admin-only hidden flex gap-4">
-                            <button class="edit-trigger text-blue-500 text-sm font-bold uppercase">Modifier</button>
-                            <button onclick="deleteArt('${doc.id}')" class="text-red-500 text-sm font-bold uppercase">Supprimer</button>
-                        </div>
-                    </div>
-                `;
-
-                card.querySelector('.edit-trigger').onclick = () => {
-                    document.getElementById('edit-id').value = doc.id;
-                    document.getElementById('art-title').value = art.title;
-                    document.getElementById('art-media').value = art.media || '';
-                    document.getElementById('art-content').value = art.content;
-                    document.getElementById('form-title').innerText = "Modifier l'article";
-                    document.getElementById('publish-btn').innerText = "ENREGISTRER";
-                    document.getElementById('cancel-btn').classList.remove('hidden');
-                    window.scrollTo({top: 0, behavior: 'smooth'});
-                };
-
-                list.appendChild(card);
-                if(user && user.uid === ADMIN_UID) card.querySelector('.admin-only').classList.remove('hidden');
-            });
-        });
-
-        window.likeArticle = async (id) => {
-            const user = auth.currentUser;
-            if (!user) return alert("Connectez-vous pour liker !");
-            const ref = db.collection("Articles").doc(id);
-            try {
-                await db.runTransaction(async (t) => {
-                    const doc = await t.get(ref);
-                    let likedBy = doc.data().likedBy || [];
-                    if (likedBy.includes(user.uid)) likedBy = likedBy.filter(u => u !== user.uid);
-                    else likedBy.push(user.uid);
-                    t.update(ref, { likedBy: likedBy, likes: likedBy.length });
-                });
-            } catch (err) { console.log(err); }
-        };
-
-        window.shareArticle = async (title, id) => {
-            const url = window.location.origin + window.location.pathname + '#' + id;
-            if (navigator.share) await navigator.share({title, url});
-            else { await navigator.clipboard.writeText(url); alert("Lien copié !"); }
-        };
-
-        window.toggleRead = (id, btn) => {
-            const div = document.getElementById(`text-${id}`);
-            const isHidden = div.classList.contains('content-hidden');
-            div.classList.toggle('content-hidden');
-            btn.innerHTML = isHidden ? "Réduire &uarr;" : "Lire la suite &rarr;";
-        };
-
-        window.deleteArt = (id) => { if(confirm("Supprimer ?")) db.collection("Articles").doc(id).delete(); };
-
-        function resetForm() {
-            document.getElementById('edit-id').value = '';
-            document.getElementById('art-title').value = '';
-            document.getElementById('art-media').value = '';
-            document.getElementById('art-content').value = '';
-            document.getElementById('form-title').innerText = "Publier un article";
-            document.getElementById('publish-btn').innerText = "PUBLIER L'ARTICLE";
-            document.getElementById('cancel-btn').classList.add('hidden');
+        function resetForm() { 
+            document.getElementById('edit-id').value = ''; document.getElementById('art-title').value = ''; 
+            document.getElementById('art-media').value = ''; document.getElementById('art-content').value = ''; 
+            document.getElementById('form-title').innerText = "Publier un article"; 
+            document.getElementById('cancel-btn').classList.add('hidden'); 
         }
     </script>
 </body>
