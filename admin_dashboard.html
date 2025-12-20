@@ -3,72 +3,152 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Droit Décodé - Dashboard Admin</title>
+    <title>Droit Décodé - Admin Command Center</title>
 
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@200..800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="notifications.css">
 
     <style>
         :root {
             --primary-red: #E84D3D;
             --primary-blue: #3498DB;
-            --text-dark: #2c3e50;
-            --background-light: #F4F4F4;
+            --dark-bg: #0F172A;
+            --glass: rgba(255, 255, 255, 0.03);
+            --glass-border: rgba(255, 255, 255, 0.1);
         }
-        body { font-family: 'Inter', sans-serif; background-color: var(--background-light); min-height: 100vh; }
+        
+        body { 
+            font-family: 'Plus Jakarta Sans', sans-serif; 
+            background: radial-gradient(circle at top right, #1e293b, #0f172a);
+            color: #f8fafc;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .glass-card {
+            background: var(--glass);
+            backdrop-filter: blur(12px);
+            border: 1px solid var(--glass-border);
+            border-radius: 1.5rem;
+            transition: all 0.3s ease;
+        }
+        .glass-card:hover {
+            border-color: var(--primary-blue);
+            box-shadow: 0 0 20px rgba(52, 152, 219, 0.2);
+        }
+
+        header { background: rgba(15, 23, 42, 0.8); backdrop-filter: blur(10px); border-bottom: 1px solid var(--glass-border); }
+
+        /* FOOTER */
+        footer { background-color: #1A202C; color: #EDF2F7; padding: 4rem 2rem 1.5rem 2rem; margin-top: auto; }
+        .footer-container { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 3rem; text-align: left; }
+        .footer-section h4 { color: white; font-size: 1.1rem; font-weight: 700; margin-bottom: 1.5rem; position: relative; text-transform: uppercase; }
+        .footer-section h4::after { content: ''; position: absolute; left: 0; bottom: -8px; width: 40px; height: 3px; background-color: var(--primary-red); }
+
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .animate-fade { animation: fadeIn 0.5s ease forwards; }
     </style>
 </head>
-<body class="flex flex-col items-center">
+<body>
 
-    <header class="w-full bg-white shadow-md p-4 sticky top-0 z-10">
-        <div class="max-w-6xl mx-auto flex justify-between items-center">
-            <div class="flex items-center">
-                <img src="logo1.jpeg" alt="Logo" class="h-8 w-auto rounded-md mr-2" onerror="this.onerror=null;this.src='https://placehold.co/32x32/3498DB/FFFFFF?text=DD'">
-                <h1 class="text-lg md:text-xl font-extrabold text-text-dark">Admin</h1>
+    <header class="w-full sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+            <div class="flex items-center gap-3">
+                <img src="logo1.jpeg" alt="Logo" class="h-10 w-10 rounded-full border-2 border-blue-500">
+                <div>
+                    <h1 class="text-xl font-black tracking-tighter">DROIT <span class="text-blue-500">ADMIN</span></h1>
+                    <p class="text-[10px] text-gray-500 uppercase font-bold tracking-widest">Command Center</p>
+                </div>
             </div>
-            <button id="logout-btn" class="py-1.5 px-3 text-xs font-medium text-white bg-blue-500 rounded-md">
-                Déconnexion
+            <button id="logout-btn" class="bg-red-500/10 hover:bg-red-500 text-red-500 hover:text-white px-4 py-2 rounded-xl text-xs font-bold transition-all border border-red-500/20">
+                DÉCONNEXION
             </button>
         </div>
     </header>
 
-    <main class="p-4 w-full max-w-6xl mx-auto flex-grow">
-        <h2 class="text-2xl font-bold text-text-dark mb-6">Liste des Inscrits</h2>
+    <main class="p-6 max-w-7xl mx-auto w-full space-y-8 flex-grow">
+        
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 animate-fade">
+            <div class="glass-card p-6">
+                <p class="text-gray-400 text-sm font-medium">Utilisateurs</p>
+                <h3 id="stat-users" class="text-4xl font-black mt-2">0</h3>
+            </div>
+            <div class="glass-card p-6">
+                <p class="text-gray-400 text-sm font-medium">Total Likes</p>
+                <h3 id="stat-likes" class="text-4xl font-black mt-2 text-red-500">0</h3>
+            </div>
+            <div class="glass-card p-6">
+                <p class="text-gray-400 text-sm font-medium">Total Partages</p>
+                <h3 id="stat-shares" class="text-4xl font-black mt-2 text-green-500">0</h3>
+            </div>
+        </div>
 
-        <div class="bg-white rounded-xl shadow-lg overflow-hidden">
-            <div class="overflow-x-auto"> 
-                <table class="min-w-full divide-y divide-gray-200">
-                    <thead class="bg-gray-50">
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 animate-fade">
+            <div class="glass-card p-6 border-l-4 border-blue-500">
+                <h3 class="text-lg font-bold mb-4">Diffuser une Notification</h3>
+                <input type="hidden" id="notif-edit-id">
+                <div class="space-y-4">
+                    <input type="text" id="notif-title" placeholder="Titre..." class="w-full bg-white/5 border border-white/10 rounded-lg p-3 outline-none focus:border-blue-500 transition">
+                    <textarea id="notif-message" rows="3" placeholder="Message..." class="w-full bg-white/5 border border-white/10 rounded-lg p-3 outline-none focus:border-blue-500 transition"></textarea>
+                    <button id="send-notif-btn" class="w-full bg-blue-600 hover:bg-blue-500 text-white font-bold py-3 rounded-lg transition-all shadow-lg shadow-blue-600/20">PUBLIER</button>
+                    <button id="cancel-notif-btn" class="hidden w-full bg-gray-700 text-white font-bold py-2 rounded-lg mt-2">Annuler</button>
+                </div>
+            </div>
+
+            <div class="glass-card p-6 lg:col-span-2 overflow-hidden flex flex-col">
+                <h3 class="text-lg font-bold mb-4">Historique des Notifications</h3>
+                <div class="overflow-y-auto max-h-[250px] space-y-3 pr-2" id="notif-history">
+                    <p class="text-gray-500 text-center py-10">Chargement...</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="glass-card animate-fade">
+            <div class="p-6 border-b border-white/10 flex justify-between items-center">
+                <h2 class="text-xl font-bold">Base Membres</h2>
+                <span class="px-3 py-1 bg-blue-500/20 text-blue-400 text-[10px] font-bold rounded-full">LIVE</span>
+            </div>
+            <div class="overflow-x-auto">
+                <table class="w-full text-left">
+                    <thead class="text-xs uppercase text-gray-500 bg-white/5">
                         <tr>
-                            <th class="px-4 py-3 text-left text-xs font-bold text-gray-500 uppercase">Nom</th>
-                            <th class="px-4 py-3 text-left text-xs font-bold text-gray-500 uppercase">Email</th>
-                            <th class="px-4 py-3 text-left text-xs font-bold text-gray-500 uppercase">UID</th>
-                            <th class="px-4 py-3 text-left text-xs font-bold text-gray-500 uppercase">Date</th>
+                            <th class="px-6 py-4">Nom</th>
+                            <th class="px-6 py-4">Email</th>
+                            <th class="px-6 py-4">ID</th>
+                            <th class="px-6 py-4 text-right">Date</th>
                         </tr>
                     </thead>
-                    <tbody id="user-list" class="bg-white divide-y divide-gray-200">
-                        <tr><td colspan="4" class="text-center py-4 text-gray-500" id="loading-message">Chargement...</td></tr>
-                    </tbody>
+                    <tbody id="user-list" class="divide-y divide-white/5"></tbody>
                 </table>
             </div>
-            <div id="no-users-message" class="hidden text-center p-6 text-gray-500">Aucun utilisateur.</div>
         </div>
     </main>
 
-    <div id="message-modal" class="fixed inset-0 bg-gray-600 bg-opacity-75 hidden flex items-center justify-center p-4 z-50">
-        <div class="bg-white rounded-lg p-6 shadow-2xl w-full max-w-sm border-t-8 border-blue-500" id="modal-card">
-            <h3 id="modal-title" class="text-xl font-bold mb-3">Message</h3>
-            <p id="modal-content" class="text-gray-700 mb-6"></p>
-            <div class="flex justify-end">
-                <button id="modal-close-btn" class="py-2 px-4 bg-red-500 text-white rounded-md">Fermer</button>
+    <footer>
+        <div class="footer-container">
+            <div class="footer-section">
+                <h4>Droit Décodé Admin</h4>
+                <p class="text-gray-400 text-sm">Espace de gestion privé.</p>
+            </div>
+            <div class="footer-section">
+                <h4>Navigation</h4>
+                <ul class="text-sm">
+                    <li><a href="index.html">Accueil Site</a></li>
+                    <li><a href="articles.html">Articles</a></li>
+                </ul>
             </div>
         </div>
-    </div>
+        <div class="footer-bottom text-center">
+            <p>&copy; 2025 Droit Décodé. Tous droits réservés.</p>
+        </div>
+    </footer>
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
         import { getAuth, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
-        import { getFirestore, collection, onSnapshot } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+        import { getFirestore, collection, onSnapshot, doc, addDoc, updateDoc, deleteDoc, serverTimestamp, query, orderBy } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyDpNtHXiZK3bIyLwAUlTNAiWRrg2vhPYeE",
@@ -76,65 +156,62 @@
             projectId: "droitdecode-9aa4d",
             storageBucket: "droitdecode-9aa4d.firebasestorage.app",
             messagingSenderId: "219930978240",
-            appId: "1:219930978240:web:886c40e47d276c75548a25",
-            measurementId: "G-D619J4YSQL"
+            appId: "1:219930978240:web:886c40e47d276c75548a25"
         };
 
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
         const db = getFirestore(app);
-        const ADMIN_UID = "v4086Cxmi9PMI31GUBZzY8rHyIA3"; 
+        const ADMIN_UID = "v4086Cxmi9PMI31GUBZzY8rHyIA3";
 
-        const userListBody = document.getElementById('user-list');
-        const loadingMessage = document.getElementById('loading-message');
-
-        function fetchUsers() {
-            onSnapshot(collection(db, 'UserProfiles'), (snapshot) => {
-                userListBody.innerHTML = '';
-                loadingMessage.classList.add('hidden');
-                
-                if (snapshot.empty) {
-                    document.getElementById('no-users-message').classList.remove('hidden');
-                    return;
-                }
-
-                snapshot.forEach(doc => {
+        function updateStats() {
+            onSnapshot(collection(db, "UserProfiles"), (snap) => {
+                document.getElementById('stat-users').textContent = snap.size;
+                const userList = document.getElementById('user-list');
+                userList.innerHTML = '';
+                snap.forEach(doc => {
                     const data = doc.data();
-                    const row = userListBody.insertRow();
-                    row.className = 'hover:bg-gray-50';
-
-                    // Nom
-                    row.insertCell().className = 'px-4 py-4 whitespace-nowrap text-sm font-medium text-gray-900';
-                    row.cells[0].textContent = data.name || 'N/A';
-
-                    // Email
-                    row.insertCell().className = 'px-4 py-4 whitespace-nowrap text-sm text-gray-500';
-                    row.cells[1].textContent = data.email || 'N/A';
-
-                    // UID (Plus petit sur mobile)
-                    row.insertCell().className = 'px-4 py-4 whitespace-nowrap text-[10px] text-gray-400 font-mono';
-                    row.cells[2].textContent = doc.id;
-
-                    // Date
-                    row.insertCell().className = 'px-4 py-4 whitespace-nowrap text-sm text-gray-500';
-                    row.cells[3].textContent = data.createdAt ? new Date(data.createdAt).toLocaleDateString('fr-FR') : 'N/A';
+                    userList.innerHTML += `<tr class="hover:bg-white/5 transition"><td class="px-6 py-4 font-bold">${data.name || 'N/A'}</td><td class="px-6 py-4 text-gray-400">${data.email}</td><td class="px-6 py-4 font-mono text-[10px] text-blue-400">${doc.id}</td><td class="px-6 py-4 text-right text-gray-500">${data.createdAt ? new Date(data.createdAt).toLocaleDateString() : 'N/A'}</td></tr>`;
                 });
+            });
+            onSnapshot(collection(db, "Articles"), (snap) => {
+                let l = 0, s = 0;
+                snap.forEach(doc => { l += (doc.data().likes || 0); s += (doc.data().shares || 0); });
+                document.getElementById('stat-likes').textContent = l;
+                document.getElementById('stat-shares').textContent = s;
             });
         }
 
-        onAuthStateChanged(auth, (user) => {
-            if (user && user.uid === ADMIN_UID) {
-                fetchUsers();
-            } else if (user) {
-                signOut(auth);
-                window.location.href = 'login.html';
-            } else {
-                window.location.href = 'login.html';
-            }
+        const notifTitle = document.getElementById('notif-title'), notifMsg = document.getElementById('notif-message'), notifBtn = document.getElementById('send-notif-btn'), notifEditId = document.getElementById('notif-edit-id');
+
+        notifBtn.onclick = async () => {
+            const t = notifTitle.value.trim(), m = notifMsg.value.trim(), eid = notifEditId.value;
+            if(!t || !m) return;
+            if(eid) { await updateDoc(doc(db, "Notifications", eid), { title: t, message: m }); resetNotifForm(); }
+            else { await addDoc(collection(db, "Notifications"), { title: t, message: m, timestamp: serverTimestamp() }); }
+            notifTitle.value = ''; notifMsg.value = '';
+        };
+
+        onSnapshot(query(collection(db, "Notifications"), orderBy("timestamp", "desc")), (snap) => {
+            const history = document.getElementById('notif-history');
+            history.innerHTML = '';
+            snap.forEach(d => {
+                const n = d.data();
+                const div = document.createElement('div');
+                div.className = "p-4 bg-white/5 border border-white/5 rounded-xl flex justify-between items-center group";
+                div.innerHTML = `<div><h4 class="font-bold text-blue-400">${n.title}</h4><p class="text-xs text-gray-400">${n.message}</p></div><div class="flex gap-2 opacity-0 group-hover:opacity-100 transition"><button onclick="window.editNotif('${d.id}', '${n.title.replace(/'/g," ")}', '${n.message.replace(/'/g," ")}')" class="p-2 bg-blue-500/20 text-blue-400 rounded-lg text-xs">Modifier</button><button onclick="window.deleteNotif('${d.id}')" class="p-2 bg-red-500/20 text-red-400 rounded-lg text-xs">Supprimer</button></div>`;
+                history.appendChild(div);
+            });
         });
 
-        document.getElementById('logout-btn').addEventListener('click', () => signOut(auth));
-        document.getElementById('modal-close-btn').addEventListener('click', () => document.getElementById('message-modal').classList.add('hidden'));
+        window.deleteNotif = async (id) => { if(confirm("Supprimer ?")) await deleteDoc(doc(db, "Notifications", id)); };
+        window.editNotif = (id, t, m) => { notifEditId.value = id; notifTitle.value = t; notifMsg.value = m; notifBtn.innerText = "METTRE À JOUR"; document.getElementById('cancel-notif-btn').classList.remove('hidden'); };
+
+        function resetNotifForm() { notifEditId.value = ''; notifBtn.innerText = "PUBLIER"; document.getElementById('cancel-notif-btn').classList.add('hidden'); }
+        document.getElementById('cancel-notif-btn').onclick = resetNotifForm;
+
+        onAuthStateChanged(auth, (u) => { if (u && u.uid === ADMIN_UID) updateStats(); else window.location.href = 'login.html'; });
+        document.getElementById('logout-btn').onclick = () => signOut(auth);
     </script>
 </body>
 </html>
